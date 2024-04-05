@@ -41,7 +41,7 @@
                             </div>
                           </div>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" id="love" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                           </svg>
 
@@ -112,8 +112,8 @@
   <main class=" mx-auto mt-5 flex flex-row" style="max-width: 87%; min-width: 87%;">
     <div class="left-side-main" style="width:50%;">
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Just Played</h1>
-        <div class="card-highlight flex flex-row " style="min-width: 62%; width: 65%; position: relative">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" style="position: absolute; top: 30px; right: 10px;" class="w-5 h-5">
+        <div class="card-highlight flex flex-row " style="min-width: 65%; width: 80%; position: relative">
+            <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" style="position: absolute; top: 30px; right: 10px;" class="w-5 h-5 ">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
               </svg>
 
@@ -131,7 +131,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-recently-played mt-2" style=" width: 65%; min-width: 62%; position: relative">
+        <div class="card-recently-played mt-2" style=" width: 80%; min-width: 65%; position: relative">
             <div class="card px-3 py-2 flex justify-start items-center w-full" style="max-height: 70px; min-height: 70px;">
                 <img src="{{ asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png') }}" class="rounded" width="50" height="100" style="z-index: 1" alt="">
                 <div class="card-body ml-3 w-full" style="z-index: 1">
@@ -141,7 +141,7 @@
                     <p class="text-[color:var(--quinary-color)] w-full">Ariana Grande</p>
                 </div>
                 <div class="right-side-card-body flex flex-col items-end justify-center gap-2" style="width: 15%">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" class="w-5 h-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                       </svg>
                       <p class="text-[color:var(--quinary-color)]">27 likes</p>
@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-recently-played mt-2" style=" width: 65%; min-width: 62%; position: relative">
+        <div class="card-recently-played mt-2" style=" width: 80%; min-width: 65%; position: relative">
             <div class="card px-3 py-2 flex justify-start items-center w-full" style="max-height: 70px; min-height: 70px;">
                 <img src="{{ asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png') }}" class="rounded" width="50" height="100" style="z-index: 1" alt="">
                 <div class="card-body ml-3 w-full" style="z-index: 1">
@@ -160,7 +160,7 @@
                     <p class="text-[color:var(--quinary-color)] w-full">Ariana Grande</p>
                 </div>
                 <div class="right-side-card-body flex flex-col items-end justify-center gap-2" style="width: 15%">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" class="w-5 h-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                       </svg>
                       <p class="text-[color:var(--quinary-color)]">27 likes</p>
@@ -169,7 +169,7 @@
                 </div>
             </div>
         </div>
-        <button class="text-[color:var(--quaternary-color)] font-light text-center mt-2 flex items-center justify-center bg-[#252525] px-3 py-1 rounded" style="width: 65%; min-width: 62%;">
+        <button class="text-[color:var(--quaternary-color)] font-light text-center mt-2 flex items-center justify-center bg-[#252525] px-3 py-1 rounded" style="width: 80%; min-width: 65%;">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
               </svg>

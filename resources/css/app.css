@@ -238,6 +238,20 @@ header{
   button>svg{
     cursor: pointer;
   }
+  svg{
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  #love:active{
+    transform: scale(0.9);
+    fill: red;
+    stroke: rgb(107, 2, 2);
+  }
+
+  #love.active{
+    fill: red!important;
+    stroke: rgb(107, 2, 2)!important;
+  }
 
   .dj-infos>ul, .dj-infos>ul>div, .dj-infos>ul>div>p, .dj-infos>ul>div>li{
     z-index: 1;

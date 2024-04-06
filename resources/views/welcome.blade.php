@@ -109,9 +109,9 @@
 
     </div>
 </header>
-  <main class=" mx-auto mt-5 " style="max-width: 87%; min-width: 87%;">
-<div class="flex ">
-    <div class="left-side-main mb-10" style="width:50%;">
+  <main class=" mx-auto mt-5 " style="max-width: 87%; min-width: 87%;" >
+<div class="flex">
+    <div class="left-side-main mb-10" style="width:50%;" data-aos="fade-right" data-aos-duration="1200">
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Just Played</h1>
         <div class="card-highlight flex flex-row " style="min-width: 65%; width: 80%; position: relative">
             <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" style="position: absolute; top: 30px; right: 10px;" class="w-5 h-5 ">
@@ -225,7 +225,7 @@
                 </div>
         </div>
     </div>
-    <div class="right-side-main mb-10" style="width:50%;">
+    <div class="right-side-main mb-10" style="width:50%;" data-aos="fade-left" data-aos-duration="1200">
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Your Feed</h1>
         <div class="feed-card mt-5 flex w-full">
             <div class="flex flex-col" style="max-width: 100%; width: 100%;">

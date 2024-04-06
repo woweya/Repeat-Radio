@@ -1,4 +1,4 @@
-<nav class="px-10 py-3">
+<nav class="px-10 py-3" id="navbar">
     <div class="left-side-nav">
         <img src="" alt="">
         <h1 class="uppercase font-bold text-3xl">Repeat</h1>

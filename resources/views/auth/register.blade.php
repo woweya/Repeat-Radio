@@ -15,7 +15,7 @@
                     <label for="name" class="form-label">Name</label>
                     <input type="text" name="name" class="form-control w-100" id="name" {{ old('name') }}>
                     @error('name')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-rose-900">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="input-group d-flex flex-column">
@@ -23,7 +23,7 @@
                     <input type="email" name="email" class="form-control w-100" id="email"
                         value="{{ session('registration_email') }}" {{ old('email') }}>
                     @error('email')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-rose-900">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -31,7 +31,7 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control w-100" id="password">
                     @error('password')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-rose-900">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="input-group d-flex flex-column">

@@ -256,7 +256,7 @@
             <div class="news-card mt-5 p-2">
                 <div class="flex w-full gap-5" >
                 <div class="n-card flex flex-col items-center justify-center">
-                    <img width="250" height="100" class="rounded" src="{{asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png')}}" alt="">
+                    <img class="rounded" src="{{asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png')}}" style="width: 250px; height: 150px" alt="">
                     <div class="n-card-body">
                         <h1 class="text-[color:var(--quaternary-color)] text-lg font-bold mt-2" >Large blaze causes huge plumes of smoke over city</h1>
                         <p class="text-[color:var(--quaternary-color)] mt-2 flex items-center "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--purple-color)" class="w-4 h-4">
@@ -265,7 +265,7 @@
                     </div>
                 </div>
                 <div class="n-card flex flex-col items-center justify-center">
-                    <img width="250" height="100" class="rounded" src="{{asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png')}}" alt="">
+                    <img class="rounded" src="{{asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png')}}" style="width: 250px; height: 150px" alt="">
                     <div class="n-card-body">
                         <h1 class="text-[color:var(--quaternary-color)] text-lg font-bold mt-2" >Large blaze causes huge plumes of smoke over city</h1>
                         <p class="text-[color:var(--quaternary-color)] mt-2 flex items-center "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--purple-color)" class="w-4 h-4">
@@ -274,7 +274,7 @@
                     </div>
                 </div>
                 <div class="n-card flex flex-col items-center justify-center">
-                    <img width="250" height="100" class="rounded" src="{{asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png')}}" alt="">
+                    <img class="rounded" src="{{asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png')}}" style="width: 250px; height: 150px" alt="">
                     <div class="n-card-body">
                         <h1 class="text-[color:var(--quaternary-color)] text-lg font-bold mt-2" >Large blaze causes huge plumes of smoke over city</h1>
                         <p class="text-[color:var(--quaternary-color)] mt-2 flex items-center "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--purple-color)" class="w-4 h-4">

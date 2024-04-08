@@ -5,11 +5,11 @@
     <div class="top-side-header w-full" style="height:60%; min-height: 60%; max-height: 60%;">
         <div class="flex flex-row justify-center items-center">
             <div class="artist-info container flex flex-col justify-center items-start" style="position: absolute; left: 20%; top:10%; width: 40%; height: 50%;">
-                <h1 style="color: var(--quaternary-color); font-weight: 600" class="text-4xl">Yes, And?</h1>
-                <p class="mt-2 ml-1" style="color: var(--quinary-color); font-weight: 400; font-size: 15px">Ariana Grande</p>
+                @livewire('title-song', ['elementToShow' => 'songTitle'])
+                @livewire('title-song', ['elementToShow' => 'songArtist'])
                 <div class="flex flex-row justify-center items-center mt-4" >
                     <div class="audio green-audio-player">
-                        <div class="play-pause-btn">
+                        <div class="play-pause-b tn">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
@@ -18,13 +18,13 @@
                         </div>
 
                         <div class="controls">
-                          <span class="current-time">0:00</span>
+                            @livewire('title-song', ['elementToShow' => 'secondsElapsed'])
                           <div data-direction="horizontal" class="slider">
                             <div class="progress">
                               <div data-method="rewind" id="progress-pin" class="pin"></div>
                             </div>
                           </div>
-                          <span class="total-time">0:00</span>
+                          @livewire('title-song', ['elementToShow' => 'secondsTotal'])
                         </div>
 
                         <div class="volume">
@@ -41,10 +41,11 @@
                             </div>
                           </div>
                         </div>
+                        <div class="love p-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" id="love" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                           </svg>
-
+                        </div>
                         <audio crossorigin=""></audio>
                       </div>
                 </div>
@@ -66,7 +67,7 @@
     </div>
         </div>
     <div class="container flex justify-center items-center" style="width: 290px; position: absolute; left: 5%; top: 2%; height: 290px; z-index: 1" >
-    <img style="position: absolute; left: 12%; top: 2%; border-radius:20px; z-index: 1" width="220px" height="200px" src=" {{ asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png') }}" alt="">
+        @livewire('title-song', ['elementToShow' => 'songImage'])
         <p style="z-index: 1 ; position: absolute; bottom: 6%; color: var(--quinary-color); font-weight: 400">On Air</p>
     </div>
 
@@ -113,63 +114,7 @@
 <div class="flex">
     <div class="left-side-main mb-10" style="width:50%;" data-aos="fade-right" data-aos-duration="1200">
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Just Played</h1>
-        <div class="card-highlight flex flex-row " style="min-width: 65%; width: 80%; position: relative">
-            <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" style="position: absolute; top: 30px; right: 10px;" class="w-5 h-5 ">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-              </svg>
-
-            <div class="card mt-5 px-3 py-2 flex justify-start items-center w-full" style="max-height: 200px; min-height: 200px; border-radius: 10px;">
-                <img width="180" height="100" class="rounded" src="{{ asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png') }}" alt="">
-                <div class="card-body ml-5" style="position: relative; height: 100%;">
-                    <p class="text-[color:var(--quinary-color)] mb-5 text-md font-bold" style="top: 0%">34 likes</p>
-                    <p class="text-[color:var(--quaternary-color)] text-2xl font-bold">Yes, And?</p>
-                    <p class="text-[color:var(--quaternary-color)]" style="margin-bottom: 3.5rem">Ariana Grande</p>
-                    <ul class="flex flex-row gap-2">
-                        <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">R&B/Soul</a></li>
-                        <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">Afroswing</a></li>
-                        <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">UK Rap</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="card-recently-played mt-2" style=" width: 80%; min-width: 65%; position: relative">
-            <div class="card px-3 py-2 flex justify-start items-center w-full" style="max-height: 70px; min-height: 70px;">
-                <img src="{{ asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png') }}" class="rounded" width="50" height="100" style="z-index: 1" alt="">
-                <div class="card-body ml-3 w-full" style="z-index: 1">
-                    <div class="flex">
-                        <div class="left-side-card-body" style="width: 85%;">
-                    <h5 class="text-[color:var(--quaternary-color)] font-bold w-full">Yes, And?</h5>
-                    <p class="text-[color:var(--quinary-color)] w-full">Ariana Grande</p>
-                </div>
-                <div class="right-side-card-body flex flex-col items-end justify-center gap-2" style="width: 15%">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                      </svg>
-                      <p class="text-[color:var(--quinary-color)]">27 likes</p>
-                </div>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-recently-played mt-2" style=" width: 80%; min-width: 65%; position: relative">
-            <div class="card px-3 py-2 flex justify-start items-center w-full" style="max-height: 70px; min-height: 70px;">
-                <img src="{{ asset('immagini/Ariana_Grande_-_Yes,_And_cover_art.png') }}" class="rounded" width="50" height="100" style="z-index: 1" alt="">
-                <div class="card-body ml-3 w-full" style="z-index: 1">
-                    <div class="flex">
-                        <div class="left-side-card-body" style="width: 85%;">
-                    <h5 class="text-[color:var(--quaternary-color)] font-bold w-full">Yes, And?</h5>
-                    <p class="text-[color:var(--quinary-color)] w-full">Ariana Grande</p>
-                </div>
-                <div class="right-side-card-body flex flex-col items-end justify-center gap-2" style="width: 15%">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                      </svg>
-                      <p class="text-[color:var(--quinary-color)]">27 likes</p>
-                </div>
-                </div>
-                </div>
-            </div>
-        </div>
+        @livewire('last-played')
 
         <div class="button-recently-played">
         <button class="text-[color:var(--quaternary-color)] font-light text-center mt-2 flex items-center justify-center bg-[#252525] px-3 py-1 rounded" style="width: 80%; min-width: 65%;">

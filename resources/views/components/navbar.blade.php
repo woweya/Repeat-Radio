@@ -6,7 +6,7 @@
     </div>
     </div>
     <ul class="flex flex-row gap-4 middle-ul">
-        <li><a href="">Home</a></li>
+        <li><a href="{{ route('home')}}">Home</a></li>
         <li><a href="">About</a></li>
         <li><a href="">Radio</a></li>
         <li><a href="">Developers</a></li>
@@ -21,10 +21,15 @@
 
     @auth
     <ul class="flex flex-row gap-4">
+        <a href="{{ route('user', ['id' => Auth::user()->id])}}" class="text-[color:var(--quinary-color)] user-settings"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quinary-color)" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+          </a>
         <form action="{{ route('logout') }}" method="POST">
         @csrf
-        <button type="submit" class="text-[color:var(--quinary-color)]">Logout</button>
+        <button type="submit" class="text-[color:var(--quinary-color)] px-2">Logout</button>
     </form>
+
     </ul>
     @endauth
 </div>

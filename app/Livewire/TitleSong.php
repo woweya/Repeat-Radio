@@ -38,21 +38,12 @@ class TitleSong extends Component
         $this->songImage = $data['song']['art'];
         $this->songTitle = $data['song']['title'];
 
-        $this->dispatch('dataUpdated', [
-            'songTitle' => $this->songTitle,
-            'songArtist' => $this->songArtist,
-            'secondsElapsed' => $this->secondsElapsed,
-            'secondsTotal' => $this->secondsTotal,
-            'songImage' => $this->songImage
-        ]);
-
         $remainingTime = $this->secondsTotal - $this->secondsElapsed;
         $this->remainingTime = $remainingTime;
     } catch (\Throwable $th) {
         dd($th->getMessage());
     }
     }
-
 
 
 

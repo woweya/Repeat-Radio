@@ -1,13 +1,19 @@
 /** @type {import('tailwindcss').Config} */
+    import forms from '@tailwindcss/forms'
 export default {
-  content: [
-    "./resources/**/*.blade.php",
-    "./resources/**/*.js",
-    "./resources/**/*.vue",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-
+    presets: [require('./vendor/wireui/wireui/tailwind.config.js')],
+    content: [
+      "./resources/**/*.blade.php",
+      "./resources/**/*.js",
+      "./resources/**/*.vue",
+      './vendor/wireui/wireui/resources/**/*.blade.php',
+      './vendor/wireui/wireui/ts/**/*.ts',
+      './vendor/wireui/wireui/src/View/**/*.php'
+    ],
+    theme: {
+      extend: {},
+    },
+    plugins: [
+      forms,
+    ],
+  }

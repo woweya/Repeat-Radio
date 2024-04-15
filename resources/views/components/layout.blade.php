@@ -14,15 +14,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <wireui:scripts />
     <title>Sailor Radio</title>
+    @livewireStyles()
 </head>
 
 <body>
 
-    <x-navbar />
+    @livewire('navbar')
+
+    <x-header />
 
     {{ $slot }}
 
+
+    <x-footer />
 
     <script>
         $(document).ready(function() {
@@ -45,62 +51,10 @@
                 }
             });
 
-            let seconds_elapsed= document.getElementById('secondsElapsed').innerText;
-            let seconds_total= document.getElementById('secondsTotal').innerText;
-            let interval;
-
-            async function startCounting() {
-    const response = await fetch('https://api.sailorradio.com/api/v1/songs/current');
-    const data = await response.json();
-
-    // Verifica se l'API ha restituito i dati delle canzoni
-    if (!data.song) {
-        // Se non ci sono dati, attendi 3 secondi e riprova
-        setTimeout(startCounting, 3000);
-        return;
-    }
-
-    // Imposta i secondi totali e iniziali
-    const seconds_total = data.song.seconds_total;
-    let seconds_elapsed = data.song.seconds_elapsed || 0;
-
-    // Funzione per aggiornare il display dei secondi
-    const updateDisplay = () => {
-        let secondsString = seconds_elapsed.toString().padStart(2, '0'); // Ensure two digits
-        if (secondsString.length === 2) {
-            secondsString = '0' + secondsString; // Add leading zero if only two digits
-        }
-        const formattedTime = secondsString.slice(0, 1) + ':' + secondsString.slice(1); // Add colon between first and second digits
-        document.getElementById('secondsElapsed').innerText = formattedTime;
-    };
-
-    // Controlla se i secondi trascorsi hanno superato i secondi totali
-    const interval = setInterval(() => {
-        seconds_elapsed++;
-
-        // Aggiorna il contatore dei secondi visualizzati
-        updateDisplay();
-
-        // Verifica se i secondi trascorsi hanno raggiunto il totale
-        if (seconds_elapsed >= seconds_total) {
-            clearInterval(interval); // Ferma l'intervallo
-            seconds_elapsed = 0; // Reimposta i secondi trascorsi a zero
-
-            // Attendere 3 secondi prima di iniziare il conteggio nuovamente
-            setTimeout(startCounting, 3000);
-        }
-    }, 1000);
-
-    // Aggiorna il display iniziale
-    updateDisplay();
-}
-
-// Inizia il conteggio inizialmente
-startCounting();
-
-
         });
-    </script>
+
+</script>
+
 </body>
 
 </html>

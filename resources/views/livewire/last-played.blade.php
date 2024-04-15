@@ -20,7 +20,7 @@
                         <p id="songTitle" class="text-[color:var(--quaternary-color)] text-2xl font-bold">
                             {{ $songs['title'] }}</p>
 
-                        <p id="songArtist" class="text-[color:var(--quinary-color)]" style="margin-bottom: 3.5rem">
+                        <p id="songArtist" class="text-[color:var(--quinary-color)]" style="margin-bottom: 1.5rem">
                             {{ $songs['artist'] }}</p>
 
                         <ul class="flex flex-row gap-2">

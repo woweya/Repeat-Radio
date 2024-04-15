@@ -1,26 +1,22 @@
 
     <x-layout>
 
-        <div class="flex justify-center items-center w-full" style="position:relative; overflow:hidden; border:1px solid red; height: 93vh">
+        <div class="flex justify-center items-center w-full mt-10 mb-10" style="position:relative; overflow:hidden;">
             <div class="left-container" style="max-width:320px; width: 100%; max-height:426px; height: 426px;" data-aos="fade-right" data-aos-duration="1200" data-aos-once="true">
             </div>
-            @if (session()->has('error'))
-            <h2 class="alert alert-danger">{{session('error')}}</h2>
-            @endif
             <div class="form-container" data-aos="zoom-in" data-aos-duration="1000" data-aos-once="true" >
-                <p class="title">Login</p>
+                <p class="title mb-5">Login</p>
             <form method="POST" action="{{route('login')}}" >
             @csrf
             <div class="input-group">
-                <label for="email">Email</label>
-                <input type="text" name="email" id="email" placeholder="Inserisci la tua email">
+                <label for="username">Email or Username</label>
+                <input type="text" name="username" id="username" placeholder="Email or Username">
             </div>
-            @error('email')
+            @error('username')
                 <span class="text-rose-600">{{ $message }}</span>
             @enderror
             <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Inserisci la tua password">
+                <x-inputs.password label="Password" name="password" />
                 @error('password')
                 <span class="text-rose-600">{{ $message }}</span>
             @enderror
@@ -30,6 +26,9 @@
             </div>
 
             <button class="sign">Sign in</button>
+            @if (session()->has('error') || session()->has('message') || $errors->any())
+            <h2 class="text-rose-600 bg-rose-100 text-center w-full text-lg font-bold">{{session()->get('error') ?? session()->get('message') ?? $errors->first()}}</h2>
+            @endif
         </form>
         <div class="social-message">
             <div class="line"></div>

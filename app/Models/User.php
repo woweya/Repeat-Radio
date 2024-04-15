@@ -20,6 +20,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'gender',
+        'country',
+        'city',
+        'birthday',
+        'username',
     ];
 
     /**
@@ -37,6 +42,18 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+    public static function FindForUsername($username)
+    {
+        return static::where('username', $username)->orWhere('email', $username)->first();
+    }
+
+
+    public function image(){
+
+        return $this->hasOne(Image::class);
+
+    }
+
     protected function casts(): array
     {
         return [

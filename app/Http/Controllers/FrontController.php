@@ -3,29 +3,76 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Laravolt\Avatar\Avatar;
+
 
 class FrontController extends Controller
 {
     public function index()
     {
-
-            $response = Http::get('http://api.sailorradio.com/api/v1/songs/previous');
-            $data = $response->json();
-            return view('welcome', compact('data'));
-
+        return view('welcome');
     }
 
     public function User(User $user)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $user = Auth::user();
             $id = Auth::user()->id;
-            return view('user-info', compact('user', 'id'));
+            if (!$user->image) {
+                $avatar = new Avatar();
+
+                // Utilizza l'istanza di Avatar per generare l'immagine
+                $avatarImage = $avatar->create(Auth::user()->username)->setFontFamily('Lato')->toSvg();
+                return view('user-info', compact('user', 'id', 'avatarImage'));
+            } else {
+                return view('user-info', compact('user', 'id'));
+            }
+        }
+
+    }
+
+    public function Members()
+    {
+
+        $users = User::all();
+        return view('members', compact('users'));
+    }
+
+    public function About()
+    {
+
+        return view('about');
+    }
+
+    public function UpdateImage(Request $request)
+    {
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+        $image = $request->file('image');
+
+        // Genera un nome univoco per l'immagine utilizzando il timestamp corrente e l'estensione del file originale
+        $imageName = 'user-' . $user->id . '-' . 'profile-picture' . '.' . $image->getClientOriginalExtension();
+
+        // Salva l'immagine nel filesystem
+        $imagePath = $image->storeAs('public/images', $imageName);
+
+        // Aggiorna o crea l'immagine associata all'utente
+        if ($user->image) {
+            $user->image->update(['path' => $imagePath]);
+        } else {
+            $user->image()->create(['path' => $imagePath]);
         }
 
 
+
+        return redirect()->back()->with('success', 'Image uploaded successfully.');
     }
 }

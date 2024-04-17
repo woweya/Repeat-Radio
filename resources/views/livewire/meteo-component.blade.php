@@ -1,4 +1,4 @@
-<div wire:poll.3600s>
+<div wire:poll.visible.3600s>
     @if($weatherDescription == 'Daytime')
     <div class="meteo flex flex-col items-center justify-center ml-5">
     <div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Laravolt\Avatar\Avatar;
@@ -19,33 +19,34 @@ class FrontController extends Controller
 
     public function User(User $user)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $id = Auth::user()->id;
-            if (!$user->image) {
-                $avatar = new Avatar();
 
-                // Utilizza l'istanza di Avatar per generare l'immagine
-                $avatarImage = $avatar->create(Auth::user()->username)->setFontFamily('Lato')->toSvg();
-                return view('user-info', compact('user', 'id', 'avatarImage'));
-            } else {
-                return view('user-info', compact('user', 'id'));
+        if (!$user->image) {
+            $avatar = new Avatar();
+
+            // Utilizza l'istanza di Avatar per generare l'immagine
+            $avatarImage = $avatar->create(Auth::user()->username)->setFontFamily('Lato')->toSvg();
+            $avatarPath = $avatar->create(Auth::user()->username)->save(public_path('storage/Avatars/avatar-' . Auth::user()->username . '.png'), 100);
+            return view('user-info', compact('user', 'avatarImage'));
+            } elseif($user->image || Storage::exists('Avatars/avatar-' . Auth::user()->username . '.png')) {
+                Storage::delete('Avatars/avatar-' . Auth::user()->username . '.png');
             }
+            return view('user-info', compact('user'));
         }
 
-    }
 
     public function Members()
     {
 
         $users = User::all();
+
         return view('members', compact('users'));
     }
 
     public function About()
     {
-
-        return view('about');
+        $users = User::all();
+        $defaultPath = Storage::url('Avatars');
+          return view('about', compact('users', 'defaultPath'));
     }
 
     public function UpdateImage(Request $request)

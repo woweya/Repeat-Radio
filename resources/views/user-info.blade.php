@@ -33,7 +33,7 @@
                {!! $avatarImage !!}
             </div>
                 @endif
-                <button id="editButton" class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 px-5 py-2 bg-[#252525] button-user-info ml-5  w-2/4" style="border-radius: 10px;">Edit</button>
+                <button id="editButton" class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 px-5 py-2 bg-[#252525] button-user-info   w-2/4" style="border-radius: 10px;">Edit</button>
             <form id="imageForm" class="flex flex-col items-center justify-center relative hidden" action="{{ route('update.image') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="flex relative items-center justify-center mr-[100px]">
@@ -72,7 +72,6 @@
     </div>
     </div>
 </div>
-
 </div>
 
 <script>

@@ -3,8 +3,10 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Lazy;
 use Illuminate\Support\Facades\Http;
 
+#[Lazy]
 class LastPlayed extends Component
 {
 
@@ -36,3 +38,4 @@ class LastPlayed extends Component
 
     }
 }
+

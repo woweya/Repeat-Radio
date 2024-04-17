@@ -1,4 +1,4 @@
-<div wire:poll.15s="fetchPreviousSongData">
+<div wire:poll.visible.15s="fetchPreviousSongData">
 
     @foreach ($lastThreeSongs as $songs)
         @if ($loop->first)

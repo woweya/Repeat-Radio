@@ -10,12 +10,15 @@
         "guzzlehttp/guzzle": "^7.8",
         "laravel/fortify": "^1.21",
         "laravel/framework": "^11.0",
+        "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.9",
         "laravolt/avatar": "^5.1",
         "livewire/livewire": "^3.4",
+        "socialiteproviders/discord": "^4.2",
         "wireui/wireui": "^1.19"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",

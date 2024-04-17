@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Image;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -27,6 +28,7 @@ class User extends Authenticatable
         'username',
     ];
 
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,7 +44,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    public static function FindForUsername($username)
+    public static function findyByUsernameOrEmail($username) : ?User
     {
         return static::where('username', $username)->orWhere('email', $username)->first();
     }

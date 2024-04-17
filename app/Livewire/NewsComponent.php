@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Livewire;
-use Illuminate\Support\Facades\Http;
-
 use Livewire\Component;
+
+use Livewire\Attributes\Lazy;
+use Illuminate\Support\Facades\Http;
 
 class NewsComponent extends Component
 {
@@ -13,12 +14,16 @@ class NewsComponent extends Component
     public $description;
     public $urlImage;
     public $lastThreeNews;
+
+    #[Lazy]
     public function render()
     {
+
         return view('livewire.news-component');
     }
 
     public function mount(){
+
         $this->getNews();
     }
 
@@ -31,3 +36,4 @@ class NewsComponent extends Component
         return $this->lastThreeNews = array_slice($data['articles'], 0, 3);
     }
 }
+

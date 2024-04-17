@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\User;
+use App\Events\UserAvatars;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Event;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,9 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        \App\Models\User::factory()->count(5)->create()->each(function ($user) {
+            Event::dispatch(new UserAvatars($user));
+        });
 
-        User::create([
+        \App\Models\User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'username' => 'admin',

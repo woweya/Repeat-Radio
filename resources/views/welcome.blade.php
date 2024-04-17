@@ -77,7 +77,7 @@
             @livewire('meteo-component')
         </div>
         <div class="News-feed mt-5" style="max-width: 81%; min-width: 81%;">
-                @livewire('news-component')
+              <livewire:news-component />
             </div>
     </div>
 </div>

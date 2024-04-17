@@ -10,7 +10,7 @@
 </style>
 
 
-<div wire:poll.2000s="getNews">
+<div wire:poll.visible.2000s="getNews">
     <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">News</h1>
     <div class="news-card mt-5 p-2">
         <div class="flex w-full gap-5">
@@ -18,7 +18,7 @@
                 <div class="n-card flex flex-col items-center justify-center" id="n-card">
                     <img class="rounded" src="{{ $news['urlToImage'] }}" style="width: 250px; height: 150px" alt="">
                     <div class="n-card-body" style="max-width: 244px; max-height: 125px">
-                        <h1 class="text-[color:var(--quaternary-color)] text-lg font-bold mt-2">{{ $news['title'] }}
+                        <h1 class="text-[color:var(--quaternary-color)] text-lg font-bold mt-2">{{ Str::limit($news['title'], 50, '...') }}
                         </h1>
                         <p class="text-[color:var(--quaternary-color)] mt-2 flex items-center "><svg
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--purple-color)"

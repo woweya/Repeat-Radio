@@ -200,13 +200,20 @@
             <div class="currently-active">
                 <h1 class="text-lg text-[color:var(--quaternary-color)] font-extrabold mt-5">Currently Active</h1>
                 <div class="layer-bg p-2 mt-2 flex flex-wrap gap-5">
-                    <img class="rounded" width="50" height="50" src="{{ Storage::url('immagini/Ariana_Grande.png')}}" alt="">
-                    <img class="rounded" width="50" height="50" src="{{ Storage::url('immagini/Ariana_Grande.png')}}" alt="">
-                    <img class="rounded" width="50" height="50" src="{{ Storage::url('immagini/Ariana_Grande.png')}}" alt="">
-                    <img class="rounded"  width="50" height="50" src="{{ Storage::url('immagini/Ariana_Grande.png')}}" alt="">
-                    <img class="rounded" width="50" height="50" src="{{ Storage::url('immagini/Ariana_Grande.png')}}" alt="">
-                    <img class="rounded"  width="50" height="50" src="{{ Storage::url('immagini/Ariana_Grande.png')}}" alt="">
+
+                    @foreach ($users as $user)
+                        @if(Session::get('is_online') == true)
+                            @if ($user->image)
+                                <!-- Se l'utente è online e ha un'immagine, mostra l'immagine -->
+                                <img class="rounded" width="50" height="50" src="{{ $user->image->path }}" style="border: 1px solid red" alt="">
+                            @elseif ($user->image == null)
+                                <!-- Se l'utente è online ma non ha un'immagine, mostra un'immagine predefinita -->
+                               <img class="rounded" width="50" height="50"  src="{{$defaultPath. '/avatar-' .$user->username.'.png' }}" alt="">
+                            @endif
+                        @endif
+                    @endforeach
                 </div>
+
             </div>
         </div>
     </div>

@@ -35,5 +35,6 @@ class NewsComponent extends Component
 
         return $this->lastThreeNews = array_slice($data['articles'], 0, 3);
     }
+
 }
 

@@ -18,7 +18,7 @@
 
         @if (session()->has('success'))
 
-        <span id="success" class="text-3xl font-extrabold pb-5" style="color: rgb(2, 148, 2); position: absolute; left: 100px; top: 20px"> {{ session()->get('success') }}</span>
+       
         @endif
         @if (session()->get('error'))
         <span id="error" class="text-3xl font-extrabold pb-5" style="color: red; position: absolute; left: 100px; top: 20px"> {{ session()->get('error') }}</span>

@@ -67,4 +67,8 @@ class MeteoComponent extends Component
         return view('livewire.meteo-component');
     }
 
+    public function placeholder(){
+        return view('skeletons.skeleton-meteo');
+    }
+
 }

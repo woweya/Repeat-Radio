@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\Lazy;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 #[Lazy]
 class LastPlayed extends Component
@@ -16,8 +17,14 @@ class LastPlayed extends Component
     public $elementToShow;
     public $lastThreeSongs;
 
+    public $cachedData;
+
     public function render()
     {
+        $cachedData = Cache::get('last_three_songs');
+        if ($cachedData) {
+            $this->lastThreeSongs = $cachedData;
+        }
         return view('livewire.last-played', ['lastThreeSongs' => $this->lastThreeSongs]);
     }
 
@@ -26,15 +33,24 @@ class LastPlayed extends Component
         $this->fetchPreviousSongData();
     }
 
+    public function placeholder()
+    {
+        return view('skeletons.skeleton-lastPlayed');
+    }
+
+
     public function fetchPreviousSongData()
     {
-        $response = Http::get('http://api.sailorradio.com/api/v1/songs/previous');
-        $data = $response->json();
 
-         $this->lastThreeSongs = array_slice($data['songs'], 0, 3);
+   /*      $cacheKey = 'last_three_songs';
+        return Cache::remember($cacheKey, now()->addMinutes(2), function () {
+            $response = Http::get('http://138.197.88.112/api/proc/s/song_history');
+            $data = $response->json();
 
+            return array_slice($data['songs'], 0, 3);
 
-        return $this->lastThreeSongs;
+        }); */
+
 
     }
 }

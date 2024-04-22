@@ -15,13 +15,19 @@ Route::get('/members', [FrontController::class, 'Members'])->name('members');
 
 /* Route::get('/about-radio', [FrontController::class, 'About'])->name('about')->middleware(CheckUserOnline::class); */
 
-Route::middleware([CheckUserOnline::class])->group(function () {
+/* Route::middleware([CheckUserOnline::class])->group(function () {
     Route::get('/about-radio', [FrontController::class, 'About'])->name('about');
-});
+}); */
 Route::post('/update-image', [FrontController::class, 'UpdateImage'])->name('update.image');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+Route::post('/logout', [FrontController::class,'logout'])->name('logout');
 
 Route::get('/auth/discord/callback', [AuthDiscord::class, 'handleDiscordCallback'])->name('auth-discord-callback');
 
 Route::get('/auth/discord', [AuthDiscord::class, 'redirectToDiscord'])->name('auth.discord');
+
+Route::get('/about-radio', [FrontController::class, 'About'])->name('about');
+
+
+Route::get('/api/users', [FrontController::class, 'indexForUsers'])->name('api.users.index');
+Route::get('/api/users/search', [FrontController::class, 'search'])->name('api.users.search');

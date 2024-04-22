@@ -202,15 +202,31 @@
                 <div class="layer-bg p-2 mt-2 flex flex-wrap gap-5">
 
                     @foreach ($users as $user)
-                        @if(Session::get('is_online') == true)
                             @if ($user->image)
                                 <!-- Se l'utente è online e ha un'immagine, mostra l'immagine -->
-                                <img class="rounded" width="50" height="50" src="{{ $user->image->path }}" style="border: 1px solid red" alt="">
+                                <x-badge style="border:none;">
+                                    <img class="rounded" width="50" height="50" src="{{ $user->image->path }}" style="border: 2px solid red;border-radius: 50%" alt="">
+                                    <x-slot name="append" class="relative flex items-center w-3 h-3">
+
+                                        <span
+                                            class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
+
+                                        <span class="relative inline-flex w-2 h-2 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                    </x-slot>
+                                </x-badge>
                             @elseif ($user->image == null)
+                            <x-badge style="border:none;">
+                                <img class="rounded" width="50" height="50"  src="{{$defaultPath. '/avatar-' .$user->username.'.png' }}" style="border:2px solid rgb(247, 0, 255); border-radius: 50%" alt="">
+                                <x-slot name="append" class="relative flex items-center w-3 h-3">
+
+                                    <span
+                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
+
+                                    <span class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                </x-slot>
+                            </x-badge>
                                 <!-- Se l'utente è online ma non ha un'immagine, mostra un'immagine predefinita -->
-                               <img class="rounded" width="50" height="50"  src="{{$defaultPath. '/avatar-' .$user->username.'.png' }}" alt="">
                             @endif
-                        @endif
                     @endforeach
                 </div>
 

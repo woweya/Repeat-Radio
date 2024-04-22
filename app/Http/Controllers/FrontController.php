@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use Laravolt\Avatar\Avatar;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Laravolt\Avatar\Avatar;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class FrontController extends Controller
@@ -44,7 +45,7 @@ class FrontController extends Controller
 
     public function About()
     {
-        $users = User::all();
+        $users = User::where('is_online', true)->get();
         $defaultPath = Storage::url('Avatars');
           return view('about', compact('users', 'defaultPath'));
     }
@@ -76,4 +77,56 @@ class FrontController extends Controller
 
         return redirect()->back()->with('success', 'Image uploaded successfully.');
     }
+
+
+    public function logout(Request $request): \Illuminate\Http\RedirectResponse
+    {
+      // Ottieni l'utente autenticato
+      $user = Auth::user();
+
+      // Verifica se l'utente è autenticato
+      if ($user) {
+          // Imposta lo stato online dell'utente su false
+          $user->is_online = false;
+          $user->save();
+      }
+
+      // Effettua il logout dell'utente
+      Auth::logout();
+
+      // Invalida la sessione e rigenera il token
+      $request->session()->invalidate();
+      $request->session()->regenerateToken();
+
+      // Reindirizza l'utente alla home
+      return redirect('/');
+    }
+
+
+
+    public function __invoke(Request $request)
+    {
+        // Il metodo indexForUsers gestisce l'elenco di utenti per la vista Members e può anche gestire la ricerca e la selezione.
+        return User::query()
+            ->select('id', 'name', 'email')
+            ->when(
+                $request->search,
+                fn (Builder $query) => $query
+                    ->where('name', 'like', "%{$request->search}%")
+                    ->orWhere('email', 'like', "%{$request->search}%")
+            )
+            ->when(
+                $request->exists('selected'),
+                fn (Builder $query) => $query->whereIn('id', $request->input('selected', [])),
+                fn (Builder $query) => $query->limit(10)
+            )
+            ->orderBy('name')
+            ->get()
+            ->map(function (User $user) {
+
+                return $user;
+            });
+    }
+
+
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Like;
 use App\Models\Image;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,7 +45,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    public static function findyByUsernameOrEmail($username) : ?User
+    public static function findByUsernameOrEmail($username) : ?User
     {
         return static::where('username', $username)->orWhere('email', $username)->first();
     }
@@ -56,6 +57,9 @@ class User extends Authenticatable
 
     }
 
+    public function likedSong(){
+        return $this->hasMany(Like::class);
+    }
     protected function casts(): array
     {
         return [

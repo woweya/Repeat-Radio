@@ -8,8 +8,8 @@
         </div>
         <ul class="flex flex-row gap-4 middle-ul">
             <li><a href="{{ route('home')}}" wire:navigate.hover>Home</a></li>
-            <li><a href="{{ route('members')}}" wire:navigate.hover>Members</a></li>
-            <li><a href="{{ route('about')}}"wire:navigate.hover>Radio</a></li>
+            <li><a href="{{ route('members')}}" wire:navigate>Members</a></li>
+            <li><a href="{{ route('about')}}"wire:navigate>Radio</a></li>
             <li><a href="" >Developers</a></li>
         </ul>
         <div class="right-side-nav">

@@ -1,14 +1,9 @@
-<div wire:poll.visible.15s="fetchPreviousSongData">
-
-    @foreach ($lastThreeSongs as $songs)
+<div wire:poll.visible.1500s="fetchPreviousSongData">
+{{--
+    @foreach ($lastThreeSongs as $songs )
         @if ($loop->first)
             <div class="card-highlight flex flex-row " style="min-width: 65%; width: 80%; position: relative">
-                <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="var(--quaternary-color)" style="position: absolute; top: 30px; right: 10px;" class="w-5 h-5 ">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                </svg>
-
+               {{--  likee
                 <div class="card mt-5 px-3 py-2 flex justify-start items-center w-full"
                     style="max-height: 200px; min-height: 200px; border-radius: 10px;">
 
@@ -18,7 +13,7 @@
                         <p class="text-[color:var(--quinary-color)] mb-5 text-md font-bold" style="top: 0%">34 likes</p>
 
                         <p id="songTitle" class="text-[color:var(--quaternary-color)] text-2xl font-bold">
-                            {{ $songs['title'] }}</p>
+                            {{ Str::limit($songs['title'], 35) }}</p>
 
                         <p id="songArtist" class="text-[color:var(--quinary-color)]" style="margin-bottom: 1.5rem">
                             {{ $songs['artist'] }}</p>
@@ -49,12 +44,6 @@
                             </div>
                             <div class="right-side-card-body flex flex-col items-end justify-center gap-2"
                                 style="width: 15%">
-                                <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)"
-                                    class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                </svg>
                                 <p class="text-[color:var(--quinary-color)]">27 likes</p>
                             </div>
                         </div>
@@ -63,5 +52,5 @@
             </div>
         @endif
     @endforeach
-
+--}}
 </div>

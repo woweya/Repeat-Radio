@@ -28,6 +28,7 @@
     setInterval(() => {
         console.log('dispatching the new data..')
         $wire.dispatch('fetchSongData');
+
     }, nextrun);
 </script>
 @endscript

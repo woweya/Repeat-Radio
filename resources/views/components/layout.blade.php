@@ -12,6 +12,9 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <wireui:scripts />
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.9/dist/cdn.min.js"></script>
+    <script src="app.js"></script>
     <title>Sailor Radio</title>
     @livewireStyles()
 </head>
@@ -20,38 +23,31 @@
 
 @livewire('navbar')
 @persist('header')
-    <x-header />
+    <livewire:header />
 @endpersist
     {{ $slot }}
 
 
     <x-footer />
-
-    <script src="app.js"></script>
+    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
     <script>
-        $(document).ready(function() {
-
             AOS.init();
 
-            $('svg[id="love"]').on("click", function() {
-                $(this).toggleClass("active");
 
-            });
+            window.onscroll = function() {
+        let navbar = document.getElementById('navbar');
+        let scrollTop = window.scrollY || document.documentElement.scrollTop;
+        if (scrollTop > 100) {
+            navbar.classList.add('fixed');
+            navbar.style.animation = 'slideIn 0.3s ease forwards';
+        } else {
+            navbar.classList.remove('fixed');
+            navbar.style.animation = 'slideOut 0.3s ease forwards';
+        }
+    };
 
-            $(window).scroll(function() {
-                var scrollTop = $(window).scrollTop();
-                if (scrollTop > 100) {
-                    $("#navbar").addClass("fixed").css("animation",
-                    "slideIn 0.3s ease forwards"); // Aggiungi la classe "fixed" e avvia l'animazione
-                } else {
-                    $("#navbar").removeClass("fixed").css("animation",
-                    "slideOut 0.3s ease forwards"); // Rimuovi la classe "fixed" e avvia l'animazione per tornare alla posizione iniziale
-                }
-            });
-
-        });
-
-</script>
+    </script>
+@livewireScripts()
 
 </body>
 

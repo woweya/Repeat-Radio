@@ -1,4 +1,4 @@
-<div class="mt-10 w-full h-[105px] bg-[color:var(--secondary-color)]">
+<div id="footer" class="mt-10 w-full h-[105px] bg-[color:var(--secondary-color)]">
     <div class="flex flex-row w-full">
         <div class="footer-left-side flex flex-row items-start justify-start h-[100px]" style="width:50%;">
             <div class="repeat flex items-center justify-center h-[100px] w-[200px] mr-5" style="border-right: 1px solid rgb(48, 48, 48);">

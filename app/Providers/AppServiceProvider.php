@@ -3,12 +3,13 @@
 namespace App\Providers;
 
 
+use Livewire\Livewire;
 use Laravolt\Avatar\Avatar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
-use SocialiteProviders\Discord\Provider;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,10 +26,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        //EVENT FOR DISCORD
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('discord', \SocialiteProviders\Discord\Provider::class);
         });
 
+
+
+        // SHARE AVATAR IMAGE WITH VIEWS
         $avatarImage = null; // Inizializza $avatarImage a null
 
         if (Auth::check()) {
@@ -43,6 +49,14 @@ class AppServiceProvider extends ServiceProvider
         }
 
         view()->share('avatarImage', $avatarImage); // Condividi $avatarImage con le viste
+
+
+
+
+        $categories = \App\Models\Category::all();
+        view()->share('categories', $categories);
+
+
     }
 
 }

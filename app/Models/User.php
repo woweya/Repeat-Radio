@@ -3,15 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Like;
-use App\Models\Image;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -53,12 +52,12 @@ class User extends Authenticatable
 
     public function image(){
 
-        return $this->hasOne(Image::class);
+        return $this->hasOne(\App\Models\Image::class);
 
     }
 
     public function likedSong(){
-        return $this->hasMany(Like::class);
+        return $this->hasMany(\App\Models\Like::class);
     }
     protected function casts(): array
     {
@@ -66,5 +65,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function activity(){
+        return $this->hasMany(\App\Models\UserActivity::class);
+    }
+
+
+    public function article(){
+
+        return $this->hasMany(\App\Models\Article::class);
+    }
+
+    public function roles(){
+        return $this->belongsToMany(\App\Models\Role::class);
     }
 }

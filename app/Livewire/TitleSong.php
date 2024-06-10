@@ -25,7 +25,10 @@ class TitleSong extends Component
     public $cachedData = [];
     public int $remainingTime;
 
-    #[Lazy]
+    public $error;
+    public $audioURL;
+
+
     public function render()
     {
 
@@ -43,8 +46,8 @@ class TitleSong extends Component
     public function mount(): void
     {
 
-        $this->cachedData = [];
-
+         $this->cachedData = [];
+        $this->loadingElement = 'audioURL';
 
         $cachedData= Cache::get('song_data');
 
@@ -52,13 +55,11 @@ class TitleSong extends Component
             $this->songTitle = $cachedData['title'];
             $this->songArtist = $cachedData['artist'];
             $this->secondsTotal = $cachedData['total_seconds'];
-            $this->secondsElapsed = $cachedData['seconds_elapsed'];
             $this->songImage = $cachedData['image'];
-            $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
         }
 
 
-        $this->fetchSongData();
+         $this->fetchSongData();
 
         $this->loading = false;
     }
@@ -68,13 +69,17 @@ class TitleSong extends Component
         return view('skeletons.skeleton-header', ['elementToShow' => $this->elementToShow]);
     }
 
-    #[On('fetchSongData')]
     public function fetchSongData()
     {
-        try {
+         try {
+
+            if(Cache::has('song_data')) {
+
+                $this->cachedData = Cache::get('song_data');
+            }
 
 
-            $this->cachedData = Cache::get('song_data');
+
             $response = Http::get('http://138.197.88.112/api/proc/s/currently_playing');
             $data = $response->json()['song'];
 
@@ -83,6 +88,7 @@ class TitleSong extends Component
                 $this->secondsTotal = $data['seconds_total'];
                 $this->secondsElapsed = $data['seconds_elapsed'];
                 $this->songImage = $data['art'];
+                $this->audioURL = 'https://stream.repeatradio.net/';
                 $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
 
 
@@ -91,22 +97,23 @@ class TitleSong extends Component
                     'artist' => $this->songArtist,
                     'image' => $this->songImage,
                     'total_seconds' => $this->secondsTotal,
-                    'seconds_elapsed' => $this->secondsElapsed
                 ];
 
+
+                view('livewire.header')->share('cachedData', $this->cachedData);
 
                 Cache::put('song_data', $this->cachedData);
 
 
 
 
-
-
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            $th = 'Something went wrong';
+            $this->error = $th;
+            return;
         }
     }
 
-}
 
+}
 

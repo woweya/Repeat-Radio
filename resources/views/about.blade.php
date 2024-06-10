@@ -203,11 +203,11 @@
 
                     @foreach ($users as $user)
                             @if ($user->image)
+
                                 <!-- Se l'utente è online e ha un'immagine, mostra l'immagine -->
                                 <x-badge style="border:none;">
-                                    <img class="rounded" width="50" height="50" src="{{ $user->image->path }}" style="border: 2px solid red;border-radius: 50%" alt="">
+                                    <img class="rounded" width="50" height="50" src="{{Storage::url( $user->image->path) }}" style="border: 2px solid rgb(113, 0, 165);border-radius: 50%" alt="">
                                     <x-slot name="append" class="relative flex items-center w-3 h-3">
-
                                         <span
                                             class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
 

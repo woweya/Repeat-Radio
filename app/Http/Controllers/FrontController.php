@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Models\User;
+use App\Models\Article;
 use Laravolt\Avatar\Avatar;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,33 +26,27 @@ class FrontController extends Controller
     public function User(User $user)
     {
 
-        if (!$user->image) {
-            $avatar = new Avatar();
-
-            // Utilizza l'istanza di Avatar per generare l'immagine
-            $avatarImage = $avatar->create(Auth::user()->username)->setFontFamily('Lato')->toSvg();
-            $avatarPath = $avatar->create(Auth::user()->username)->save(public_path('storage/Avatars/avatar-' . Auth::user()->username . '.png'), 100);
-            return view('user-info', compact('user', 'avatarImage'));
-            } elseif($user->image || Storage::exists('Avatars/avatar-' . Auth::user()->username . '.png')) {
-                Storage::delete('Avatars/avatar-' . Auth::user()->username . '.png');
-            }
-            return view('user-info', compact('user'));
-        }
+        return view('user-info', compact('user'));
+    }
 
 
     public function Members()
     {
+        $usersWithActivities = UserActivity::with('user') // Carica anche le informazioni dell'utente associato all'attività
+            ->orderBy('hours_online', 'desc') // Ordina le attività in base al numero di ore online in ordine decrescente
+            ->take(4) // Limita il risultato alle prime 4 attività
+            ->get();
 
         $users = User::all();
 
-        return view('members', compact('users'));
+        return view('members', compact('users', 'usersWithActivities'));
     }
 
     public function About()
     {
         $users = User::where('is_online', true)->get();
         $defaultPath = Storage::url('Avatars');
-          return view('about', compact('users', 'defaultPath'));
+        return view('about', compact('users', 'defaultPath'));
     }
 
     public function UpdateImage(Request $request)
@@ -81,44 +80,59 @@ class FrontController extends Controller
 
     public function logout(Request $request): \Illuminate\Http\RedirectResponse
     {
-      // Ottieni l'utente autenticato
-      $user = Auth::user();
+        // Ottieni l'utente autenticato
+        // Ottieni l'utente autenticato
+        $user = Auth::user();
 
-      // Verifica se l'utente è autenticato
-      if ($user) {
-          // Imposta lo stato online dell'utente su false
-          $user->is_online = false;
-          $user->save();
-      }
+        // Verifica se l'utente è autenticato
+        if ($user) {
+            $lastOnlineDateTime = new DateTime($user->last_online_at);
 
-      // Effettua il logout dell'utente
-      Auth::logout();
+            // Ottieni l'orario dell'ultimo accesso online dell'utente
+            $lastOnlineTime = $lastOnlineDateTime->format('H:i:s');
+            // Calcola la durata della sessione online
+            $durationOnline = now()->diffInSeconds($lastOnlineTime);
 
-      // Invalida la sessione e rigenera il token
-      $request->session()->invalidate();
-      $request->session()->regenerateToken();
+            $request->session()->put('duration_online', $durationOnline);
 
-      // Reindirizza l'utente alla home
-      return redirect('/');
+            UserActivity::updateOrCreate(
+                ['user_id' => $user->id],
+                ['hours_played' => 0] // Non aggiornare qui le ore online
+            );
+
+            // Imposta lo stato online dell'utente su false
+            $user->is_online = false;
+            $user->save();
+        }
+
+        // Effettua il logout dell'utente
+        Auth::logout();
+
+        // Invalida la sessione e rigenera il token
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Reindirizza l'utente alla home
+        return redirect('/');
     }
 
 
 
-    public function __invoke(Request $request)
+   /*  public function __invoke(Request $request)
     {
         // Il metodo indexForUsers gestisce l'elenco di utenti per la vista Members e può anche gestire la ricerca e la selezione.
         return User::query()
             ->select('id', 'name', 'email')
             ->when(
                 $request->search,
-                fn (Builder $query) => $query
+                fn(Builder $query) => $query
                     ->where('name', 'like', "%{$request->search}%")
                     ->orWhere('email', 'like', "%{$request->search}%")
             )
             ->when(
                 $request->exists('selected'),
-                fn (Builder $query) => $query->whereIn('id', $request->input('selected', [])),
-                fn (Builder $query) => $query->limit(10)
+                fn(Builder $query) => $query->whereIn('id', $request->input('selected', [])),
+                fn(Builder $query) => $query->limit(10)
             )
             ->orderBy('name')
             ->get()
@@ -126,7 +140,30 @@ class FrontController extends Controller
 
                 return $user;
             });
+    } */
+
+    public function createArticle(){
+
+        return view('create-article');
     }
 
+    public function articleShow(){
+        {
+            $article = Article::all();
+            return view('Articles.article', compact('article'));
+        }
+
+    }
+
+
+    public function articleDetail($id){
+        $article = Article::find($id);
+        return view('Articles.article-detail', compact('article'));
+    }
+
+
+    public function createStaff(){
+        return view('create-staff');
+    }
 
 }

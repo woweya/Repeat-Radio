@@ -3,9 +3,10 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Events\UserAvatars;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -36,7 +37,7 @@ class CreateNewUser implements CreatesNewUsers
             'username' => ['required', 'string'],
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
@@ -46,5 +47,13 @@ class CreateNewUser implements CreatesNewUsers
             'city' => $input['city'],
             'username' => $input['username'],
         ]);
+
+        $user->is_online = true;
+        $user->last_online_at = now();
+        $user->save();
+
+        event(new UserAvatars($user));
+        return $user;
+
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthDiscord;
 use App\Http\Middleware\CheckUserOnline;
+use App\Livewire\ArticlesManager;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -31,3 +32,15 @@ Route::get('/about-radio', [FrontController::class, 'About'])->name('about');
 
 Route::get('/api/users', [FrontController::class, 'indexForUsers'])->name('api.users.index');
 Route::get('/api/users/search', [FrontController::class, 'search'])->name('api.users.search');
+
+/*! DISABLED FOR NOW
+Route::get('/create-announcement', [FrontController::class, 'createArticle'])->name('create-announcement');
+
+Route::post('/create-announcement', [ArticlesManager::class, 'createArticle'])->name('articles.store');
+
+Route::get('/articles/article', [FrontController::class, 'articleShow'])->name('article.show');
+
+Route::get('/articles/article/{id}', [FrontController::class, 'articleDetail'])->name('article.detail'); !*/
+
+
+Route::get('/create-staff', [FrontController::class, 'createStaff'])->name('staff');

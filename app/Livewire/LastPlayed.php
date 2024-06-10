@@ -7,7 +7,7 @@ use Livewire\Attributes\Lazy;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 
-#[Lazy]
+
 class LastPlayed extends Component
 {
 
@@ -21,36 +21,36 @@ class LastPlayed extends Component
 
     public function render()
     {
-        $cachedData = Cache::get('last_three_songs');
+      /*   $cachedData = Cache::get('last_three_songs');
         if ($cachedData) {
             $this->lastThreeSongs = $cachedData;
         }
-        return view('livewire.last-played', ['lastThreeSongs' => $this->lastThreeSongs]);
+        return view('livewire.last-played', ['lastThreeSongs' => $this->lastThreeSongs]); */
     }
 
     public function mount()
     {
-        $this->fetchPreviousSongData();
+       /*  $this->fetchPreviousSongData(); */
     }
 
     public function placeholder()
     {
-        return view('skeletons.skeleton-lastPlayed');
+/*         return view('skeletons.skeleton-lastPlayed'); */
     }
 
 
     public function fetchPreviousSongData()
     {
 
-   /*      $cacheKey = 'last_three_songs';
+      /*   $cacheKey = 'last_three_songs';
         return Cache::remember($cacheKey, now()->addMinutes(2), function () {
             $response = Http::get('http://138.197.88.112/api/proc/s/song_history');
             $data = $response->json();
 
             return array_slice($data['songs'], 0, 3);
 
-        }); */
-
+        });
+ */
 
     }
 }

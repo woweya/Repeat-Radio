@@ -1,10 +1,11 @@
 <x-layout>
 
+
   <main class=" mx-auto mt-5 " style="max-width: 87%; min-width: 87%;" >
 <div class="flex">
     <div class="left-side-main mb-10" style="width:50%;" data-aos="fade-right" data-aos-duration="1200">
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Just Played</h1>
-        @livewire('last-played')
+       {{--  @livewire('last-played') --}}
 
         <div class="button-recently-played">
         <button class="text-[color:var(--quaternary-color)] font-light text-center mt-2 flex items-center justify-center bg-[#252525] px-3 py-1 rounded" style="width: 80%; min-width: 65%;">
@@ -60,19 +61,70 @@
                 </div>
         </div>
     </div>
-    <div class="right-side-main mb-10" style="width:50%;" data-aos="fade-left" data-aos-duration="1200">
+
+    <div class="right-side-main mb-10" id="right-side" style="width:50%;" data-aos="fade-left" data-aos-duration="1200">
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Your Feed</h1>
         <div class="feed-card mt-5 flex w-full">
             <div class="flex flex-col" style="max-width: 100%; width: 100%;">
-            <div class="time-location flex items-center justify-center">
-                <p style="left:10px; bottom:15px;">Time in London, United Kingdom</p>
-                <h3 class="font-bold text-4xl mb-5" >09:42</h3>
-                <a href="" style="right:10px; bottom:15px; text-decoration: underline">Change</a>
+            <div class="time-location flex items-center justify-center relative">
+                <div style="width:50%; position: absolute; left: 15px; bottom: 10px">
+                <p style="left:10px; bottom:15px; color:var(--quaternary-color)">Time in <span id="selected-location">...</span></p>
             </div>
-            <div class="time-listener mt-5 flex items-center justify-center">
+                <h3 id="current-time" class="font-bold text-4xl mb-5">00:00</h3>
+                          <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="location-dropdown absolute right-2.5 bottom-2.5 z-10 inline-flex items-center" type="button">Change Location
+                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                            </svg>
+                            </button>
+
+                            <div id="dropdownInformation" style="z-index: 9999999" class="hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                                    <b>Europe</b>
+                                    <ul id="europeDropdown" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+                                        <li id="westernEurope">Western Europe</li>
+                                        <li id="centralEurope">Central Europe</li>
+                                        <li id="easternEurope">Eastern Europe</li>
+                                    </ul>
+                                </div>
+                                <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                                    <b>North America</b>
+                                    <ul id="northAmericaDropdown" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+                                        <li id="easternTime">Eastern Time (US & Canada)</li>
+                                        <li id="centralTime">Central Time (US & Canada)</li>
+                                        <li id="mountainTime">Mountain Time (US & Canada)</li>
+                                    </ul>
+                                </div>
+                            </div>
+             {{--   <select id="location-dropdown" style="text-align:start; position: absolute; right: 15px; min-width: 35%; width: 35%; max-width: 45%;" onchange="updateTime(this.value)">
+                    <option selected value="">-- Select Location --</option>
+                    <optgroup label="Europe" class="text-black">
+                        <option value="Europe/West">Western Europe </option>
+                        <option value="Europe/Central">Central Europe</option>
+                        <option value="Europe/East">Eastern Europe</option>
+                    </optgroup>
+                    <optgroup label="North America" class="text-black">
+                        <option value="America/New_York">Eastern Time (US & Canada)</option>
+                        <option value="America/Chicago">Central Time (US & Canada)</option>
+                        <option value="America/Denver">Mountain Time (US & Canada)</option>
+                        <option value="America/Los_Angeles">Pacific Time (US & Canada)</option>
+                    </optgroup>
+                    <!-- Aggiungi altre regioni e fusi orari secondo necessità -->
+                </select>
+
+ --}}
+            </div>
+            @auth
+            <div class="time-listener mt-5 flex items-center justify-center" style="z-index: -1">
                 <p style="left:10px; bottom:15px;">Time listened this week</p>
                 <h3 class="font-bold text-4xl mb-5" >32 hours</h3>
             </div>
+            @endauth
+            @guest
+            <a href="/login"><div class="time-listener mt-5 flex items-center justify-center">
+                <p style="left:10px; bottom:15px;">Time listened this week</p>
+                <h3 class="font-bold text-4xl mb-5" >Login to see time</h3>
+            </div></a>
+            @endguest
         </div>
             @livewire('meteo-component')
         </div>
@@ -94,4 +146,66 @@
 </main>
 
 
+
 </x-layout>
+
+
+
+
+<script>
+// Aggiungi event listener per gestire il click sugli elementi <li> nell'elenco dell'Europa
+    document.getElementById('europeDropdown').addEventListener('click', function(event) {
+    let timezone;
+    if (event.target.id === 'westernEurope') {
+        timezone = 'Europe/London'; // Imposta il fuso orario per l'Europa occidentale
+    } else if (event.target.id === 'centralEurope') {
+        timezone = 'Europe/Berlin'; // Imposta il fuso orario per l'Europa centrale
+    } else if (event.target.id === 'easternEurope') {
+        timezone = 'Europe/Moscow'; // Imposta il fuso orario per l'Europa orientale
+    }
+
+    // Chiama la funzione updateTime con il fuso orario selezionato come argomento
+    updateTime(timezone);
+});
+
+// Aggiungi event listener per gestire il click sugli elementi <li> nell'elenco del Nord America
+document.getElementById('northAmericaDropdown').addEventListener('click', function(event) {
+    let timezone;
+    if (event.target.id === 'easternTime') {
+        timezone = 'America/New_York'; // Imposta il fuso orario per l'Eastern Time (US & Canada)
+    } else if (event.target.id === 'centralTime') {
+        timezone = 'America/Chicago'; // Imposta il fuso orario per il Central Time (US & Canada)
+    } else if (event.target.id === 'mountainTime') {
+        timezone = 'America/Denver'; // Imposta il fuso orario per il Mountain Time (US & Canada)
+    }
+
+    // Chiama la funzione updateTime con il fuso orario selezionato come argomento
+    updateTime(timezone);
+});
+
+function updateTime(timezone) {
+            // Utilizza Moment.js e Moment Timezone per ottenere l'ora corrente nel fuso orario selezionato
+            let currentTime = moment().tz(timezone);
+
+            // Estrai le ore e i minuti dalla data e ora corrente
+            let hours = currentTime.format('HH');
+            let minutes = currentTime.format('mm');
+
+            // Crea una stringa dell'ora nel formato desiderato
+            let timeString = hours + ':' + minutes;
+
+            // Aggiorna l'orario visualizzato nella tua interfaccia utente
+            document.getElementById('current-time').innerText = timeString;
+            document.getElementById('selected-location').innerText = timezone.split('/')[1].replace('_', ' ');
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const rightSide = document.getElementById('right-side');
+            if(window.innerWidth < 720) {
+                rightSide.removeAttribute('data-aos');
+                rightSide.removeAttribute('data-aos-duration');
+            }
+        })
+</script>

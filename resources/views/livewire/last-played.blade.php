@@ -1,9 +1,8 @@
 <div wire:poll.visible.1500s="fetchPreviousSongData">
-{{--
-    @foreach ($lastThreeSongs as $songs )
+   {{--  @foreach ($lastThreeSongs as $songs )
         @if ($loop->first)
             <div class="card-highlight flex flex-row " style="min-width: 65%; width: 80%; position: relative">
-               {{--  likee
+               {{--likee
                 <div class="card mt-5 px-3 py-2 flex justify-start items-center w-full"
                     style="max-height: 200px; min-height: 200px; border-radius: 10px;">
 
@@ -51,6 +50,7 @@
                 </div>
             </div>
         @endif
-    @endforeach
---}}
+    @endforeach --}}
+
 </div>
+

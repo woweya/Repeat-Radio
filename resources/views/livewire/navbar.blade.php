@@ -1,5 +1,5 @@
 
-    <nav class="px-10 py-3" id="navbar">
+    <nav class="px-10 py-3" id="navbar" >
         <div class="left-side-nav ">
             <div class="flex flex-row justify-center items-center">
             <img src="{{Storage::url('immagini/Repeat-Radio-R1-09.png')}}" style="width:30px; " class="p-0 mr-4" alt="">
@@ -10,13 +10,23 @@
             <li><a href="{{ route('home')}}" wire:navigate.hover>Home</a></li>
             <li><a href="{{ route('members')}}" wire:navigate>Members</a></li>
             <li><a href="{{ route('about')}}"wire:navigate>Radio</a></li>
-            <li><a href="" >Developers</a></li>
+            @auth
+            <li><a href="{{ route('staff')}}"wire:navigate.hover>Create a Staff Role</a></li>
+            @endauth
+
+          {{--   ARTICLES DISABLED FOR NOW
+
+            @if (Auth::user() && Auth::user()->is_staff == true)
+            <li><a href="{{ route('create-announcement')}}"wire:navigate>Make an Article</a></li>
+            @endif
+            <li><a href="{{ route('article.show')}}">Articles</a></li> --}}
         </ul>
         <div class="right-side-nav">
             @guest
             <ul class="flex flex-row gap-4">
                 <li><a href={{ route('login')}} wire:navigate>Login</a></li>
                 <li><a href={{ route('register')}} wire:navigate>Register</a></li>
+
             </ul>
             @endguest
 
@@ -32,6 +42,8 @@
             </form>
         </ul>
         @endauth
-    </div>
+
+        </div>
+
     </nav>
 

@@ -13,8 +13,6 @@ class UserAvatarListener
      * Create the event listener.
      */
 
-    public $user;
-
     public function __construct()
     {
 
@@ -23,12 +21,13 @@ class UserAvatarListener
     /**
      * Handle the event.
      */
-    public function handle(UserAvatars $event): void
+    public function handle(UserAvatars $event)
     {
-        $this->user = $event->user;
-        if (!$this->user->image) {
+        $user = $event->user;
+
+        if (!$user->image) {
             $avatar = new Avatar();
-            $avatarPath = $avatar->create($this->user->username)->save(public_path('storage/Avatars/avatar-' . $this->user->username . '.png'), 100);
+            $avatarPath = $avatar->create($user->username)->save(public_path('storage/Avatars/avatar-' . $user->username . '.png'), 100);
         }
     }
 }

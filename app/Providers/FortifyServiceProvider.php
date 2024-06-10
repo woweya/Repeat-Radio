@@ -57,12 +57,11 @@ class FortifyServiceProvider extends ServiceProvider
             $user = User::findByUsernameOrEmail($request->input('username'));
             if($user && Hash::check($request->input('password'), $user->password)) {
                 $user->is_online = true;
+                $user->last_online_at = now();
                 $user->save();
                 return $user;
             }
         });
-
-
 
     }
 }

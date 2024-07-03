@@ -29,7 +29,7 @@
 
     @livewire('navbar')
     @persist('header')
-        <livewire:header />
+        <livewire:header lazy="on-load" />
     @endpersist
     {{ $slot }}
 

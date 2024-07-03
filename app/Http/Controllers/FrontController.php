@@ -20,13 +20,26 @@ class FrontController extends Controller
 {
     public function index()
     {
-        return view('welcome');
-    }
 
-    public function User(User $user)
-    {
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $hoursListened = UserActivity::where('user_id', Auth::user()->id)->sum('hours_played');
+            if ($hoursListened == 0) {
+                return view('welcome', compact('hoursListened'));
+            } else {
+                // Calcoliamo le ore, i minuti e i secondi
+                $hours = floor($hoursListened / 3600); // Calcola le ore
+                $minutes = floor(($hoursListened % 3600) / 60); // Calcola i minuti
+                $seconds = $hoursListened % 60; // Calcola i secondi residui
 
-        return view('user-info', compact('user'));
+                // Formattiamo il risultato per renderlo leggibile
+                $formattedTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+
+                return view('welcome', ['formattedTime' => $formattedTime]);
+            }
+        } elseif (Auth::guest()) {
+            return view('welcome');
+        }
     }
 
 
@@ -36,6 +49,7 @@ class FrontController extends Controller
             ->orderBy('hours_online', 'desc') // Ordina le attività in base al numero di ore online in ordine decrescente
             ->take(4) // Limita il risultato alle prime 4 attività
             ->get();
+
 
         $users = User::all();
 
@@ -67,7 +81,7 @@ class FrontController extends Controller
 
         // Aggiorna o crea l'immagine associata all'utente
         if ($user->image) {
-            $user->image->update(['path' => $imagePath]);
+            $user->image()->update(['path' => $imagePath]);
         } else {
             $user->image()->create(['path' => $imagePath]);
         }
@@ -80,7 +94,6 @@ class FrontController extends Controller
 
     public function logout(Request $request): \Illuminate\Http\RedirectResponse
     {
-        // Ottieni l'utente autenticato
         // Ottieni l'utente autenticato
         $user = Auth::user();
 
@@ -103,45 +116,21 @@ class FrontController extends Controller
             // Imposta lo stato online dell'utente su false
             $user->is_online = false;
             $user->save();
+        } else {
+            $request->session()->put('duration_online', 0);
+            // Effettua il logout dell'utente
+            Auth::logout();
+
+            // Invalida la sessione e rigenera il token
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            // Reindirizza l'utente alla home
+            return redirect('/');
         }
-
-        // Effettua il logout dell'utente
-        Auth::logout();
-
-        // Invalida la sessione e rigenera il token
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        // Reindirizza l'utente alla home
-        return redirect('/');
     }
 
-
-
-   /*  public function __invoke(Request $request)
-    {
-        // Il metodo indexForUsers gestisce l'elenco di utenti per la vista Members e può anche gestire la ricerca e la selezione.
-        return User::query()
-            ->select('id', 'name', 'email')
-            ->when(
-                $request->search,
-                fn(Builder $query) => $query
-                    ->where('name', 'like', "%{$request->search}%")
-                    ->orWhere('email', 'like', "%{$request->search}%")
-            )
-            ->when(
-                $request->exists('selected'),
-                fn(Builder $query) => $query->whereIn('id', $request->input('selected', [])),
-                fn(Builder $query) => $query->limit(10)
-            )
-            ->orderBy('name')
-            ->get()
-            ->map(function (User $user) {
-
-                return $user;
-            });
-    } */
-
+    /*
     public function createArticle(){
 
         return view('create-article');
@@ -159,11 +148,11 @@ class FrontController extends Controller
     public function articleDetail($id){
         $article = Article::find($id);
         return view('Articles.article-detail', compact('article'));
-    }
+    } */
 
 
-    public function createStaff(){
+    public function createStaff()
+    {
         return view('create-staff');
     }
-
 }

@@ -1,6 +1,8 @@
 
-<div id="title-song" wire:poll.{{ $remainingTime }}s="fetchSongData">
+<div id="title-song" wire:ignore>
+    <!-- IF THERE IS AN ERROR -->
     @if ($error)
+
     @if ($elementToShow === 'songTitle')
     <h1 id="songTitle" style=" font-weight: 600; " class="text-4xl text-red-600">{{ $error }}
     </h1>
@@ -16,7 +18,9 @@
 @elseif($elementToShow === 'audioURL')
         <audio src="{{ $audioURL }}" id="audio" autoplay></audio>
 @endif
-    @elseif (!$error)
+
+@elseif (!$error)
+        <!-- IF THERE IS NO ERROR -->
     @if ($elementToShow === 'songTitle')
         <h1 id="songTitle" style="color: var(--quaternary-color); font-weight: 600" class="text-4xl">{{ $songTitle }}
         </h1>

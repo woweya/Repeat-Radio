@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckIfStaff;
 use Illuminate\Foundation\Application;
 use Illuminate\Session\Middleware\StartSession;
 use App\Http\Middleware\CalculateTopUsersActivity;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(CalculateTopUsersActivity::class);
+        $middleware->append(CheckIfStaff::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

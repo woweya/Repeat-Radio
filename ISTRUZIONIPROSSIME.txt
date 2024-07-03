@@ -1,0 +1,12 @@
+Devo risolvere il problema del loading costante del mio Header
+Problemi: logout, form, e altri test bisognano essere fatti
+Potrebbe essere anche un problema di Route e del fatto che il controller per il logout si trovi in FrontController
+Form vedere wire:ignore o qualcosa riguardo livewire, se non anche con Javascript.
+
+
+
+-----COSE DA risolvere
+-Problema di fetching api per il funzionamento del Meteo Component.
+-Forse da rivedere il Table con User Activities e come gestire l'evento di registrazione di quanto tempo in ascolto/online
+-Controllare anche l'utilizzo di Sessions e di Token dove possibile, se non anche i cookies.
+-- UPLOAD IMAGES PROFILE

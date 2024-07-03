@@ -1,4 +1,4 @@
-<div>
+<div wire:ignore>
     <header style="height: 300px; min-height: 300px; position: relative" class="w-full">
         {{--   @if (session()->has('success'))
             {
@@ -73,18 +73,18 @@
                 </div>
                 <div class="top-right-header"
                     style="max-height: 50%; height: 100%; width: 40%; position: absolute; right: 0; top: 10%">
-                    <div class="overlay">
+                    <div class="overlay" style="height: 20vh">
                     </div>
                     <div class="read-more flex justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="var(--quaternary-color)"
-                            style="position: absolute; left: 42%; bottom: 10%; z-index: 1" class="w-5 h-5">
+                            style="position: absolute; left: 35%; bottom: 5%; z-index: 1" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                         </svg>
 
                         <span
-                            style="position: absolute; left: 45%; bottom: 10%; color: var(--quaternary-color); cursor: pointer; font-weight: 700; text-decoration: underline; z-index: 1">
+                            style="position: absolute; left: 40%; bottom: 5%; color: var(--quaternary-color); cursor: pointer; font-weight: 700; text-decoration: underline; z-index: 1">
                             Read more about song</span>
                     </div>
 

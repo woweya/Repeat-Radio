@@ -979,6 +979,17 @@ a.flex.items-center.p-3.text-sm.font-medium{
 }
 
 
+.hero-icons.flex-col.mt-5>button>svg{
+    cursor: not-allowed!important;
+    pointer-events: none!important;
+    opacity: 0.5!important;
+}
+
+.unabled{
+    cursor: not-allowed!important;
+    pointer-events: none!important;
+    opacity: 0.5!important;
+}
 /*! Media Queries */
 
 
@@ -1144,10 +1155,6 @@ a.flex.items-center.p-3.text-sm.font-medium{
         display: flex!important;
         align-items: center!important;
         justify-content: center!important;
-
-    }
-
-    #footer{
 
     }
 

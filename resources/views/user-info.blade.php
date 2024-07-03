@@ -40,12 +40,22 @@
                     @endif
                     <div class="user-image flex flex-col">
                         @if (Auth::user()->image)
+                            @php
+                                $image = Auth::user()->image->path;
+                                $isDiscordImage = Str::startsWith($image, 'https://');
+
+                                if ($isDiscordImage) {
+                                    $imageUrl = $image; // Use the Discord image URL directly
+                                } else {
+                                    $imageUrl = Storage::url($image); // Use the local storage image URL
+                                }
+                            @endphp
                             <div class="flex justify-center mr-[140px]">
-                                <img id="user-image" src="{{ Storage::url(Auth::user()->image->path) }}"
+                                <img id="user-image" src="{{ $imageUrl }}"
                                     style="width:200px; height: 200px; border-radius: 50%; border:1px solid var(--quaternary-color);"
                                     alt="">
                             </div>
-                        @elseif (Auth::user()->image == null)
+                        @else
                             <div class="flex justify-center items-center mr-[125px] pt-5 pb-5" style="scale: 1.5">
                                 <img src="{{ Storage::url('Avatars/avatar-' . Auth::user()->username . '.png') }}"
                                     style="border:2px solid var(--purple-color); border-radius: 50%">
@@ -106,7 +116,7 @@
                         </form>
                     </div>
                     <div class="flex flex-col justify-start items-start"
-                        style="border-left: 1px solid rgb(48, 48, 48); height: 300px">
+                        style="border-left: 1px solid rgb(48, 48, 48); height: 400px">
                         <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Name:</p>
                         <h1 class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
                             {{ Auth::user()->name }}</h1>
@@ -119,8 +129,19 @@
                         <h1 class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
                             {{ Auth::user()->email }}</h1>
                         <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Password:</p>
-                        <button class="text-[color:var(--quaternary-color)] font-bold  ml-10 underline">Change
+                        <button class="text-[color:var(--quaternary-color)] font-bold  ml-10 underline mb-5">Change
                             Password</button>
+                            @if (Auth::user()->is_staff == 1)
+                            <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Role:</p>
+                            <div class="ml-10 mb-10">
+                                @foreach (Auth::user()->roles as $role)
+                                    <h1 class="text-2xl font-extrabold flex items-center w-full " style="color:{{ $role->color }}">
+                                        <span>{!! $role->icon !!}</span>
+                                        <span>{{ $role->name }}</span>
+                                    </h1>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="flex justify-center items-center">
@@ -153,20 +174,20 @@
 
     <script>
         /*        const editButton = document.getElementById('editButton');
-            const editForm = document.getElementById('imageForm');
-            const closeButton = document.getElementById('closeButton');
+                const editForm = document.getElementById('imageForm');
+                const closeButton = document.getElementById('closeButton');
 
-            closeButton.addEventListener('click', () => {
-                editForm.classList.toggle('hidden');
-                editButton.classList.toggle('hidden')
-            })
+                closeButton.addEventListener('click', () => {
+                    editForm.classList.toggle('hidden');
+                    editButton.classList.toggle('hidden')
+                })
 
-            editButton.addEventListener('click', () => {
+                editButton.addEventListener('click', () => {
 
-                editButton.classList.toggle('hidden');
-                editForm.classList.toggle('hidden');
+                    editButton.classList.toggle('hidden');
+                    editForm.classList.toggle('hidden');
 
-            }) */
+                }) */
 
 
         const alert = document.getElementById('alert-1');

@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('gender')->default(null)->nullable();
-            $table->string('username')->unique();
-            $table->date('birthday')->default(null)->nullable();
-            $table->string('country')->nullable();
-            $table->string('city')->nullable();
+            $table->string('discord_id')->nullable()->unique();
+            $table->string('discord_username')->nullable();
+            $table->string('discord_email')->nullable();
+            $table->string('discord_avatar')->nullable();
+
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['gender', 'username', 'birthday', 'country', 'city']);
+            $table->dropColumn(['discord_id', 'discord_username', 'discord_avatar']);
         });
     }
 };

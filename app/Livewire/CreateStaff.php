@@ -19,8 +19,14 @@ class CreateStaff extends Component
     public $searchUser;
 
     public $newStaffs= [];
+
+
     public $users;
     public $isOpen = false;
+
+    public function mount(){
+        $this->selectedColor = "var(--quaternary-color)";
+    }
 
     public function render()
     {
@@ -41,13 +47,15 @@ class CreateStaff extends Component
     public function selectIcon($icon)
     {
 
+
         $fillColor = $this->selectedColor ? $this->selectedColor : 'var(--quaternary-color)';
+
         $this->isOpen = false;
         if($icon == "none"){
             $this->roleIcon = "";
         }elseif($icon == "developer"){
             $this->roleIcon = '
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="' . $fillColor . '" class="w-6 h-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="' . $this->selectedColor . '" class="w-6 h-6">
                 <path fill-rule="evenodd"
                     d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm14.25 6a.75.75 0 0 1-.22.53l-2.25 2.25a.75.75 0 1 1-1.06-1.06L15.44 12l-1.72-1.72a.75.75 0 1 1 1.06-1.06l2.25 2.25c.141.14.22.331.22.53Zm-10.28-.53a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L8.56 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-2.25 2.25Z"
                     clip-rule="evenodd" />
@@ -230,6 +238,7 @@ c7.214,0,13.086,5.789,13.086,12.995V407.858z" />
 
 public function updatedSelectedColor(string $value)
 {
+
     $this->selectedColor = $value;
 
     // Quando il colore selezionato viene aggiornato, aggiorniamo l'icona

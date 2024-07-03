@@ -200,34 +200,46 @@
             <div class="currently-active">
                 <h1 class="text-lg text-[color:var(--quaternary-color)] font-extrabold mt-5">Currently Active</h1>
                 <div class="layer-bg p-2 mt-2 flex flex-wrap gap-5">
+                    @php
+                    //! Filter the users that are online.
+                        $onlineUsers = $users->filter(function ($user) {
+                            return $user->is_online == 1;
+                        });
+                    @endphp
 
-                    @foreach ($users as $user)
+                    @if ($onlineUsers->isEmpty())
+                        <h1>There's no user online!</h1>
+                    @else
+                        @foreach ($onlineUsers as $user)
                             @if ($user->image)
-
                                 <!-- Se l'utente è online e ha un'immagine, mostra l'immagine -->
                                 <x-badge style="border:none;">
-                                    <img class="rounded" width="50" height="50" src="{{Storage::url( $user->image->path) }}" style="border: 2px solid rgb(113, 0, 165);border-radius: 50%" alt="">
+                                    <img class="rounded" width="50" height="50"
+                                        src="{{ Storage::url($user->image->path) }}"
+                                        style="border: 2px solid rgb(113, 0, 165);border-radius: 50%" alt="">
                                     <x-slot name="append" class="relative flex items-center w-3 h-3">
                                         <span
                                             class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-
-                                        <span class="relative inline-flex w-2 h-2 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                        <span
+                                            class="relative inline-flex w-2 h-2 rounded-full bg-cyan-500 top-4 right-4"></span>
                                     </x-slot>
                                 </x-badge>
-                            @elseif ($user->image == null)
-                            <x-badge style="border:none;">
-                                <img class="rounded" width="50" height="50"  src="{{$defaultPath. '/avatar-' .$user->username.'.png' }}" style="border:2px solid rgb(247, 0, 255); border-radius: 50%" alt="">
-                                <x-slot name="append" class="relative flex items-center w-3 h-3">
-
-                                    <span
-                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-
-                                    <span class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                                </x-slot>
-                            </x-badge>
+                            @else
                                 <!-- Se l'utente è online ma non ha un'immagine, mostra un'immagine predefinita -->
+                                <x-badge style="border:none;">
+                                    <img class="rounded" width="50" height="50"
+                                        src="{{ $defaultPath . '/avatar-' . $user->username . '.png' }}"
+                                        style="border:2px solid rgb(247, 0, 255); border-radius: 50%" alt="">
+                                    <x-slot name="append" class="relative flex items-center w-3 h-3">
+                                        <span
+                                            class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
+                                        <span
+                                            class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                    </x-slot>
+                                </x-badge>
                             @endif
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
 
             </div>

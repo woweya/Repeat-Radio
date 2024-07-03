@@ -5,7 +5,7 @@
 <div class="flex">
     <div class="left-side-main mb-10" style="width:50%;" data-aos="fade-right" data-aos-duration="1200">
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Just Played</h1>
-       {{--  @livewire('last-played') --}}
+        <livewire:last-played lazy="on-load"/>
 
         <div class="button-recently-played">
         <button class="text-[color:var(--quaternary-color)] font-light text-center mt-2 flex items-center justify-center bg-[#252525] px-3 py-1 rounded" style="width: 80%; min-width: 65%;">
@@ -80,7 +80,7 @@
                             <div id="dropdownInformation" style="z-index: 9999999" class="hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                 <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
                                     <b>Europe</b>
-                                    <ul id="europeDropdown" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+                                    <ul id="europeDropdown" class="py-2 text-sm text-gray-700 dark:text-gray-200 z-10" aria-labelledby="dropdownInformationButton">
                                         <li id="westernEurope">Western Europe</li>
                                         <li id="centralEurope">Central Europe</li>
                                         <li id="easternEurope">Eastern Europe</li>
@@ -114,14 +114,14 @@
  --}}
             </div>
             @auth
-            <div class="time-listener mt-5 flex items-center justify-center" style="z-index: -1">
-                <p style="left:10px; bottom:15px;">Time listened this week</p>
-                <h3 class="font-bold text-4xl mb-5" >32 hours</h3>
+            <div class="time-listener mt-5 flex items-center justify-center" style="z-index: -10">
+                <p style="left:10px; bottom:15px; z-index: -10">Time listened this week</p>
+                <h3 class="font-bold text-4xl mb-5">{{ $hoursListened ? $formattedTime : 0 }}</h3>
             </div>
             @endauth
             @guest
-            <a href="/login"><div class="time-listener mt-5 flex items-center justify-center">
-                <p style="left:10px; bottom:15px;">Time listened this week</p>
+            <a href="/login"><div class="time-listener mt-5 flex items-center justify-center" style="z-index: -10">
+                <p style="left:10px; bottom:15px;z-index: -10">Time listened this week</p>
                 <h3 class="font-bold text-4xl mb-5" >Login to see time</h3>
             </div></a>
             @endguest

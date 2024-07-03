@@ -25,24 +25,42 @@
             <div class="flex justify-center items-center gap-5 mt-5 mb-10 flex-wrap">
                 <div id="topUser" class="card flex flex-col justify-center items-center"
                     style="border: 1px solid var(--purple-color)">
-                    <h1 class="text-xl uppercase text-[color:var(--quinary-color)] font-extrabold mb-3">Top Online User
+                    <h1 class="text-xl uppercase text-[color:var(--quaternary-color)] font-extrabold mb-3">Top Online User
                     </h1>
                     <div class="flex flex-col justify-center items-center w-full px-5">
                         @if($usersWithActivities)
                         <div class="flex justify-center items-center">
                         @foreach ($usersWithActivities as $activity)
                             @if ($loop->first)
+                            @php
+                            //! If the User has a custom profile image, use it, otherwise use the default one.
+                            $id = $activity->user->id;
+                            $username = $activity->user->username;
+                            $customProfileImage = 'public/images/user-' . $id . '-profile-picture.png';
+                            $avatarImage = 'Avatars/avatar-' . $username . '.png';
 
-                            <img src="{{ Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}"
+                            @endphp
+
+                            @if (Storage::exists($customProfileImage))
+
+                            <img src="{{ Storage::url($customProfileImage) }}"
                             style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
                             class="mr-2" alt="">
+
+                            @else
+
+                            <img src="{{ Storage::url($avatarImage) }}"
+                             style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
+                            class="mr-2" alt="">
+
+                            @endif
                         <h1 class="w-full text-2xl text-[color:var(--quaternary-color)] font-extrabold uppercase">
                             {{ $activity->user->username }}</h1>
                     </div>
                     <hr class="mb-5 mt-5 border-[color:var(--quinary-color)] w-full">
                             @else
-                        <div class="card-body w-full flex flex-col justify-start items-start uppercase">
-                            <p class="text-lg text-[color:var(--quaternary-color)]">{{$activity->user->username}}</p>
+                        <div class="card-body text-center w-full flex flex-col justify-center items-center uppercase">
+                            <p class="text-lg font-semibold text-center text-[color:var(--quaternary-color)]">{{$activity->user->username}}</p>
                         </div>
                             @endif
                         @endforeach
@@ -114,31 +132,26 @@
 
             <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold mt-5">Staff Members Active</h1>
             <div id="StaffMembers" class="flex justify-center items-center gap-5 flex-wrap mt-10">
+
                 @foreach ($users as $user)
-                    @if ($user->is_staff == true && $user->is_online == true)
+                @if ($user->is_staff && $user->is_online)
                     <div data-user-id="{{ $user->id }}" class="flex justify-center items-center gap-2 relative">
                         @if ($user->image)
-                        <x-badge style="border:none;">
-                            <img class="rounded" width="50" height="50"  src="{{ Storage::url($user->image->path) }}" style="border:2px solid rgb(247, 0, 255); border-radius: 50%" alt="">
-                            <x-slot name="append" class="relative flex items-center w-3 h-3">
-
-                                <span
-                                    class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-
-                                <span class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                            </x-slot>
-                        </x-badge>
+                            <x-badge style="border:none;">
+                                <img class="rounded" width="50" height="50" src="{{ Storage::url($user->image->path) }}" style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px" alt="">
+                                <x-slot name="append" class="relative flex items-center w-3 h-3">
+                                    <span class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
+                                    <span class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                </x-slot>
+                            </x-badge>
                         @else
-                        <x-badge style="border:none; padding-right: 0px; gap:0px" >
-                            <img class="rounded" width="50" height="50"  src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}" style="border:2px solid rgb(247, 0, 255); border-radius: 50%" alt="">
-                            <x-slot name="append" class="relative flex items-center w-3 h-3">
-
-                                <span
-                                    class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-
-                                <span class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                            </x-slot>
-                        </x-badge>
+                            <x-badge style="border:none; padding-right: 0px; gap:0px">
+                                <img class="rounded" width="50" height="50" src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}" style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px" alt="">
+                                <x-slot name="append" class="relative flex items-center w-3 h-3">
+                                    <span class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
+                                    <span class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                </x-slot>
+                            </x-badge>
                         @endif
                         <h1 class="text-lg text-[color:var(--quaternary-color)] font-extrabold mr-2">{{ $user->name }}</h1>
                         <div id="popover-user-{{ $user->id }}" data-popover role="tooltip" class="absolute top-[45px] z-10 invisible w-64 text-sm text-gray-500 transition-opacity duration-300 bg-[color:var(--secondary-color)] rounded-lg shadow-sm opacity-0 color:var(--quaternary-color)" style="border: 2px solid #45056d">
@@ -157,18 +170,23 @@
                                     {{ $user->name }}
                                 </p>
                                 <p class="mb-3 text-left font-normal">
-                                    <a href="#" class="hover:underline text-[color:var(--quinary-color)]">{{'@'.$user->username }}</a>
+                                    <a href="#" class="hover:underline text-[color:var(--quinary-color)]">{{ '@'.$user->username }}</a>
                                 </p>
                                 <!-- Aggiungi altre informazioni del profilo qui -->
                             </div>
                             <div data-popper-arrow></div>
                         </div>
                     </div>
-                    @endif
-                @endforeach
-                @if ($user->is_staff == true && $user->is_online == false)
-                    <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">No staff members online</h1>
                 @endif
+            @endforeach
+
+            @if (!$users->contains(function ($user) {
+                return $user->is_staff && $user->is_online;
+            }))
+                <h1 class="text-2xl text-[color:var(--quaternary-color)] font-light">No staff members online</h1>
+            @endif
+
+
             </div>
         </div>
     </div>
@@ -178,7 +196,7 @@
 
 <script>
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('livewire:navigated', function () {
         const searchInput = document.getElementById('search');
         const topUserDiv = document.getElementById('topUser');
           const divs = document.querySelectorAll('#StaffMembers div[data-user-id]');
@@ -211,3 +229,4 @@
     });
 
 </script>
+

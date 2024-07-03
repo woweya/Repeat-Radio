@@ -3,13 +3,11 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Lazy;
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 
-#[Lazy]
+#[Lazy(isolate: false)]
 class TitleSong extends Component
 {
     public string $songTitle;
@@ -18,48 +16,45 @@ class TitleSong extends Component
     public int $secondsTotal;
     public int $secondsElapsed;
     public $loading = true;
-
     public $loadingElement;
-
     public $elementToShow;
-    public $cachedData = [];
+    public array $cachedData = [];
     public int $remainingTime;
-
     public $error;
     public $audioURL;
 
-
     public function render()
     {
-
-        if ($this->elementToShow === 'songTitle') {
-            $this->loadingElement = 'songTitle';
-        } elseif ($this->elementToShow === 'songArtist') {
-            $this->loadingElement = 'songArtist';
-        } elseif ($this->elementToShow === 'songImage') {
-            $this->loadingElement = 'songImage';
-        }
+        $this->loadingElement = $this->elementToShow;
 
         return view('livewire.title-song');
     }
 
     public function mount(): void
     {
-
-         $this->cachedData = [];
         $this->loadingElement = 'audioURL';
 
-        $cachedData= Cache::get('song_data');
+        $this->cachedData = Cache::get('song_data', []);
 
-        if ($cachedData) {
-            $this->songTitle = $cachedData['title'];
-            $this->songArtist = $cachedData['artist'];
-            $this->secondsTotal = $cachedData['total_seconds'];
-            $this->songImage = $cachedData['image'];
+        if (!empty($this->cachedData)) {
+            $this->updateSongDataFromCache();
+        } elseif (!$this->cachedData || $this->remainingTime <= 0) {
+
+            $this->error = 'Something went wrong. Please try again later.';
+
+            Cache::put('song_data', [
+                'title' => $this->error,
+                'artist' => $this->error,
+                'image' => $this->error,
+                'total_seconds' => 0,
+                'seconds_elapsed' => 0
+            ]);
+
+            return;
+
+        }else {
+            $this->fetchSongData();
         }
-
-
-         $this->fetchSongData();
 
         $this->loading = false;
     }
@@ -69,51 +64,37 @@ class TitleSong extends Component
         return view('skeletons.skeleton-header', ['elementToShow' => $this->elementToShow]);
     }
 
-    public function fetchSongData()
+    private function updateSongDataFromCache(): void
     {
-         try {
+                $this->fetchSongData();
+    }
 
-            if(Cache::has('song_data')) {
-
-                $this->cachedData = Cache::get('song_data');
-            }
-
-
-
+    public function fetchSongData(): void
+    {
+        try {
             $response = Http::get('http://138.197.88.112/api/proc/s/currently_playing');
             $data = $response->json()['song'];
 
-                $this->songTitle = $data['title'];
-                $this->songArtist = $data['artist'];
-                $this->secondsTotal = $data['seconds_total'];
-                $this->secondsElapsed = $data['seconds_elapsed'];
-                $this->songImage = $data['art'];
-                $this->audioURL = 'https://stream.repeatradio.net/';
-                $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
+            $this->songTitle = $data['title'];
+            $this->songArtist = $data['artist'];
+            $this->secondsTotal = $data['seconds_total'];
+            $this->secondsElapsed = $data['seconds_elapsed'];
+            $this->songImage = $data['art'];
+            $this->audioURL = 'https://stream.repeatradio.net/';
+            $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
 
+            $this->cachedData = [
+                'title' => $this->songTitle,
+                'artist' => $this->songArtist,
+                'image' => $this->songImage,
+                'total_seconds' => $this->secondsTotal,
+            ];
 
-                $this->cachedData = [
-                    'title' => $this->songTitle,
-                    'artist' => $this->songArtist,
-                    'image' => $this->songImage,
-                    'total_seconds' => $this->secondsTotal,
-                ];
-
-
-                view('livewire.header')->share('cachedData', $this->cachedData);
-
-                Cache::put('song_data', $this->cachedData);
-
-
-
-
+            Cache::put('song_data', $this->cachedData);
         } catch (\Throwable $th) {
-            $th = 'Something went wrong';
-            $this->error = $th;
-            return;
+            $this->error = 'Something went wrong';
         }
     }
 
 
 }
-

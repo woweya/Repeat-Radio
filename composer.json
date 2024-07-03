@@ -11,11 +11,13 @@
         "guzzlehttp/guzzle": "^7.8",
         "laravel/fortify": "^1.21",
         "laravel/framework": "^11.0",
+        "laravel/octane": "^2.4",
         "laravel/scout": "^10.8",
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.9",
         "laravolt/avatar": "^5.1",
         "livewire/livewire": "^3.4",
+        "maximebf/debugbar": "^1.22",
         "socialiteproviders/discord": "^4.2",
         "teamtnt/laravel-scout-tntsearch-driver": "^14.0",
         "wireui/wireui": "^1.19"

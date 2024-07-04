@@ -9,40 +9,55 @@ use Laravolt\Avatar\Avatar;
 use App\Models\UserActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Image as ImageModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
-use App\Models\Image as ImageModel;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
+use Algolia\AlgoliaSearch\Http\Psr7\Response;
 
 
 class FrontController extends Controller
 {
     public function index()
-    {
+{
+    // Cache per 2 minuti
+    $cacheKey = 'welcome_html';
+    $cachedContent = Cache::get($cacheKey);
 
-        if (Auth::check()) {
-            $userId = Auth::id();
-            $hoursListened = UserActivity::where('user_id', Auth::user()->id)->sum('hours_played');
-            if ($hoursListened == 0) {
-                return view('welcome', compact('hoursListened'));
-            } else {
-                // Calcoliamo le ore, i minuti e i secondi
-                $hours = floor($hoursListened / 3600); // Calcola le ore
-                $minutes = floor(($hoursListened % 3600) / 60); // Calcola i minuti
-                $seconds = $hoursListened % 60; // Calcola i secondi residui
-
-                // Formattiamo il risultato per renderlo leggibile
-                $formattedTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
-
-                return view('welcome', ['formattedTime' => $formattedTime]);
-            }
-        } elseif (Auth::guest()) {
-            return view('welcome');
-        }
+    if ($cachedContent) {
+        return new \Illuminate\Http\Response($cachedContent);
     }
+
+    // Se il contenuto non è in cache, calcolalo
+    $hoursListened = 0;
+    if (Auth::check()) {
+        $userId = Auth::id();
+        $hoursListened = UserActivity::where('user_id', $userId)->sum('hours_played');
+    }
+
+    if ($hoursListened == 0) {
+        $viewContent = view('welcome', compact('hoursListened'))->render();
+    } else {
+        // Calcoliamo le ore, i minuti e i secondi
+        $hours = floor($hoursListened / 3600); // Calcola le ore
+        $minutes = floor(($hoursListened % 3600) / 60); // Calcola i minuti
+        $seconds = $hoursListened % 60; // Calcola i secondi residui
+
+        // Formattiamo il risultato per renderlo leggibile
+        $formattedTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+
+        $viewContent = view('welcome', ['formattedTime' => $formattedTime])->render();
+    }
+
+    // Metti in cache il contenuto renderizzato
+    Cache::put($cacheKey, $viewContent, now()->addMinutes(2));
+
+    return new \Illuminate\Http\Response($viewContent);
+}
 
 
     public function Members()

@@ -9,22 +9,22 @@
         @elseif ($elementToShow === 'songArtist')
             <p id="songArtist" class="mt-2 ml-1 text-red-600" style="font-weight: 400; font-size: 15px">{{ $error }}</p>
         @elseif ($elementToShow === 'secondsTotal')
-            <span id="secondsTotal" class="total-time">{{ substr($secondsTotal, 0, 1) . ':' . substr($secondsTotal, 1, 2) }}</span>
+            <span id="secondsTotal" class="total-time">0</span>
         @elseif($elementToShow === 'songImage')
-            <img id="artImage" class="spin text-center" style="position: absolute; left: 12%; top: 2%; border-radius:20px; z-index: 1" width="220px" height="200px" alt="No image found" />
+            <img id="artImage" class="text-center" style="position: absolute; left: 12%; top: 2%; border-radius:20px; z-index: 1; line-height:50%;" width="220px" height="200px" alt="No image found" />
         @elseif($elementToShow === 'audioURL')
-            <audio src="{{ $audioURL }}" id="audio" autoplay></audio>
+            <audio src="" id="audio"></audio>
         @endif
     @else
         <!-- IF THERE IS NO ERROR -->
         @if ($elementToShow === 'songTitle')
-            <h1 id="songTitle" style="color: var(--quaternary-color); font-weight: 600" class="text-4xl">{{ $songTitle }}</h1>
+            <h1 id="songTitle" style="color: var(--quaternary-color); font-weight: 600" class="text-4xl">{{ $cachedData['title'] }}</h1>
         @elseif ($elementToShow === 'songArtist')
-            <p id="songArtist" class="mt-2 ml-1" style="color: var(--quinary-color); font-weight: 400; font-size: 15px">{{ $songArtist }}</p>
+            <p id="songArtist" class="mt-2 ml-1" style="color: var(--quinary-color); font-weight: 400; font-size: 15px">{{ $cachedData['artist'] }}</p>
         @elseif ($elementToShow === 'secondsTotal')
-            <span id="secondsTotal" class="total-time">{{ substr($secondsTotal, 0, 1) . ':' . substr($secondsTotal, 1, 2) }}</span>
+            <span id="secondsTotal" class="total-time">{{ substr($cachedData['total_seconds'], 0, 1) . ':' . substr($cachedData['seconds_elapsed'], 1, 2) }}</span>
         @elseif($elementToShow === 'songImage')
-            <img id="artImage" class="spin" style="position: absolute; left: 12%; top: 2%; border-radius:20px; z-index: 1" width="220px" height="200px" src="{{ $songImage }}" />
+            <img id="artImage" class="spin" style="position: absolute; left: 12%; top: 2%; border-radius:20px; z-index: 1" width="220px" height="200px" src="{{ $cachedData['image'] }}" />
         @elseif($elementToShow === 'audioURL')
             <audio src="{{ $audioURL }}" id="audio" autoplay></audio>
         @endif

@@ -12,6 +12,12 @@ class SearchUsers extends Component
 
     public $searchResults = [];
 
+    public $filterResults = [];
+
+    public $vip = false;
+
+    public $staff = false;
+
     public function render()
     {
         $users = [];
@@ -21,8 +27,19 @@ class SearchUsers extends Component
                       ->orWhere('name', 'like', $this->searchTerm . '%')
                       ->orWhere('email', 'like', $this->searchTerm . '%');
             })
+
             ->get();
+
         }
+        if ($this->vip) {
+            /* $users = $users->where('is_vip', true); */
+        }
+        if ($this->staff) {
+
+            $users = \App\Models\User::query()->where('is_staff', true)->get();
+        }
+
+
 
         return view('livewire.search-users', ['users' => $users]);
     }
@@ -30,8 +47,11 @@ class SearchUsers extends Component
 
     public function search()
     {
+
         $this->searchResults = \App\Models\User::search($this->searchTerm)->get();
+
     }
+
 
 
 

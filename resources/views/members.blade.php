@@ -10,14 +10,11 @@
     --}}
     <div class="text-center mt-10 mb-10 flex flex-col justify-center items-center">
         <div class="w-2/4 flex flex-col mb-5 justify-center items-center">
-        <h1 class="text-5xl text-[color:var(--quaternary-color)] font-extrabold mb-5">Members</h1>
+        <h1 class="text-5xl text-[color:var(--quaternary-color)] font-normal mb-5">Members</h1>
     </div>
-        <div class="flex flex-row">
-            <button class="tag">Staff</button>
-            <button class="tag">Admin</button>
-            <button class="tag">Member</button>
-        </div>
+
         <livewire:search-users />
+        <livewire:user-categories />
         <div class="w-1/4 flex flex-col mb-5">
             {{-- x-select --}}
         </div>

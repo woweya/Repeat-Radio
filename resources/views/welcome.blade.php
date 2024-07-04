@@ -68,10 +68,10 @@
             <div class="flex flex-col" style="max-width: 100%; width: 100%;">
             <div class="time-location flex items-center justify-center relative">
                 <div style="width:50%; position: absolute; left: 15px; bottom: 10px">
-                <p style="left:10px; bottom:15px; color:var(--quaternary-color)">Time in <span id="selected-location">...</span></p>
+                <p style="left:10px; bottom:15px; color:var(--quaternary-color)">Time</p>
             </div>
-                <h3 id="current-time" class="font-bold text-4xl mb-5">00:00</h3>
-                          <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="location-dropdown absolute right-2.5 bottom-2.5 z-10 inline-flex items-center" type="button">Change Location
+                <h3 id="current-time" class="font-bold text-4xl mb-5"></h3>
+                          {{-- <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="location-dropdown absolute right-2.5 bottom-2.5 z-10 inline-flex items-center" type="button">Change Location
                             <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                             </svg>
@@ -94,24 +94,7 @@
                                         <li id="mountainTime">Mountain Time (US & Canada)</li>
                                     </ul>
                                 </div>
-                            </div>
-             {{--   <select id="location-dropdown" style="text-align:start; position: absolute; right: 15px; min-width: 35%; width: 35%; max-width: 45%;" onchange="updateTime(this.value)">
-                    <option selected value="">-- Select Location --</option>
-                    <optgroup label="Europe" class="text-black">
-                        <option value="Europe/West">Western Europe </option>
-                        <option value="Europe/Central">Central Europe</option>
-                        <option value="Europe/East">Eastern Europe</option>
-                    </optgroup>
-                    <optgroup label="North America" class="text-black">
-                        <option value="America/New_York">Eastern Time (US & Canada)</option>
-                        <option value="America/Chicago">Central Time (US & Canada)</option>
-                        <option value="America/Denver">Mountain Time (US & Canada)</option>
-                        <option value="America/Los_Angeles">Pacific Time (US & Canada)</option>
-                    </optgroup>
-                    <!-- Aggiungi altre regioni e fusi orari secondo necessità -->
-                </select>
-
- --}}
+                            </div> --}}
             </div>
             @auth
             <div class="time-listener mt-5 flex items-center justify-center" style="z-index: -10">
@@ -153,8 +136,11 @@
 
 
 <script>
+
+//! Funzione per aggiornare l'orario in base al fuso orario specificato !//
+
 // Aggiungi event listener per gestire il click sugli elementi <li> nell'elenco dell'Europa
-    document.getElementById('europeDropdown').addEventListener('click', function(event) {
+  /*   document.getElementById('europeDropdown').addEventListener('click', function(event) {
     let timezone;
     if (event.target.id === 'westernEurope') {
         timezone = 'Europe/London'; // Imposta il fuso orario per l'Europa occidentale
@@ -197,7 +183,12 @@ function updateTime(timezone) {
             // Aggiorna l'orario visualizzato nella tua interfaccia utente
             document.getElementById('current-time').innerText = timeString;
             document.getElementById('selected-location').innerText = timezone.split('/')[1].replace('_', ' ');
-        }
+        } */
+
+
+        const currentTime = document.getElementById('current-time').innerText;
+
+
 
 
 
@@ -207,5 +198,16 @@ function updateTime(timezone) {
                 rightSide.removeAttribute('data-aos');
                 rightSide.removeAttribute('data-aos-duration');
             }
+
+            function updateTime(){
+            let localTime = new Date().toLocaleTimeString();
+            document.getElementById('current-time').innerText = localTime;
+            }
+
+            updateTime();
+
+            setInterval(updateTime, 1000);
         })
+
+
 </script>

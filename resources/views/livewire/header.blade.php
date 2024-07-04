@@ -1,4 +1,4 @@
-<div wire:ignore>
+<div wire:ignore.self>
     <header style="height: 300px; min-height: 300px; position: relative" class="w-full">
         {{--   @if (session()->has('success'))
             {
@@ -217,7 +217,5 @@
 
 
         })
-
-
     </script>
 @endscript

@@ -23,19 +23,20 @@
     <wireui:scripts />
     <title>Sailor Radio</title>
     @livewireStyles()
+    @yield('styles')
 </head>
 
 <body>
 
     @livewire('navbar')
     @persist('header')
-        <livewire:header lazy="on-load" />
+        <livewire:header  />
     @endpersist
     {{ $slot }}
 
 
     <x-footer />
-
+    @yield('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
     <script>

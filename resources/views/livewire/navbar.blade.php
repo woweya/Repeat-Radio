@@ -11,7 +11,9 @@
             <li><a href="{{ route('members')}}" wire:navigate>Members</a></li>
             <li><a href="{{ route('about')}}"wire:navigate>Radio</a></li>
             @auth
+            @if (Auth::user() && Auth::user()->is_staff == true)
             <li><a href="{{ route('staff')}}"wire:navigate.hover>Create a Staff Role</a></li>
+            @endif
             @endauth
 
           {{--   ARTICLES DISABLED FOR NOW

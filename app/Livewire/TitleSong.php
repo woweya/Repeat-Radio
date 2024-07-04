@@ -31,15 +31,19 @@ class TitleSong extends Component
     }
 
     public function mount(): void
-    {
-        $this->loadingElement = 'audioURL';
+{
+    $this->loadingElement = 'audioURL';
+    $this->loading = true;
 
-        $this->cachedData = Cache::get('song_data', []);
+    $this->cachedData = Cache::get('song_data', []);
 
-        if (!empty($this->cachedData)) {
-            $this->updateSongDataFromCache();
-        } elseif (!$this->cachedData || $this->remainingTime <= 0) {
-
+    // If cached data is found, use it
+    if (!empty($this->cachedData)) {
+        $this->updateSongDataFromCache();
+    } else {
+        try {
+            $this->fetchSongData();
+        } catch (\Throwable $th) {
             $this->error = 'Something went wrong. Please try again later.';
 
             Cache::put('song_data', [
@@ -49,15 +53,11 @@ class TitleSong extends Component
                 'total_seconds' => 0,
                 'seconds_elapsed' => 0
             ]);
-
-            return;
-
-        }else {
-            $this->fetchSongData();
         }
-
-        $this->loading = false;
     }
+
+    $this->loading = false;
+}
 
     public function placeholder()
     {
@@ -66,33 +66,58 @@ class TitleSong extends Component
 
     private function updateSongDataFromCache(): void
     {
-                $this->fetchSongData();
+        $this->songTitle = $this->cachedData['title'];
+        $this->songArtist = $this->cachedData['artist'];
+        $this->secondsTotal = $this->cachedData['total_seconds'];
+        $this->secondsElapsed = $this->cachedData['seconds_elapsed'];
+        $this->songImage = $this->cachedData['image'];
+        $this->audioURL = 'https://stream.repeatradio.net/';
+        $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
     }
 
     public function fetchSongData(): void
     {
         try {
-            $response = Http::get('http://138.197.88.112/api/proc/s/currently_playing');
-            $data = $response->json()['song'];
+            // Attempt to retrieve data from the cache
+            $cachedData = Cache::get('song_data');
 
-            $this->songTitle = $data['title'];
-            $this->songArtist = $data['artist'];
-            $this->secondsTotal = $data['seconds_total'];
-            $this->secondsElapsed = $data['seconds_elapsed'];
-            $this->songImage = $data['art'];
-            $this->audioURL = 'https://stream.repeatradio.net/';
-            $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
+            // If cached data is found, use it
+            if ($cachedData) {
+                $this->songTitle = $cachedData['title'];
+                $this->songArtist = $cachedData['artist'];
+                $this->secondsTotal = $cachedData['total_seconds'];
+                $this->secondsElapsed = 0; // Assuming elapsed time is reset or managed separately
+                $this->songImage = $cachedData['image'];
+                $this->audioURL = 'https://stream.repeatradio.net/';
+                $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
+                info('Im here caching');
+            } else {
+                // If no cached data is found, make the HTTP request
+                $response = Http::get('http://138.197.88.112/api/proc/s/currently_playing');
+                $data = $response->json()['song'];
+               info('Im here fetching');
+               $this->songTitle = $data['title'];
+                $this->songArtist = $data['artist'];
+                $this->secondsTotal = $data['seconds_total'];
+                $this->secondsElapsed = $data['seconds_elapsed'];
+                $this->songImage = $data['art'];
+                $this->audioURL = 'https://stream.repeatradio.net/';
+                $this->remainingTime = $this->secondsTotal - $this->secondsElapsed;
 
-            $this->cachedData = [
-                'title' => $this->songTitle,
-                'artist' => $this->songArtist,
-                'image' => $this->songImage,
-                'total_seconds' => $this->secondsTotal,
-            ];
+                // Prepare the data to be cached
+                $this->cachedData = [
+                    'title' => $this->songTitle,
+                    'artist' => $this->songArtist,
+                    'image' => $this->songImage,
+                    'total_seconds' => $this->secondsTotal,
+                ];
 
-            Cache::put('song_data', $this->cachedData);
+                // Cache the data
+                Cache::put('song_data', $this->cachedData);
+            }
         } catch (\Throwable $th) {
             $this->error = 'Something went wrong';
+            info('Im here handling error');
         }
     }
 

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use App\Models\Image as ImageModel;
 use Illuminate\Database\Eloquent\Builder;
 
 
@@ -53,7 +55,11 @@ class FrontController extends Controller
 
         $users = User::all();
 
-        return view('members', compact('users', 'usersWithActivities'));
+        $imagePath = ImageModel::where('user_id')->value('path');
+
+
+
+        return view('members', compact('users', 'usersWithActivities', 'imagePath'));
     }
 
     public function About()
@@ -71,28 +77,48 @@ class FrontController extends Controller
         ]);
 
         $user = Auth::user();
+
         $image = $request->file('image');
 
         // Genera un nome univoco per l'immagine utilizzando il timestamp corrente e l'estensione del file originale
         $imageName = 'user-' . $user->id . '-' . 'profile-picture' . '.' . $image->getClientOriginalExtension();
 
-        // Salva l'immagine nel filesystem
-        $imagePath = $image->storeAs('public/images', $imageName);
+        $x = $request->input('x');
+        $y = $request->input('y');
+        $width = $request->input('width');
+        $height = $request->input('height');
 
-        // Aggiorna o crea l'immagine associata all'utente
+        //! Make the values "string" being an Integer.
+        $xNum = intval($x);
+        $yNum = intval($y);
+        $widthNum = intval($width);
+        $heightNum = intval($height);
+
+        //! Creation of the cropped image and his relatives path.
+        $croppedImagePath = public_path('storage/images/' . $imageName);
+        $croppedImage = Image::make($image)
+            ->crop($widthNum, $heightNum, $xNum, $yNum)
+            ->save(public_path('storage/images/' . $imageName));
+
+        // Salva il percorso dell'immagine croppata
+        $imagePath = 'images/' . $imageName;
+
+        // Update or create the image associated with the user
         if ($user->image) {
+            // Delete the old image file if it exists
+            if (file_exists(public_path('storage/' . $user->image->path))) {
+                unlink(public_path('storage/' . $user->image->path));
+            }
             $user->image()->update(['path' => $imagePath]);
         } else {
             $user->image()->create(['path' => $imagePath]);
         }
 
-
-
-        return redirect()->back()->with('success', 'Image uploaded successfully.');
+        return redirect()->back()->with('success', 'Image uploaded and cropped successfully.');
     }
 
 
-    public function logout(Request $request): \Illuminate\Http\RedirectResponse
+    public function logout(Request $request)
     {
         // Ottieni l'utente autenticato
         $user = Auth::user();
@@ -118,16 +144,17 @@ class FrontController extends Controller
             $user->save();
         } else {
             $request->session()->put('duration_online', 0);
-            // Effettua il logout dell'utente
-            Auth::logout();
-
-            // Invalida la sessione e rigenera il token
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            // Reindirizza l'utente alla home
-            return redirect('/');
         }
+
+        // Effettua il logout dell'utente
+        Auth::logout();
+
+        // Invalida la sessione e rigenera il token
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Reindirizza l'utente alla home
+        return redirect('/');
     }
 
     /*

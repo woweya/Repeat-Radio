@@ -6,7 +6,7 @@ Form vedere wire:ignore o qualcosa riguardo livewire, se non anche con Javascrip
 
 
 -----COSE DA risolvere
--Problema di fetching api per il funzionamento del Meteo Component.
+-Problema di fetching api per il funzionamento del Meteo Component. ---RISOLTO
 -Forse da rivedere il Table con User Activities e come gestire l'evento di registrazione di quanto tempo in ascolto/online
 -Controllare anche l'utilizzo di Sessions e di Token dove possibile, se non anche i cookies.
--- UPLOAD IMAGES PROFILE
+-- UPLOAD IMAGES PROFILE ---RISOLTO

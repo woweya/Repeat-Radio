@@ -36,12 +36,12 @@
                             //! If the User has a custom profile image, use it, otherwise use the default one.
                             $id = $activity->user->id;
                             $username = $activity->user->username;
-                            $customProfileImage = 'public/images/user-' . $id . '-profile-picture.png';
+                            $customProfileImage = $imagePath;
                             $avatarImage = 'Avatars/avatar-' . $username . '.png';
 
                             @endphp
 
-                            @if (Storage::exists($customProfileImage))
+                            @if ($customProfileImage)
 
                             <img src="{{ Storage::url($customProfileImage) }}"
                             style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
@@ -67,66 +67,6 @@
                     @endif
                     </div>
                 </div>
-               {{--  <div id="topUser" class="card flex flex-col justify-center items-center"
-                    style="border: 1px solid var(--purple-color)">
-                    <h1 class="text-xl uppercase text-[color:var(--quinary-color)] font-extrabold mb-3">Top Online User
-                    </h1>
-                    <div class="flex flex-col justify-center items-center w-full px-5">
-                        <div class="flex justify-center items-center">
-                            <img src="{{ Storage::url('Avatars/avatar-' . Auth::user()->username . '.png') }}"
-                                style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
-                                class="mr-2" alt="">
-                            <h1 class="w-full text-2xl text-[color:var(--quaternary-color)] font-extrabold uppercase">
-                                {{ Auth::user()->name }}</h1>
-                        </div>
-                        <hr class="mb-5 mt-5 border-[color:var(--quinary-color)] w-full">
-                        <div class="card-body w-full flex flex-col justify-start items-start uppercase">
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Alex</p>
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Admin</p>
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Online</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="topUser" class="card flex flex-col justify-center items-center"
-                    style="border: 1px solid var(--purple-color)">
-                    <h1 class="text-xl uppercase text-[color:var(--quinary-color)] font-extrabold mb-3">Top Online User
-                    </h1>
-                    <div class="flex flex-col justify-center items-center w-full px-5">
-                        <div class="flex justify-center items-center">
-                            <img src="{{ Storage::url('Avatars/avatar-' . Auth::user()->username . '.png') }}"
-                                style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
-                                class="mr-2" alt="">
-                            <h1 class="w-full text-2xl text-[color:var(--quaternary-color)] font-extrabold uppercase">
-                                {{ Auth::user()->name }}</h1>
-                        </div>
-                        <hr class="mb-5 mt-5 border-[color:var(--quinary-color)] w-full">
-                        <div class="card-body w-full flex flex-col justify-start items-start uppercase">
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Alex</p>
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Admin</p>
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Online</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div id="topUser" class="card flex flex-col justify-center items-center"
-                    style="border: 1px solid var(--purple-color)">
-                    <h1 class="text-xl uppercase text-[color:var(--quinary-color)] font-extrabold mb-3">Top Online User
-                    </h1>
-                    <div class="flex flex-col justify-center items-center w-full px-5">
-                        <div class="flex justify-center items-center">
-                            <img src="{{ Storage::url('Avatars/avatar-' . Auth::user()->username . '.png') }}"
-                                style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
-                                class="mr-2" alt="">
-                            <h1 class="w-full text-2xl text-[color:var(--quaternary-color)] font-extrabold uppercase">
-                                {{ Auth::user()->name }}</h1>
-                        </div>
-                        <hr class="mb-5 mt-5 border-[color:var(--quinary-color)] w-full">
-                        <div class="card-body w-full flex flex-col justify-start items-start uppercase">
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Alex</p>
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Admin</p>
-                            <p class="text-lg text-[color:var(--quaternary-color)]">Online</p>
-                        </div>
-                    </div>--}}
                 </div>
             </div>
 

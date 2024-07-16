@@ -1,5 +1,5 @@
 <div class="w-full flex flex-col justify-center items-center mt-5 mb-5">
-        <form class="max-w-md w-full mb-5" wire:submit.prevent="search">
+        <form class="max-w-md w-full mb-5">
             @csrf
             <div class="relative flex items-center justify-center" style="border: 1px solid red">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 ">
@@ -19,7 +19,7 @@
                           <li>
                             <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                               <div class="flex items-center h-5">
-                                  <input wire:model="staff" id="helper-checkbox-1" aria-describedby="helper-checkbox-text-1" type="checkbox" value="staff" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                  <input wire:model.change="filterResults" wire:change="filterResults" id="helper-checkbox-1" aria-describedby="helper-checkbox-text-1" type="checkbox" value="staff" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                               </div>
                               <div class="ms-2 text-sm">
                                   <label for="helper-checkbox-1" class="font-medium text-white dark:text-white">
@@ -32,7 +32,7 @@
                           <li>
                             <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                               <div class="flex items-center h-5">
-                                  <input wire:model="vip" id="helper-checkbox-2" aria-describedby="helper-checkbox-text-2" type="checkbox" value="vip" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                  <input wire:model.change="filterResults" id="helper-checkbox-2" aria-describedby="helper-checkbox-text-2" type="checkbox" value="vip" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                               </div>
                               <div class="ms-2 text-sm">
                                   <label for="helper-checkbox-2" class="font-medium text-white dark:text-white">
@@ -51,28 +51,54 @@
         </form>
 
 
-            @if(count($users) > 0)
+        @if($hasSearched)
+        @if(count($users) > 0)
             <div wire:transition class="w-full flex flex-col justify-center items-center bg-[color:var(--secondary-color)] p-5">
                 <ul class="w-3/4 flex-wrap flex justify-center items-start">
                     @foreach($users as $user)
                         @if($user->image)
-                        <div id="usersResult" class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded" style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
+                            <div id="usersResult" class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded" style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
+                                <img src="{{ Storage::url($user->image->path) }}" alt="" class="w-10 h-10 mr-2">
+                                <li class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center"  style="max-width: 236px; min-width: 236px; width: 236px; height: 56px; max-height: 56px; min-height: 56px">{{ $user->name }} - {{'@'.$user->username}}</li>
+                            </div>
+                        @else
+                            <div id="usersResult" class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded" style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
+                                <img src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}" alt="" class="w-10 h-10 mr-2">
+                                <li class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center" style="max-width: 236px; min-width: 236px; width: 236px; height: 56px; max-height: 56px; min-height: 56px">{{ $user->name }} - {{'@'.$user->username}}</li>
+                            </div>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        @elseif ($hasSearched && count($users) == 0)
+            <div class="w-full flex flex-col justify-center items-center">
+                <p class="text-[color:var(--quinary-color)]">No results found</p>
+            </div>
+        @endif
+    @elseif (!$hasSearched && count($users) > 0 && $filterResults)
+    <div wire:transition class="w-full flex flex-col justify-center items-center bg-[color:var(--secondary-color)] p-5">
+        <ul class="w-full flex justify-center items-start gap-10">
+            @foreach ($roles as $role)
+            <button id="roleButtonFilter" style="background-color: {{$role->color}}" class="text-white hover:text-white rounded-full px-3 py-1.5 text-[color:var(--quaternary-color)] font-semibold text-xl">{{$role->name}}</button>
+            @endforeach
+        </ul>
+        <ul class="w-3/4 flex-wrap flex justify-center items-start gap-5">
+            @foreach($users as $user)
+                @if($user->image)
+                    <div id="usersResult" class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded" style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
                         <img src="{{ Storage::url($user->image->path) }}" alt="" class="w-10 h-10 mr-2">
                         <li class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center"  style="max-width: 236px; min-width: 236px; width: 236px; height: 56px; max-height: 56px; min-height: 56px">{{ $user->name }} - {{'@'.$user->username}}</li>
                     </div>
-                        @else
-                        <div id="usersResult" class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded" style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
+                @else
+                    <div id="usersResult" class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded" style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
                         <img src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}" alt="" class="w-10 h-10 mr-2">
                         <li class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center" style="max-width: 236px; min-width: 236px; width: 236px; height: 56px; max-height: 56px; min-height: 56px">{{ $user->name }} - {{'@'.$user->username}}</li>
                     </div>
-                        @endif
-                @endforeach
-            </ul>
-        </div>
-    @elseif ($searchResults !== $users)
-        <div class="w-full flex flex-col justify-center items-center">
-            <p class="text-[color:var(--quinary-color)]">No results found</p>
-        </div>
+                @endif
+            @endforeach
+        </ul>
+    </div>
+
     @endif
 </div>
 

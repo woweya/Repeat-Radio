@@ -14,7 +14,6 @@
     </div>
 
         <livewire:search-users />
-        <livewire:user-categories />
         <div class="w-1/4 flex flex-col mb-5">
             {{-- x-select --}}
         </div>

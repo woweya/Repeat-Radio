@@ -64,7 +64,7 @@
                             </div>
                         @endif
                         <button data-modal-target="default-modal" data-modal-toggle="default-modal"
-                            class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 px-5 py-2 bg-[#252525] button-user-info w-2/4"
+                            class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 ml-3 px-5 py-2 bg-[#252525] button-user-info w-2/4"
                             style="border-radius: 10px;">
                             Edit
                         </button>
@@ -160,24 +160,48 @@
                 </div>
                 <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold ml-10 text-center mt-5">User
                     Details</h1>
-                <div class="bottom-user-side flex items-center justify-center p-5">
-                    <div class="flex flex-col justify-center items-start ml-10">
-                        <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
-                                class="font-bold">Country:</span> {{ Auth::user()->country }}</p>
-                        <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
-                                class="font-bold">City:</span> {{ Auth::user()->city }}</p>
-                        <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10 capitalize"><span
-                                class="font-bold">Gender:</span> {{ Auth::user()->gender }}</p>
-                        <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
-                                class="font-bold">Birthday:</span> {{ Auth::user()->birthday }}</p>
-                        <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
-                                class="font-bold">Created at:</span> {{ Auth::user()->created_at }}</p>
-                        </p>
-                        <button
+                <div class="flex flex-col justify-center items-center">
+                    <div id="user-details" class="bottom-user-side flex items-center justify-center p-5 visible">
+                        <div class="flex flex-col justify-center items-start ml-10">
+                            <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
+                                    class="font-bold">Country:</span> {{ Auth::user()->country }}</p>
+                            <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
+                                    class="font-bold">City:</span> {{ Auth::user()->city }}</p>
+                            <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10 capitalize"><span
+                                    class="font-bold">Gender:</span> {{ Auth::user()->gender }}</p>
+                            <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
+                                    class="font-bold">Birthday:</span> {{ Auth::user()->birthday }}</p>
+                            <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
+                                    class="font-bold">Created at:</span> {{ Auth::user()->created_at }}</p>
+                            </p>
+                            <button id="edit-user-info" wire:click="editUser({{ Auth::user()->id }})"
+                                class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 w-full ml-5 px-5 py-2 bg-[#252525] button-user-info"
+                                style="border-radius: 10px;">Edit</button>
+                        </div>
+                </div>
+                <div id="user-edit-info" class="user-edit-info my-5 visible">
+                    <div class="flex flex-col justify-center items-start ml-10 gap-2">
+                       <div class="flex gap-5">
+                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Country:</p>
+                        <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400 " placeholder="insert your Country..">
+                       </div>
+                       <div class="flex gap-5">
+                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">City:</p>
+                        <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400 "  placeholder="insert your City..">
+                       </div>
+                       <div class="flex gap-5">
+                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Gender:</p>
+                        <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400"  placeholder="insert your Gender..">
+                       </div>
+                       <div class="flex gap-5">
+                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Birthday:</p>
+                        <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400"  placeholder="insert your birthday..">
+                       </div>
+                        <button id="save-user-info" wire:click="editUser({{ Auth::user()->id }})"
                             class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 w-full ml-5 px-5 py-2 bg-[#252525] button-user-info"
-                            style="border-radius: 10px;">Edit</button>
+                            style="border-radius: 10px;">Save</button>
                     </div>
-
+                </div>
                 </div>
             </div>
         </div>
@@ -186,6 +210,9 @@
         <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
     @endsection
     <script>
+
+
+
         const image = document.getElementById('uploadFile');
         const preview = document.getElementById('preview');
         console.log(image, preview);
@@ -251,6 +278,7 @@ function initializeCropper() {
         function drop() {
             document.getElementById('uploadFile').parentNode.className = 'dragBox';
         }
+
     </script>
 
 </div>

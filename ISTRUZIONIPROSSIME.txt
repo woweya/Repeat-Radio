@@ -9,4 +9,10 @@ Form vedere wire:ignore o qualcosa riguardo livewire, se non anche con Javascrip
 -Problema di fetching api per il funzionamento del Meteo Component. ---RISOLTO
 -Forse da rivedere il Table con User Activities e come gestire l'evento di registrazione di quanto tempo in ascolto/online
 -Controllare anche l'utilizzo di Sessions e di Token dove possibile, se non anche i cookies.
--- UPLOAD IMAGES PROFILE ---RISOLTO
+-UPLOAD IMAGES PROFILE ---RISOLTO
+-LIVEWIRE:Navigating in js globale per dare priorità ad un evento
+-Livewire navigating per memebers e l'immagine che deve caricare
+-Top Listeners Dinamico
+-Radio descrizione e card finali.
+-Like alle canzoni.
+-Guardare documentazione di docs

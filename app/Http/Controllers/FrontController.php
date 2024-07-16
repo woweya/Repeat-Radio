@@ -23,41 +23,54 @@ use Algolia\AlgoliaSearch\Http\Psr7\Response;
 class FrontController extends Controller
 {
     public function index()
-{
-    // Cache per 2 minuti
-    $cacheKey = 'welcome_html';
-    $cachedContent = Cache::get($cacheKey);
+    {
+        // Cache per 2 minuti
+        $cacheKey = 'welcome_html';
+        $cachedContent = Cache::get($cacheKey);
 
-    if ($cachedContent) {
-        return new \Illuminate\Http\Response($cachedContent);
-    }
+        if ($cachedContent) {
+            return new \Illuminate\Http\Response($cachedContent);
+        }
 
-    // Se il contenuto non è in cache, calcolalo
-    $hoursListened = 0;
-    if (Auth::check()) {
-        $userId = Auth::id();
-        $hoursListened = UserActivity::where('user_id', $userId)->sum('hours_played');
-    }
+        // Se il contenuto non è in cache, calcolalo
+        $hoursListened = 0;
 
-    if ($hoursListened == 0) {
-        $viewContent = view('welcome', compact('hoursListened'))->render();
-    } else {
+        // Verifica se l'utente è autenticato
+        if (Auth::check()) {
+            $userId = Auth::id();
+
+            $hoursListened = UserActivity::where('user_id', $userId)->sum('hours_played');
+        }
+
+        // Top Listener
+        $usersTopListener = UserActivity::with(['user.image'])->orderBy('hours_played', 'desc')->take(4)->get();
+
         // Calcoliamo le ore, i minuti e i secondi
-        $hours = floor($hoursListened / 3600); // Calcola le ore
-        $minutes = floor(($hoursListened % 3600) / 60); // Calcola i minuti
-        $seconds = $hoursListened % 60; // Calcola i secondi residui
+        $formattedTime = null;
+        if ($hoursListened != 0) {
+            $hours = floor($hoursListened / 3600); // Calcola le ore
+            $minutes = floor(($hoursListened % 3600) / 60); // Calcola i minuti
+            $seconds = $hoursListened % 60; // Calcola i secondi residui
 
-        // Formattiamo il risultato per renderlo leggibile
-        $formattedTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+            // Formattiamo il risultato per renderlo leggibile
+            $formattedTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+        }
 
-        $viewContent = view('welcome', ['formattedTime' => $formattedTime])->render();
+        // Prepara i dati per la vista
+        $viewData = [
+            'usersTopListener' => $usersTopListener,
+            'hoursListened' => $hoursListened,
+            'formattedTime' => $formattedTime,
+        ];
+
+        // Renderizza la vista con i dati
+        $viewContent = view('welcome', $viewData)->render();
+
+        // Metti in cache il contenuto renderizzato
+        Cache::put($cacheKey, $viewContent, now()->addSeconds(120));
+
+        return new \Illuminate\Http\Response($viewContent);
     }
-
-    // Metti in cache il contenuto renderizzato
-    Cache::put($cacheKey, $viewContent, now()->addMinutes(2));
-
-    return new \Illuminate\Http\Response($viewContent);
-}
 
 
     public function Members()

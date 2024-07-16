@@ -37,6 +37,7 @@ class MeteoComponent extends Component
                 'timezone' => 'auto',
             ]);
 
+            dd($response);
 
             $data = $response->json();
             dd($data);

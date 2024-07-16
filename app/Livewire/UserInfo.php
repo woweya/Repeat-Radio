@@ -25,4 +25,11 @@ class UserInfo extends Component
         $this->user = \App\Models\User::find($userID);
     }
 
+
+    public function editUser($userID)
+    {
+
+        $this->user = \App\Models\User::find($userID);
+
+    }
 }

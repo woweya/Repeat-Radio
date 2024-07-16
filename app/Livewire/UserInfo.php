@@ -14,12 +14,12 @@ class UserInfo extends Component
     public $image;
     public $user;
 
-    public $updatedInfos = [];  //USE THIS PROPERTY TO UPDATE THE USER INFO or whatever you like.
+    public $updatedInfos = [];  //USE THIS PROPERTY TO UPDATE THE USER INFO or whatever you like. USE "dd()" to console.log the values. To see if you have access to the checkboxes,
+    //do a dd of the this value.
     public function render()
     {
         return view('livewire.user-info')->layout('components.layout');
     }
-
 
 
     public function loadUser($userID)

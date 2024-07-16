@@ -32,7 +32,7 @@
                             //! If the User has a custom profile image, use it, otherwise use the default one.
                             $id = $activity->user->id;
                             $username = $activity->user->username;
-                            $customProfileImage = $imagePath;
+                            $customProfileImage = $activity->user->image->path;
                             $avatarImage = 'Avatars/avatar-' . $username . '.png';
 
                             @endphp

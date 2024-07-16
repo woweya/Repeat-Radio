@@ -1009,7 +1009,7 @@ a.flex.items-center.p-3.text-sm.font-medium{
     border-radius: 10px;
 }
 
-#user-details{
+#user-detail{
     min-width: 100px;
 }
 
@@ -1020,11 +1020,55 @@ a.flex.items-center.p-3.text-sm.font-medium{
     color: white;
     width: 100%;
 }
+#hidden-input{
+    background-color: #666666!important;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    margin-left: 40px;
+    width: 100%;
+}
+
+#hidden-input:focus, #hidden-input[type='text']:focus{
+    border-color: #900eec;
+    --tw-ring-offset-shadow:none!important;
+}
+
+#hidden-input::placeholder{
+    color: rgb(209, 209, 209);
+}
 
 #user-inputs-edit:focus, #user-inputs-edit[type='text']:focus{
 
     border-color: #900eec;
     --tw-ring-offset-shadow:none!important;
+}
+
+
+.additional-card-info{
+    background-color:#313131b9!important;
+    padding: 20px;
+    max-width: 250px;
+    color: white;
+    font-weight: 800;
+    min-height: 80px;
+    max-height: 80px;
+    border-radius: 10px;
+}
+
+.additional-card-info>p{
+    width: 100%;
+}
+
+.additional-card-info:hover{
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.5);
+}
+
+
+/*? IF I CAN FIND THE FOCUS STATE FOR ADDITIONAL CARD INFO*/
+[type='checkbox']:focus{
+
 }
 
 /*! Media Queries */

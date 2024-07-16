@@ -169,7 +169,7 @@ class FrontController extends Controller
 
             // Imposta lo stato online dell'utente su false
             $user->is_online = false;
-            $user->save();
+
         } else {
             $request->session()->put('duration_online', 0);
         }
@@ -210,4 +210,8 @@ class FrontController extends Controller
     {
         return view('create-staff');
     }
+
+
+
+
 }

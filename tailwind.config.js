@@ -25,6 +25,7 @@ export default {
     },
     plugins: [
       forms,
+      require('daisyui'),
     ],
 
     darkmode: 'class',

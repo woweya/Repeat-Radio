@@ -13,8 +13,22 @@
         <div class="flex flex-col items-center relative  user-info">
             <div class="card-user w-2/4 mt-5"
                 style="border: 2px solid #2E143E; border-radius: 20px; background-color: var(--secondary-color)">
-                <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold text-center mt-5 mb-5">Hello,
-                    {{ Auth::user()->username }}!</h1>
+                <div class="flex justify-between items-center relative">
+
+                     <!-- NEW H1 HIDDEN MANAGED BY JAVASCRIPT TO BE VISIBLE! -->
+                    <h1 id="welcome-h1" class="text-3xl text-[color:var(--quaternary-color)] font-extrabold text-center mt-5 mb-5 flex-grow">
+                        Hello, {{ Auth::user()->username }}!
+                    </h1>
+                    <h1 id="header-h1-edit" class="hidden text-3xl text-[color:var(--quaternary-color)] font-extrabold text-center mt-5 mb-5 flex-grow">Editing your profile, please be careful!</h1>
+                    <!-- NEW H1 HIDDEN MANAGED BY JAVASCRIPT TO BE VISIBLE! -->
+
+                     <!-- PASSING THE "wire:click" HERE TO THE EDIT BUTTON MAKES THE JAVASCRIPT OF SHOWING EDITING PROFILE BROKEN, USE WIRE:CLICK TO SUBMIT CHANGES ON THE SAVE BUTTON BELOW OF THIS HTML -->
+                    <button id="edit-button" class="mr-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-6">
+                            <path fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="flex justify-center items-center">
                     <hr style="border: 1px solid rgb(48, 48, 48); width: 95%">
                 </div>
@@ -126,23 +140,31 @@
                         </form>
                     </div>
                     <div class="flex flex-col justify-start items-start"
-                        style="border-left: 1px solid rgb(48, 48, 48); height: 400px">
+                        style="border-left: 1px solid rgb(48, 48, 48); height: 400px" id="user-important-info">
                         <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Name:</p>
-                        <h1 class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
+                        <h1 id="name-user" class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
                             {{ Auth::user()->name }}</h1>
+
+
+                            <!-- NEW INPUT HIDDEN MANAGED BY JAVASCRIPT TO BE VISIBLE! -->
+
+                        <input class="hidden" type="text" name="name" id="hidden-input" placeholder="{{ Auth::user()->name }}..">
                         <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Username</p>
-                        <h1 class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
+                        <h1 id="username-user" class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
                             {{ Auth::user()->username }}</h1>
+
+                             <!-- NEW INPUT HIDDEN MANAGED BY JAVASCRIPT TO BE VISIBLE! -->
+                        <input class="hidden" type="text" name="username" id="hidden-input" placeholder="{{ Auth::user()->username }}..">
                         <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Email:</p>
                         </p>
-
-                        <h1 class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
+                             <!-- END! -->
+                        <h1 id="email-user" class="text-2xl text-[color:var(--quaternary-color)] font-extrabold ml-10 mb-5">
                             {{ Auth::user()->email }}</h1>
                         <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Password:</p>
                         <button class="text-[color:var(--quaternary-color)] font-bold  ml-10 underline mb-5">Change
                             Password</button>
                         @if (Auth::user()->is_staff == 1)
-                            <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Role:</p>
+                            <p id="role-user" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Role:</p>
                             <div class="ml-10 mb-10">
                                 @foreach (Auth::user()->roles as $role)
                                     <h1 class="text-2xl font-extrabold flex items-center w-full "
@@ -174,33 +196,139 @@
                             <p class="text-lg text-[color:var(--quaternary-color)] font-light ml-10"><span
                                     class="font-bold">Created at:</span> {{ Auth::user()->created_at }}</p>
                             </p>
-                            <button id="edit-user-info" wire:click="editUser({{ Auth::user()->id }})"
-                                class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 w-full ml-5 px-5 py-2 bg-[#252525] button-user-info"
-                                style="border-radius: 10px;">Edit</button>
+
+
+                             <!-- CHANGE OF BUTTON -->
+
                         </div>
                 </div>
-                <div id="user-edit-info" class="user-edit-info my-5 visible">
-                    <div class="flex flex-col justify-center items-start ml-10 gap-2">
+
+
+
+
+
+                       <!-- NEW INPUTS HIDDEN TO LINK WITH WIRE:MODEL AND BACK-END ! -->
+
+                <div id="user-edit-info" class="user-edit-info my-5 hidden w-full">
+                    <div class="flex flex-col justify-center items-center gap-2">
                        <div class="flex gap-5">
-                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Country:</p>
+                        <p id="user-detail" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Country:</p>
                         <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400 " placeholder="insert your Country..">
                        </div>
                        <div class="flex gap-5">
-                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">City:</p>
+                        <p id="user-detail" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">City:</p>
                         <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400 "  placeholder="insert your City..">
                        </div>
                        <div class="flex gap-5">
-                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Gender:</p>
-                        <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400"  placeholder="insert your Gender..">
+                        <p id="user-detail" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Gender:</p>
+                        <input id="user-inputs-edit" type="text" wire:model="updatedInfos" name="country" id="country" class="placeholder:text-slate-400"  placeholder="insert your Gender..">
                        </div>
                        <div class="flex gap-5">
-                        <p id="user-details" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Birthday:</p>
+                        <p id="user-detail" class="text-lg text-[color:var(--quaternary-color)] font-light ml-10">Birthday:</p>
                         <input id="user-inputs-edit" type="text" wire:model="country" name="country" id="country" class="placeholder:text-slate-400"  placeholder="insert your birthday..">
                        </div>
+
+
+                         <!-- END! -->
+
+
+
+
+
+
+                        <!-- HERE IS THE NEW FORM FOR THE ADDITIONAL OPTIONS -->
+
+
+                       <div class="flex flex-nowrap justify-center items-center w-5/6">
+                        <hr class="mb-5 mt-5 border-[color:var(--quinary-color)] w-full">
+                       <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold px-5 text-center mt-5">Additional Options</h1>
+                       <hr class="mb-5 mt-5 border-[color:var(--quinary-color)] w-full">
+
+                       </div>
+
+
+                       <div class="additionals-cards flex flex-wrap justify-center items-center gap-4 w-5/6 py-5">
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>About me box</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>Social Links</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>Like counts</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>Roles</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>Display Name</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>Display E-mail</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>Display Pronouns</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                        <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
+                            <p>Display number of Followers/Following</p>
+                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                  </svg>
+                              </div>
+                        </div>
+                       </div>
+
+                        <!-- SAVE BUTTON -->
                         <button id="save-user-info" wire:click="editUser({{ Auth::user()->id }})"
-                            class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 w-full ml-5 px-5 py-2 bg-[#252525] button-user-info"
+                            class="text-[color:var(--quaternary-color)] font-bold text-lg mt-5 w-3/4 ml-5 px-5 py-2 bg-[#252525] button-user-info"
                             style="border-radius: 10px;">Save</button>
                     </div>
+
+                       <!-- END! -->
                 </div>
                 </div>
             </div>
@@ -278,6 +406,37 @@ function initializeCropper() {
         function drop() {
             document.getElementById('uploadFile').parentNode.className = 'dragBox';
         }
+
+
+
+
+        // EDIT USER INFO
+        const editButton = document.getElementById('edit-button');
+        const userDetails = document.getElementById('user-details');
+        const UserInfos = document.getElementById('user-edit-info');
+        const name = document.getElementById('name-user');
+        const hiddenInputs = document.querySelectorAll('input[class="hidden"]');
+        const username = document.getElementById('username-user');
+        const h1Welcome = document.getElementById('welcome-h1');
+        const editH1 = document.getElementById('header-h1-edit');
+
+        editButton.addEventListener('click', function() {
+            userDetails.classList.add('hidden');
+            userDetails.classList.remove('visible');
+            UserInfos.classList.add('visible');
+            UserInfos.classList.remove('hidden');
+
+
+            username.classList.add('hidden');
+            name.classList.add('hidden');
+            h1Welcome.classList.add('hidden');
+            editH1.classList.remove('hidden');
+
+            hiddenInputs.forEach(input => {
+                input.classList.remove('hidden');
+                input.classList.add('visible');
+            })
+        })
 
     </script>
 

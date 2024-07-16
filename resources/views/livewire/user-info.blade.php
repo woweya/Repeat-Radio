@@ -238,6 +238,8 @@
 
                         <!-- HERE IS THE NEW FORM FOR THE ADDITIONAL OPTIONS, TOGGLE BUTTONS HERE!!!!! -->
 
+                         <!-- TO ADD THE CHECKED ATTRIBUTE, USE "checked" -->
+
 
                        <div class="flex flex-nowrap justify-center items-center w-5/6">
                         <hr class="mb-5 mt-5 border-[color:var(--quinary-color)] w-full">
@@ -250,7 +252,7 @@
                        <div class="additionals-cards flex flex-wrap justify-center items-center gap-4 w-5/6 py-5">
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>About me box</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary" />
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -259,7 +261,7 @@
                         </div>
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>Social Links</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary"  />
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -268,7 +270,7 @@
                         </div>
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>Like counts</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary"/>
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -277,7 +279,7 @@
                         </div>
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>Roles</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary" />
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -286,7 +288,7 @@
                         </div>
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>Display Name</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary" />
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -295,7 +297,7 @@
                         </div>
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>Display E-mail</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary"/>
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -304,7 +306,7 @@
                         </div>
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>Display Pronouns</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary" />
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -313,7 +315,7 @@
                         </div>
                         <div class="additional-card-info flex justify-center items-center w-full gap-5 relative" >
                             <p>Display number of Followers/Following</p>
-                            <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+                            <input type="checkbox" class="toggle toggle-primary"/>
                             <div class="tooltip absolute top-2 right-2" data-tip="This is an about-me box, where you can add your personal thoughts!">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />

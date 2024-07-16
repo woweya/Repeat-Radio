@@ -31,6 +31,7 @@ class UserInfo extends Component
 
     //HERE U CAN MANAGE TO EDIT USER INFO, USE WIRE:MODEL TO PASS THE USER VALUES.
     //$userID it's being called by the Save button near the end of HTML in user-info.
+
     public function editUser($userID)
     {
 

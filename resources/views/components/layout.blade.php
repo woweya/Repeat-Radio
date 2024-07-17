@@ -30,7 +30,7 @@
 
     @livewire('navbar')
     @persist('header')
-        <livewire:header  />
+        <livewire:header />
     @endpersist
     {{ $slot }}
 

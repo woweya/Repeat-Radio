@@ -32,8 +32,11 @@
                             //! If the User has a custom profile image, use it, otherwise use the default one.
                             $id = $activity->user->id;
                             $username = $activity->user->username;
-                            $customProfileImage = $activity->user->image->path;
-                            $avatarImage = 'Avatars/avatar-' . $username . '.png';
+                            $customProfileImage = $activity->user->image;
+                            if (!$customProfileImage) {
+                                $avatarImage = 'Avatars/avatar-' . $username . '.png';
+                            }
+
 
                             @endphp
 
@@ -71,6 +74,7 @@
 
                 @foreach ($users as $user)
                 @if ($user->is_staff && $user->is_online)
+                   <a href="{{route('user.profile', $user->id)}}">
                     <div data-user-id="{{ $user->id }}" class="flex justify-center items-center gap-2 relative">
                         @if ($user->image)
                             <x-badge style="border:none;">
@@ -113,6 +117,7 @@
                             <div data-popper-arrow></div>
                         </div>
                     </div>
+                   </a>
                 @endif
             @endforeach
 

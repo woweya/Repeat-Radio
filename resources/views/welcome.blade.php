@@ -160,7 +160,7 @@
         <hr class="border-[color:var(--secondary-color)] mb-10">
         @auth
             <section class="flex justify-center flex-col items-center">
-                <div style="border:1px solid red"class="w-full text-center ">
+                <div class="w-full text-center ">
                     <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold text-center">Vote for Repeat
                         Radio</h1>
                     <p class="text-[color:var(--quinary-color)] font-semibold text-center mt-1">Hey, what do you think of

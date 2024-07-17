@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 html{
     scroll-behavior: smooth;
 }
@@ -156,6 +157,13 @@ header{
 
 }
 
+.progress{
+    height: 100%!important;
+    padding: 5px;
+    backdrop-filter: blur(2px);
+    border-radius: 5px!important;
+}
+
 
 
 #pause:active{
@@ -205,14 +213,12 @@ header{
 }
 
 .audio.green-audio-player {
-    width: 400px;
+    width: 300px;
     min-width: 300px;
     height: 26px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 0px;
-    padding-right: 24px;
     color: var(--quaternary-color);
     user-select: none;
     -webkit-user-select: none;
@@ -233,7 +239,7 @@ header{
   .audio.green-audio-player .controls {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
-    line-height: 18px;
+    z-index: 1;
     color: var(--quaternary-color);
     display: flex;
     flex-grow: 1;
@@ -257,22 +263,23 @@ header{
   .audio.green-audio-player .volume .volume-controls {
     width: 20px;
     height: 135px;
-    backdrop-filter: blur(20px);
-    background-color: #0e001873;
-    border-radius: 50px;
+    border-radius: 10px!important;
     position: absolute;
-    left: -3px;
+    left: -1px;
     bottom: 25px;
     flex-direction: column;
     align-items: center;
     display: flex;
   }
 
+
   .audio.green-audio-player .volume .volume-controls.hidden {
     display: none;
   }
 
-
+  #volume-input{
+    width: 100%;
+  }
 
 
 
@@ -1068,450 +1075,6 @@ a.flex.items-center.p-3.text-sm.font-medium{
 
 
 
-.background-wallpaper {
-    background-image: url("https://www.ideabit.com/album/foto_full/formato-immagini-webp_710.jpg");
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-position: center;
-    min-height: 40vh;
-    max-width: 100%;
-    min-width: 60%;
-}
-
-body {
-    background-color: rgb(14, 14, 14);
-}
-
-.bottom-user-infos {
-    max-width: 100%;
-    min-width: 60%;
-    background-color: rgb(26, 26, 26);
-    overflow: auto;
-}
-
-.profile-image>img {
-    border-color: rgb(26, 26, 26);
-    /* animation: neon 3s ease-in-out infinite; */
-}
-
-.header-infos-left {
-    width: 70%;
-    float: left;
-}
-
-.header-infos-right {
-    width: 30%;
-    float: right;
-}
-
-.clearfix::after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.btn-follow {
-    display: flex;
-    flex-direction: row!important;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    background-color: rgb(63, 6, 95);
-    border-radius: 10px;
-    color: white;
-    transition: all 0.3s ease;
-}
-
-.btn-follow:hover {
-   box-shadow: 0 0 10px 0 rgb(125, 12, 190) inset;
-   transform: scale(1.1);
-   cursor: pointer;
-}
-
-.btn-follow:active {
-    box-shadow: 0 0 10px 0 rgb(125, 12, 190) inset;
-    transform: scale(1);
-    background-color: rgb(52, 6, 78);
-    cursor: pointer;
-}
-
-
-
-#toggle-button {
-    backdrop-filter: blur(5px);
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-}
-
-.left-side-container{
-    width: 80%;
-    float: left;
-}
-.right-section-container{
-    width: 20%;
-    float: right;
-    background-color: rgb(26, 26, 26);
-}
-
-.card{
-    flex-direction: row!important;
-    max-height: 90px!important;
-    border-radius: 0px!important;
-    background-color: rgba(14, 14, 14, 0.705) !important;
-}
-
-.card-header{
-    max-width: 30%;
-    float: left;
-    padding: 5px;
-}
-
-.card-body{
-    max-width: 70%;
-    float: right;
-    gap: 0!important;
-}
-
-.card-body>p{
-    max-width: 100%;
-    margin: 0!important;
-}
-
-.card-header>img{
-    max-width: 90px;
-    border-radius: 5px;
-    object-fit: cover!important;
-    max-height:90px;
-    border: 1px solid rgba(127, 23, 175, 0.295);
-}
-
-.contact-infos{
-    max-height: 50px;
-    padding: 0!important;
-    margin: 20px 0px 25px 0px!important;
-    color: rgb(204, 0, 255);
-    text-decoration: underline rgb(204, 0, 255);
-
-}
-
-.social-links{
-    padding: 20px 0px 20px 0px;
-}
-
-/*! Media Queries */
-
-@media screen and (max-width: 375px) {
-
-    main.container{
-        width: 100%!important;
-        margin: 0!important;
-    }
-
-   .right-section-container {
-        display: none!important;
-        visibility: hidden;
-    }
-
-    .left-side-container{
-        width: 100%!important;
-    }
-
-    .background-wallpaper>svg{
-        top: 20px;
-        width: 1.8rem!important;
-        height: 1.8rem!important;
-    }
-
-    .background-wallpaper{
-        min-height: 20vh;
-    }
-
-    .profile-image{
-        left: 10px;
-        bottom: -60px;
-        width: 120px!important;
-    }
-
-    .profile-image>img{
-        max-width: 120px!important;
-        max-height: 120px!important;
-        border: 2px solid #1A1A1A!important;
-    }
-
-    .bottom-user-infos{
-        padding: 0px 10px 0px 10px!important;
-    }
-
-    .header-infos{
-        flex-direction: column!important;
-    }
-
-    .header-infos-left{
-        width: 100%!important;
-    }
-
-    .social-links{
-        width: 100%!important;
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        padding: 10px 0px 0px 10px;
-    }
-
-    .header-infos-right{
-        width: 100%!important;
-        flex-direction: row;
-        justify-content: start!important;
-        align-items: flex-start!important;
-    }
-
-    .header-infos-right>div{
-        flex-direction: row;
-        align-items: center!important;
-        margin: 10px 0px 10px 0px!important;
-    }
-
-    .section-about-me-box>div>hr{
-        width: 100%!important;
-    }
-
-    .section-about-me-box>div>h1{
-        font-size: 1.5rem!important;
-        width: 100%!important;
-    }
-}
-
-@media screen and (min-width: 376px) and (max-width: 768px) {
-
-    main.container{
-        padding: 2px!important;
-    }
-
-    .right-section-container {
-        display: none!important;
-        visibility: hidden;
-    }
-
-    .left-side-container{
-        width: 100%;
-    }
-
-    .background-wallpaper>svg{
-        top: 20px;
-        width: 1.8rem!important;
-        height: 1.8rem!important;
-    }
-
-    .background-wallpaper{
-        min-height: 30vh;
-    }
-
-    .profile-image{
-        left: 10px;
-        bottom: -80px;
-        width: 120px!important;
-    }
-
-    .profile-image>img{
-        min-width: 120px!important;
-        min-height: 120px!important;
-        max-width: 180px!important;
-        max-height: 180px!important;
-        border: 2px solid #1A1A1A!important;
-    }
-
-    .bottom-user-infos{
-        padding: 0px 10px 0px 10px!important;
-    }
-
-    .header-infos{
-        flex-direction: column!important;
-    }
-
-    .header-infos-left{
-        width: 100%!important;
-    }
-
-    .social-links{
-        width: 100%!important;
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        padding: 10px 0px 0px 10px;
-    }
-
-    .header-infos-right{
-        width: 100%!important;
-        flex-direction: row;
-        justify-content: start!important;
-        align-items: flex-start!important;
-    }
-
-    .header-infos-right>div{
-        flex-direction: row;
-        align-items: center!important;
-        margin: 10px 0px 10px 0px!important;
-    }
-
-    .section-about-me-box>div>hr{
-        width: 100%!important;
-    }
-
-    .section-about-me-box>div>h1{
-        font-size: 1.5rem!important;
-        width: 100%!important;
-    }
-}
-
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    main.container{
-        padding: 2px!important;
-    }
-
-    .right-section-container {
-        display: none!important;
-        visibility: hidden;
-    }
-
-    .left-side-container{
-        width: 100%;
-    }
-
-    .background-wallpaper>svg{
-        top: 20px;
-        width: 1.8rem!important;
-        height: 1.8rem!important;
-    }
-
-    .background-wallpaper{
-        min-height: 30vh;
-    }
-
-    .profile-image{
-        left: 10px;
-        bottom: -80px;
-        width: 120px!important;
-    }
-
-    .profile-image>img{
-        min-width: 120px!important;
-        min-height: 120px!important;
-        max-width: 180px!important;
-        max-height: 180px!important;
-        border: 2px solid #1A1A1A!important;
-    }
-
-    .bottom-user-infos{
-        padding: 0px 10px 0px 10px!important;
-    }
-
-    .header-infos{
-        flex-direction: column!important;
-    }
-
-    .header-infos-left{
-        width: 100%!important;
-    }
-
-    .social-links{
-        width: 100%!important;
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        padding: 20px 0px 10px 0px;
-    }
-
-    .header-infos-right{
-        width: 100%!important;
-        flex-direction: row;
-        justify-content: start!important;
-        align-items: flex-start!important;
-    }
-
-    .header-infos-right>div{
-        flex-direction: row;
-        align-items: center!important;
-        margin: 10px 0px 10px 0px!important;
-    }
-
-    .section-about-me-box>div>hr{
-        width: 100%!important;
-    }
-
-    .section-about-me-box>div>h1{
-        font-size: 1.5rem!important;
-        width: 100%!important;
-    }
-
-}
-
-@media screen and (min-width: 1025px) and (max-width: 1200px) {
-    main.container{
-        padding: 10px!important;
-    }
-
-    .right-section-container {
-        width: 30%!important;
-    }
-
-    .left-side-container{
-        width: 70%!important;
-    }
-
-    .background-wallpaper>svg{
-        top: 20px;
-        width: 1.8rem!important;
-        height: 1.8rem!important;
-    }
-
-    .background-wallpaper{
-        min-height: 30vh;
-    }
-
-    .profile-image{
-        left: 10px;
-        bottom: -80px;
-        width: 120px!important;
-    }
-
-    .profile-image>img{
-        min-width: 120px!important;
-        min-height: 120px!important;
-        max-width: 180px!important;
-        max-height: 180px!important;
-        border: 2px solid #1A1A1A!important;
-    }
-
-    .bottom-user-infos{
-        padding: 0px 10px 0px 10px!important;
-    }
-
-
-
-    .header-infos-left{
-        width: 60%!important;
-    }
-
-    .social-links{
-        width: 100%!important;
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        padding: 20px 0px 20px 0px!important;
-    }
-
-    .contact-infos{
-       margin: 20px 0px 20px 0px!important;
-    }
-
-
-
-}
 
 
 

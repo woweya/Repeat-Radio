@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Session;
 Route::middleware('web')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::get('/', [FrontController::class, 'index'])->name('home');
-    Route::get('/user/{id}', UserInfo::class)->name('user');
+
+    Route::get('/profile', UserInfo::class)->name('user');
+    Route::get('/user/{id}', [FrontController::class, 'userProfile'])->name('user.profile');
+
 
     Route::get('/members', [FrontController::class, 'Members'])->name('members');
     Route::post('/update-image', [FrontController::class, 'UpdateImage'])->name('update.image');

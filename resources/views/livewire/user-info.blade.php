@@ -1,8 +1,12 @@
-<div class="w-full">
+<div class="user-info w-full">
+    @section('head')
+        @vite(['resources/css/user-info.css'])
+    @endsection
 
     @section('styles')
         <link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet">
     @endsection
+
     <style>
         @font-face {
             font-family: 'Lato', sans-serif;
@@ -90,9 +94,8 @@
                             <h1 class="text-3xl font-semibold text-white pb-2">{{ Auth::user()->name }}</h1>
                             <hr class="w-[2%] border-t-2 border-gray-500" />
                             <p>He/him</p>
-                            <hr class="w-[2%] border-t-2 border-gray-500" />
-                            <p class="text-gray-400 text-md italic">{{ '@' . Auth::user()->username }}</p>
                         </div>
+                        <p class="text-gray-400 text-md italic">{{ '@' . Auth::user()->username }}</p>
                         <section>
                             <!-- IF STATEMENT SE HA RUOLO DI DEVELOPER-->
                             @if (Auth::user()->is_staff == 1)
@@ -251,7 +254,7 @@
                         <hr class="w-[85%] border-t-2 border-gray-300" />
                     </div>
                     <div id="expandable-content" class="expandable-content text-gray-400 text-sm">
-                        <p class="py-5">
+                        <p class="py-3 px-3">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                             Blanditiis autem quia praesentium. Sapiente doloremque odit
                             impedit deleniti dicta non corporis numquam dolor qui excepturi
@@ -292,7 +295,11 @@
                             molestiae! Sequi.
                         </p>
                     </div>
-                    <hr class="border-[1px] border-gray-300" />
+                </section>
+                <section class="section-comments-profile">
+
+                    <!-- COMMENTS -->
+
                 </section>
             </div>
         </div>

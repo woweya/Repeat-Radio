@@ -28,9 +28,9 @@
             <div class="social-message">
                 <div class="line"></div>
                 <p class="message">Login with social accounts</p>
-                <?xml version="1.0" encoding="UTF-8"?>
                 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-                <a href="{{ route('auth.discord', ['client_id' => env('DISCORD_CLIENT_ID')]) }}"><svg width="20px" height="20px" viewBox="0 -28.5 256 256" version="1.1"
+                <a href="{{ route('auth.discord', ['client_id' => env('DISCORD_CLIENT_ID')]) }}">
+                    <svg width="20px" height="20px" viewBox="0 -28.5 256 256" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     preserveAspectRatio="xMidYMid">
                     <g>

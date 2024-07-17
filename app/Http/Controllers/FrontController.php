@@ -24,14 +24,14 @@ class FrontController extends Controller
 {
     public function index()
     {
-        // Cache per 2 minuti
+       /*  // Cache
         $cacheKey = 'welcome_html';
         $cachedContent = Cache::get($cacheKey);
 
         if ($cachedContent) {
             return new \Illuminate\Http\Response($cachedContent);
         }
-
+ */
         // Se il contenuto non è in cache, calcolalo
         $hoursListened = 0;
 
@@ -64,12 +64,15 @@ class FrontController extends Controller
         ];
 
         // Renderizza la vista con i dati
-        $viewContent = view('welcome', $viewData)->render();
+       /*  $viewContent = view('welcome', $viewData)->render();
 
         // Metti in cache il contenuto renderizzato
         Cache::put($cacheKey, $viewContent, now()->addSeconds(120));
 
-        return new \Illuminate\Http\Response($viewContent);
+        return new \Illuminate\Http\Response($viewContent); */
+
+
+        return view('welcome', $viewData);
     }
 
 
@@ -99,7 +102,7 @@ class FrontController extends Controller
 
     public function UpdateImage(Request $request)
     {
-
+/*
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -142,7 +145,7 @@ class FrontController extends Controller
             $user->image()->create(['path' => $imagePath]);
         }
 
-        return redirect()->back()->with('success', 'Image uploaded and cropped successfully.');
+        return redirect()->back()->with('success', 'Image uploaded and cropped successfully.'); */
     }
 
 
@@ -212,6 +215,9 @@ class FrontController extends Controller
     }
 
 
-
-
+    public function userProfile($id)
+    {
+        $user = User::find($id);
+        return view('user-profile', compact('user'));
+    }
 }

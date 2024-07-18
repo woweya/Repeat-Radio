@@ -186,6 +186,23 @@ header{
     background-color: #141414;
 }
 
+
+#modal-user{
+    cursor: pointer;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+#modal-user:hover{
+    transform: scale(1.1);
+
+    transition: all 0.1s ease-in-out;
+}
+
+
+
+
 #pause:active{
     transform: scale(0.9);
     transition: all 0.1s ease-in-out;

@@ -100,17 +100,18 @@
                             <!-- IF STATEMENT SE HA RUOLO DI DEVELOPER-->
                             @if (Auth::user()->is_staff == 1)
                                 <div class="flex justify-start items-center gap-2 py-1">
-                                    <p class="text-purple-400 text-lg font-semibold italic underline hover:cursor-pointer hover:scale-110">
+                                    <p
+                                        class="text-purple-400 text-lg font-semibold italic underline hover:cursor-pointer hover:scale-110">
                                         Staff Member
                                     </p>
                                     @foreach (Auth::user()->roles as $role)
-                                    <div class="tooltip" data-tip="{{ $role->name }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="rgb(192 132 252)" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                    </svg>
-                                      </div>
+                                        <div class="tooltip" data-tip="{{ $role->name }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="rgb(192 132 252)" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                                            </svg>
+                                        </div>
                                     @endforeach
 
                                 </div>
@@ -206,11 +207,88 @@
                     </div>
                     <div class="header-infos-right flex w-full justify-center">
                         <div class="flex flex-col w-full justify-between items-end py-2 px-2">
-                                <p>{{ Auth::user()->followers()->count() }} followers</p>
-                            <button class="contact-infos" onclick="my_modal_1.showModal()">
+                            <div class="flex justify-center items-center gap-5">
+                                <button class="flex flex-col justify-center items-center" id="modal-user"
+                                        onclick="showModal('my_modal_1')">
+                                        <span
+                                            class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followers()->count() }}</span>
+                                        <span class="text-gray-400 italic text-md">Followers</span>
+                                    </button>
+                                    <dialog id="my_modal_1" class="modal">
+                                        <div class="modal-box">
+                                            <h1 class="text-xl font-bold text-white">Followers</h1>
+                                            <hr class="w-[98%] border-t-2 border-gray-500 py-2">
+                                            @if (Auth::user()->followers->count() == 0)
+                                            <p class="text-center text-gray-400 italic">No followers</p>
+                                            @else
+                                            @foreach (Auth::user()->followers as $follower)
+                                        <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
+                                            href="{{ route('user.profile', $follower->id) }}">
+                                            <div
+                                                class="flex py-2 justify-start items-center hover:scale-105 transition-all">
+                                                @if ($follower->image)
+                                                    <img src="{{ Storage::url($follower->image->path) }}"
+                                                        alt="" class="w-10 h-10 mr-2">
+                                                @else
+                                                    <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
+                                                        alt="" class="w-10 h-10 mr-2">
+                                                @endif
+                                                <p
+                                                    class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
+                                                    {{ $follower->username }}</p>
+                                            </div>
+                                        </a>
+                                        @endforeach
+                                        @endif
+                                        </div>
+                                        <form method="dialog" class="modal-backdrop">
+                                            <button>Close</button>
+                                        </form>
+                                    </dialog>
+                                    <button class="flex flex-col justify-center items-center" id="modal-user"
+                                        onclick="my_modal_2.showModal()">
+                                        <span
+                                            class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followings()->count() }}</span>
+                                        <span class="text-gray-400 italic text-md">Following</span>
+                                    </button>
+                                    <dialog id="my_modal_2" class="modal">
+                                        <div class="modal-box">
+                                            <h1 class="text-xl font-bold text-white">Followers</h1>
+                                            <hr class="w-[98%] border-t-2 border-gray-500 py-2">
+                                            @if (Auth::user()->followings->count() == 0)
+                                            <p class="text-center text-gray-400 italic">No following</p>
+                                            @else
+                                            @foreach (Auth::user()->followings as $follower)
+                                            <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
+                                            href="{{ route('user.profile', $follower->id) }}">
+                                            <div
+                                                class="flex py-2 justify-start items-center hover:scale-105 transition-all">
+                                                @if ($follower->image)
+                                                    <img src="{{ Storage::url($follower->image->path) }}"
+                                                        alt="" class="w-10 h-10 mr-2">
+                                                @else
+                                                    <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
+                                                        alt="" class="w-10 h-10 mr-2">
+                                                @endif
+                                                <p
+                                                    class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
+                                                    {{ $follower->username }}</p>
+                                            </div>
+                                        </a>
+                                        @endforeach
+                                        @endif
+                                        </div>
+                                        <form method="dialog" class="modal-backdrop">
+                                            <button>Close</button>
+                                        </form>
+                                    </dialog>
+                            </div>
+
+
+                            <button class="contact-infos" onclick="showModal('my_modal_3')">
                                 Contact information
                             </button>
-                            <dialog id="my_modal_1" class="modal">
+                            <dialog id="my_modal_3" class="modal">
                                 <div class="modal-box">
                                     <h3 class="text-xl font-bold">Contact information</h3>
                                     <hr class="w-[98%] border-t-2 border-gray-500" />
@@ -236,6 +314,7 @@
                                     </div>
                                 </div>
                             </dialog>
+
                         </div>
                     </div>
                 </div>
@@ -290,71 +369,93 @@
                     </div>
                 </section>
                 <section class="section-comments-profile mt-10">
-                    <div class="w-full flex flex-col justify-start py-2 items-start" >
-                            <h2 id="comments-title" class="text-lg lg:text-2xl font-bold text-white">Comments ({{ Auth::user()->comments->count() }})</h2>
-                             @if (Auth::user()->comments->count() > 0)
-                             @foreach (Auth::user()->comments->sortByDesc('created_at') as $comment)
-                             <div class="comment-el p-2 w-full mt-2">
-                                 <div class="flex justify-start items-start py-3">
-                                     @if($comment->commenter && $comment->commenter->image)
-                                     <img class="mr-2 w-6 h-6 rounded-full" src="{{ $comment->commenter->image->path }}" alt="Commenter's image">
-                                     @else
-                                     <img class="mr-2 w-6 h-6 rounded-full" src="{{ Storage::url('Avatars/avatar-' . $comment->commenter->username . '.png') }}" alt="">
-                                     @endif
+                    <div class="w-full flex flex-col justify-start py-2 items-start">
+                        <h2 id="comments-title" class="text-lg lg:text-2xl font-bold text-white">Comments
+                            ({{ Auth::user()->comments->count() }})</h2>
+                        @if (Auth::user()->comments->count() > 0)
+                            @foreach (Auth::user()->comments->sortByDesc('created_at') as $comment)
+                                <div class="comment-el p-2 w-full mt-2">
+                                    <div class="flex justify-start items-start py-3">
+                                        @if ($comment->commenter && $comment->commenter->image)
+                                            <img class="mr-2 w-6 h-6 rounded-full"
+                                                src="{{ $comment->commenter->image->path }}" alt="Commenter's image">
+                                        @else
+                                            <img class="mr-2 w-6 h-6 rounded-full"
+                                                src="{{ Storage::url('Avatars/avatar-' . $comment->commenter->username . '.png') }}"
+                                                alt="">
+                                        @endif
 
-                                     <p><span class="text-white font-semibold">{{ $comment->commenter->username }}</span> - {{ $comment->created_at->diffForHumans() }}:</p>
+                                        <p><span
+                                                class="text-white font-semibold">{{ $comment->commenter->username }}</span>
+                                            - {{ $comment->created_at->diffForHumans() }}:</p>
 
-                                     <button id="dropdownComment{{ $comment->id }}Button" data-dropdown-toggle="dropdownComment{{ $comment->id }}"
-                                         class="inline-flex ml-3 items-center p-1 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-white/10 transition duration-300 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                         type="button">
-                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                                             <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-                                         </svg>
-                                         <span class="sr-only">Comment settings</span>
-                                     </button>
-                                     <div id="dropdownComment{{ $comment->id }}"
-                                         class="hidden z-10 w-36 rounded divide-y shadow bg-gray-700 divide-gray-600">
-                                         <ul class="py-1 text-sm text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
-                                             <li>
-                                                 @if (auth()->check() && auth()->user()->id === $comment->commenter->id)
-                                                     <button type="button" onclick="toggleEditForm('{{ $comment->id }}')" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Edit</button>
-                                                 @endif
-                                             </li>
-                                             <li>
-                                                 @if (auth()->check() && (auth()->id() === $comment->commenter->id || auth()->id() === Auth::user()->id))
-                                                 <form action="{{ route('comment.delete', $comment->id) }}" method="POST">
-                                                     @csrf
-                                                     @method('DELETE')
-                                                     <button type="submit" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Delete</button>
-                                                 </form>
-                                             @endif
-                                             </li>
-                                             <li>
-                                                 <button href="#" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Report</button>
-                                             </li>
-                                         </ul>
-                                     </div>
-                                 </div>
-                                 <div class="comment-user">
-                                     <p class="p-3 py-5">{{ $comment->body }}</p>
-                                     <form id="editCommentForm{{ $comment->id }}" action="{{ route('comment.update', $comment->id) }}" method="POST" class="hidden">
-                                         @csrf
-                                         @method('PUT')
-                                         <div id="comment-textarea" class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-gray-500">
-                                             <textarea id="comment" name="body" rows="6"
-                                                 class="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-[#1a1a1a]"> {{ $comment->body }}</textarea>
-                                             <div class="flex justify-center items-center py-2 gap-3">
-                                                 <button type="submit" class="w-[20%] block py-2 px-4 bg-violet-950 hover:bg-violet-900 hover:text-white rounded">Save</button>
-                                                 <button type="button" onclick="toggleEditForm('{{ $comment->id }}')" class="w-[20%] block bg-red-900 py-2 px-4 hover:bg-red-800 hover:text-white rounded">Cancel</button>
-                                             </div>
-                                         </div>
-                                     </form>
-                                 </div>
-                             </div>
-                         @endforeach
-                             @else
-                                 <h1 class="py-5 text-lg">No comments yet</h1>
-                             @endif
+                                        <button id="dropdownComment{{ $comment->id }}Button"
+                                            data-dropdown-toggle="dropdownComment{{ $comment->id }}"
+                                            class="inline-flex ml-3 items-center p-1 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-white/10 transition duration-300 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button">
+                                            <svg class="w-4 h-4" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                viewBox="0 0 16 3">
+                                                <path
+                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                            </svg>
+                                            <span class="sr-only">Comment settings</span>
+                                        </button>
+                                        <div id="dropdownComment{{ $comment->id }}"
+                                            class="hidden z-10 w-36 rounded divide-y shadow bg-gray-700 divide-gray-600">
+                                            <ul class="py-1 text-sm text-gray-200"
+                                                aria-labelledby="dropdownMenuIconHorizontalButton">
+                                                <li>
+                                                    @if (auth()->check() && auth()->user()->id === $comment->commenter->id)
+                                                        <button type="button"
+                                                            onclick="toggleEditForm('{{ $comment->id }}')"
+                                                            class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Edit</button>
+                                                    @endif
+                                                </li>
+                                                <li>
+                                                    @if (auth()->check() && (auth()->id() === $comment->commenter->id || auth()->id() === Auth::user()->id))
+                                                        <form action="{{ route('comment.delete', $comment->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Delete</button>
+                                                        </form>
+                                                    @endif
+                                                </li>
+                                                <li>
+                                                    <button href="#"
+                                                        class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Report</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="comment-user">
+                                        <p class="p-3 py-5">{{ $comment->body }}</p>
+                                        <form id="editCommentForm{{ $comment->id }}"
+                                            action="{{ route('comment.update', $comment->id) }}" method="POST"
+                                            class="hidden">
+                                            @csrf
+                                            @method('PUT')
+                                            <div id="comment-textarea"
+                                                class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-gray-500">
+                                                <textarea id="comment" name="body" rows="6"
+                                                    class="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-[#1a1a1a]"> {{ $comment->body }}</textarea>
+                                                <div class="flex justify-center items-center py-2 gap-3">
+                                                    <button type="submit"
+                                                        class="w-[20%] block py-2 px-4 bg-violet-950 hover:bg-violet-900 hover:text-white rounded">Save</button>
+                                                    <button type="button"
+                                                        onclick="toggleEditForm('{{ $comment->id }}')"
+                                                        class="w-[20%] block bg-red-900 py-2 px-4 hover:bg-red-800 hover:text-white rounded">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <h1 class="py-5 text-lg">No comments yet</h1>
+                        @endif
                     </div>
 
                 </section>
@@ -461,8 +562,35 @@
                 bodyMessage.classList.toggle('hidden');
             }
         }
+
+
+        document.addEventListener('livewire:navigated', () => {
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.showModal();
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.close();
+            }
+        }
+
+        // Assign close buttons to close the modal
+        document.querySelectorAll('.modal-backdrop button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const modal = button.closest('.modal');
+                if (modal) {
+                    modal.close();
+                }
+            });
+        });
+
+        window.showModal = showModal;
+        window.closeModal = closeModal;
+    });
     </script>
 </div>
-
-
-

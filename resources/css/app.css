@@ -171,12 +171,13 @@ header{
 
 
 .comment-user{
-    box-shadow: inset 0px 0px 20px rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.753);
+    border-radius: 0.5rem;
     background-color: #141414;
 }
 
 #comment-textarea{
-    box-shadow: inset 0px 0px 20px rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.753);
     background-color: #141414;
     border-color: #272727!important;
 }

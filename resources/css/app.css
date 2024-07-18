@@ -506,11 +506,9 @@ button:active{
     width: 320px;
 
     height: 426px;
-    border-radius: 0.75rem;
+    border-radius: 0.45rem;
     background-color: var(--secondary-color);
     padding: 2rem;
-    border-top-left-radius: 0rem!important;
-    border-bottom-left-radius: 0rem!important;
     color: rgba(243, 244, 246, 1);
   }
 
@@ -540,7 +538,7 @@ button:active{
   .input-group input {
     width: 100%;
     border-radius: 0.375rem;
-    border: 1px solid rgb(58, 0, 85);
+    border: 0.5px solid #ffffff33;
     outline: 0;
     background-color: rgb(36, 36, 36);
     padding: 0.75rem 1rem;
@@ -548,6 +546,20 @@ button:active{
   }
 
   .input-group input:focus {
+    border-color: rgba(75, 74, 73, 0.637);
+  }
+
+  .input-group select {
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 0.5px solid #ffffff33;
+    outline: 0;
+    background-color: rgb(36, 36, 36);
+    padding: 0.75rem 1rem;
+    color: rgba(243, 244, 246, 1);
+  }
+
+  .input-group select:focus {
     border-color: rgba(75, 74, 73, 0.637);
   }
 
@@ -632,7 +644,7 @@ button:active{
 
   .signup {
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     line-height: 1rem;
     color: rgba(156, 163, 175, 1);
   }

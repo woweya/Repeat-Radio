@@ -317,6 +317,10 @@ header{
   }
 
 
+  .upload-drag-and-drop{
+    min-height: 100vh;
+  }
+
 
   .overlay{
     height: 100%;

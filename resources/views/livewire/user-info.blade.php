@@ -14,8 +14,22 @@
         }
     </style>
 
-
+<div id="alert-1"
+        class="hidden flex items-center absolute bottom-0 right-[0%] p-4 mb-4 text-lg text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+        role="alert" style="z-index: 99999">
+        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 20 20">
+            <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <span class="sr-only">Info</span>
+        <div>
+            <span class="font-medium">Info alert!</span> <span id="success"></span>
+        </div>
+    </div>
     <main class="container mx-auto flex gap-2 flex justify-center p-5" style="height: 100%">
+
+
 
         @if (session()->has('success'))
             <div id="alert-1"
@@ -28,7 +42,7 @@
                 </svg>
                 <span class="sr-only">Info</span>
                 <div>
-                    <span class="font-medium">Info alert!</span> {{ session('success') }}
+                    <span id="success" class="font-medium">Info alert!</span> {{ session('success') }}
                 </div>
             </div>
         @endif
@@ -42,8 +56,8 @@
 
         <div class="left-side-container">
             <div class="background-wallpaper relative">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="black"
+                <svg id="background-image" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="black"
                     class="size-8 absolute top-2 right-2 bg-white rounded-full p-1 hover:cursor-pointer hover:scale-110">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
@@ -51,40 +65,62 @@
 
                 <div class="profile-image w-[250px] left-20 absolute bottom-[-80px]">
 
-                    <!-- IMAGE PHP -->
-                    @if (Auth::user()->image)
-                        @php
-                            $image = Auth::user()->image->path;
-                            $isDiscordImage = Str::startsWith($image, 'https://');
+                   <div class="profile-plus relative">
+                    <button onclick="showModal('my_modal_4')" class="flex flex-col justify-center items-center absolute absolute bottom-0 right-[-10px]" id="modal-user">
+                    <svg id="photoUpload" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8139DD" class="size-20 hover:cursor-pointer hover:scale-110 transition-all">
+                       <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+                     </svg>
+                    </button>
+                    <dialog id="my_modal_4" class="modal">
+                        <div class="modal-box">
+                            @livewire('image-upload')
+                        </div>
+                        <form method="dialog" class="modal-backdrop">
+                            <button>Close</button>
+                        </form>
+                    </dialog>
 
-                            if ($isDiscordImage) {
-                                $imageUrl = $image; // Use the Discord image URL directly
-                            } else {
-                                $imageUrl = Storage::url($image); // Use the local storage image URL
-                            }
-                        @endphp
 
-                        <img class="border-[10px]"
-                            style="
-                border-radius: 50%;
-                max-width: 250px;
-                width: 250px;
-                max-height: 250px;
-                height: 250px;
-              "
-                            src="{{ $imageUrl }}" alt="" />
-                    @else
-                        <img class="border-[10px]"
-                            style="
-                border-radius: 50%;
-                max-width: 250px;
-                width: 250px;
-                max-height: 250px;
-                height: 250px;
-              "
-                            src="{{ Storage::url('Avatars/avatar-' . Auth::user()->username . '.png') }}"
-                            alt="" />
-                    @endif
+
+                     <!-- IMAGE PHP -->
+                     @if (Auth::user()->image)
+                     @php
+                         $image = Auth::user()->image->path;
+                         $isDiscordImage = Str::startsWith($image, 'https://');
+
+                         if ($isDiscordImage) {
+                             $imageUrl = $image; // Use the Discord image URL directly
+                         } else {
+                             $imageUrl = Storage::url($image); // Use the local storage image URL
+                         }
+                     @endphp
+
+                     <img class="border-[10px]"
+                         style="
+             border-radius: 50%;
+             max-width: 250px;
+             width: 250px;
+             max-height: 250px;
+             height: 250px;
+             border-color: #1A1A1A;
+           "
+                         src="{{ $imageUrl }}" alt="" />
+                 @else
+                     <img class="border-[10px]"
+                         style="
+             border-radius: 50%;
+             max-width: 250px;
+             width: 250px;
+             max-height: 250px;
+             height: 250px;
+             border-color: #1A1A1A;
+           "
+                         src="{{ Storage::url('Avatars/avatar-' . Auth::user()->username . '.png') }}"
+                         alt="" />
+                 @endif
+
+
+                </div>
                 </div>
             </div>
             <div class="bottom-user-infos px-10 py-1">
@@ -209,79 +245,79 @@
                         <div class="flex flex-col w-full justify-between items-end py-2 px-2">
                             <div class="flex justify-center items-center gap-5">
                                 <button class="flex flex-col justify-center items-center" id="modal-user"
-                                        onclick="showModal('my_modal_1')">
-                                        <span
-                                            class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followers()->count() }}</span>
-                                        <span class="text-gray-400 italic text-md">Followers</span>
-                                    </button>
-                                    <dialog id="my_modal_1" class="modal">
-                                        <div class="modal-box">
-                                            <h1 class="text-xl font-bold text-white">Followers</h1>
-                                            <hr class="w-[98%] border-t-2 border-gray-500 py-2">
-                                            @if (Auth::user()->followers->count() == 0)
+                                    onclick="showModal('my_modal_1')">
+                                    <span
+                                        class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followers()->count() }}</span>
+                                    <span class="text-gray-400 italic text-md">Followers</span>
+                                </button>
+                                <dialog id="my_modal_1" class="modal">
+                                    <div class="modal-box">
+                                        <h1 class="text-xl font-bold text-white">Followers</h1>
+                                        <hr class="w-[98%] border-t-2 border-gray-500 py-2">
+                                        @if (Auth::user()->followers->count() == 0)
                                             <p class="text-center text-gray-400 italic">No followers</p>
-                                            @else
+                                        @else
                                             @foreach (Auth::user()->followers as $follower)
-                                        <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
-                                            href="{{ route('user.profile', $follower->id) }}">
-                                            <div
-                                                class="flex py-2 justify-start items-center hover:scale-105 transition-all">
-                                                @if ($follower->image)
-                                                    <img src="{{ Storage::url($follower->image->path) }}"
-                                                        alt="" class="w-10 h-10 mr-2">
-                                                @else
-                                                    <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
-                                                        alt="" class="w-10 h-10 mr-2">
-                                                @endif
-                                                <p
-                                                    class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
-                                                    {{ $follower->username }}</p>
-                                            </div>
-                                        </a>
-                                        @endforeach
+                                                <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
+                                                    href="{{ route('user.profile', $follower->id) }}">
+                                                    <div
+                                                        class="flex py-2 justify-start items-center hover:scale-105 transition-all">
+                                                        @if ($follower->image)
+                                                            <img src="{{ Storage::url($follower->image->path) }}"
+                                                                alt="" class="w-10 h-10 mr-2">
+                                                        @else
+                                                            <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
+                                                                alt="" class="w-10 h-10 mr-2">
+                                                        @endif
+                                                        <p
+                                                            class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
+                                                            {{ $follower->username }}</p>
+                                                    </div>
+                                                </a>
+                                            @endforeach
                                         @endif
-                                        </div>
-                                        <form method="dialog" class="modal-backdrop">
-                                            <button>Close</button>
-                                        </form>
-                                    </dialog>
-                                    <button class="flex flex-col justify-center items-center" id="modal-user"
-                                        onclick="my_modal_2.showModal()">
-                                        <span
-                                            class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followings()->count() }}</span>
-                                        <span class="text-gray-400 italic text-md">Following</span>
-                                    </button>
-                                    <dialog id="my_modal_2" class="modal">
-                                        <div class="modal-box">
-                                            <h1 class="text-xl font-bold text-white">Followers</h1>
-                                            <hr class="w-[98%] border-t-2 border-gray-500 py-2">
-                                            @if (Auth::user()->followings->count() == 0)
+                                    </div>
+                                    <form method="dialog" class="modal-backdrop">
+                                        <button>Close</button>
+                                    </form>
+                                </dialog>
+                                <button class="flex flex-col justify-center items-center" id="modal-user"
+                                    onclick="my_modal_2.showModal()">
+                                    <span
+                                        class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followings()->count() }}</span>
+                                    <span class="text-gray-400 italic text-md">Following</span>
+                                </button>
+                                <dialog id="my_modal_2" class="modal">
+                                    <div class="modal-box">
+                                        <h1 class="text-xl font-bold text-white">Followers</h1>
+                                        <hr class="w-[98%] border-t-2 border-gray-500 py-2">
+                                        @if (Auth::user()->followings->count() == 0)
                                             <p class="text-center text-gray-400 italic">No following</p>
-                                            @else
+                                        @else
                                             @foreach (Auth::user()->followings as $follower)
-                                            <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
-                                            href="{{ route('user.profile', $follower->id) }}">
-                                            <div
-                                                class="flex py-2 justify-start items-center hover:scale-105 transition-all">
-                                                @if ($follower->image)
-                                                    <img src="{{ Storage::url($follower->image->path) }}"
-                                                        alt="" class="w-10 h-10 mr-2">
-                                                @else
-                                                    <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
-                                                        alt="" class="w-10 h-10 mr-2">
-                                                @endif
-                                                <p
-                                                    class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
-                                                    {{ $follower->username }}</p>
-                                            </div>
-                                        </a>
-                                        @endforeach
+                                                <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
+                                                    href="{{ route('user.profile', $follower->id) }}">
+                                                    <div
+                                                        class="flex py-2 justify-start items-center hover:scale-105 transition-all">
+                                                        @if ($follower->image)
+                                                            <img src="{{ Storage::url($follower->image->path) }}"
+                                                                alt="" class="w-10 h-10 mr-2">
+                                                        @else
+                                                            <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
+                                                                alt="" class="w-10 h-10 mr-2">
+                                                        @endif
+                                                        <p
+                                                            class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
+                                                            {{ $follower->username }}</p>
+                                                    </div>
+                                                </a>
+                                            @endforeach
                                         @endif
-                                        </div>
-                                        <form method="dialog" class="modal-backdrop">
-                                            <button>Close</button>
-                                        </form>
-                                    </dialog>
+                                    </div>
+                                    <form method="dialog" class="modal-backdrop">
+                                        <button>Close</button>
+                                    </form>
+                                </dialog>
                             </div>
 
 
@@ -320,13 +356,14 @@
                 </div>
 
                 <section class="section-about-me-box relative">
-                    <div class="flex text-center items-center justify-start gap-2 mb-1">
-                        <hr class="w-[1%] border-t-2 border-gray-300" />
+                    <div class="ml-12 mb-10 flex text-center items-center justify-start gap-3">
+                        <hr class="w-[40%] border-t-2 border-gray-300" />
                         <h1 class="text-3xl font-semibold text-white pb-2">About me</h1>
-                        <hr class="w-[85%] border-t-2 border-gray-300" />
+                        <hr class="w-[40%] border-t-2 border-gray-300" />
                     </div>
-                    <div id="expandable-content" class="expandable-content text-gray-400 text-sm">
-                        <p class="py-3 px-3">
+                    <div id="expandable-content"
+                        class="expandable-content text-gray-400 text-sm py-4 mx-auto w-[85%] text-start border-0 focus:ring-0 focus:outline-none bg-[#141414]">
+                        <p class="px-4">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                             Blanditiis autem quia praesentium. Sapiente doloremque odit
                             impedit deleniti dicta non corporis numquam dolor qui excepturi
@@ -368,10 +405,14 @@
                         </p>
                     </div>
                 </section>
-                <section class="section-comments-profile mt-10">
+                <section class="section-comments-profile w-full">
                     <div class="w-full flex flex-col justify-start py-2 items-start">
-                        <h2 id="comments-title" class="text-lg lg:text-2xl font-bold text-white">Comments
-                            ({{ Auth::user()->comments->count() }})</h2>
+                        <div class="w-full mt-10 ml-10 flex text-center items-center justify-start gap-3">
+                            <hr class="w-[40%] border-t-2 border-gray-300" />
+                            <h2 class="text-lg lg:text-2xl font-bold text-white pb-2">Comments
+                                ({{ Auth::user()->comments->count() }})</h2>
+                            <hr class="w-[38.5%] border-t-2 border-gray-300" />
+                        </div>
                         @if (Auth::user()->comments->count() > 0)
                             @foreach (Auth::user()->comments->sortByDesc('created_at') as $comment)
                                 <div class="comment-el p-2 w-full mt-2">
@@ -454,7 +495,7 @@
                                 </div>
                             @endforeach
                         @else
-                            <h1 class="py-5 text-lg">No comments yet</h1>
+                            <h1 class="py-5 ml-10 text-lg">No comments yet</h1>
                         @endif
                     </div>
 
@@ -553,18 +594,35 @@
             </div>
         </div>
     </main>
-    <script>
-        function toggleEditForm(commentId) {
-            const editForm = document.getElementById(`editCommentForm${commentId}`);
-            const bodyMessage = document.getElementById(`comment${commentId}`);
-            if (editForm) {
-                editForm.classList.toggle('hidden');
-                bodyMessage.classList.toggle('hidden');
-            }
+   @script
+   <script>
+    function toggleEditForm(commentId) {
+        const editForm = document.getElementById(`editCommentForm${commentId}`);
+        const bodyMessage = document.getElementById(`comment${commentId}`);
+        if (editForm) {
+            editForm.classList.toggle('hidden');
+            bodyMessage.classList.toggle('hidden');
         }
+    }
 
 
-        document.addEventListener('livewire:navigated', () => {
+
+
+    document.addEventListener('livewire:navigated', () => {
+
+        Livewire.on('imageUploaded', (event) => {
+         closeModal('my_modal_4');
+
+    const success = document.getElementById('success');
+    const alert1 = document.getElementById('alert-1');
+
+
+    setTimeout(() => {
+        alert1.classList.remove('hidden');
+        success.innerText = event.message;
+        window.location.reload();
+    }, 2000);
+});
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -592,5 +650,6 @@
         window.showModal = showModal;
         window.closeModal = closeModal;
     });
-    </script>
+</script>
+   @endscript
 </div>

@@ -39,4 +39,10 @@ class UserInfo extends Component
 
 
     }
+
+
+    #[On('uploadImage')]
+    public function sendRequest(){
+        $this->dispatch('uploadImage');
+    }
 }

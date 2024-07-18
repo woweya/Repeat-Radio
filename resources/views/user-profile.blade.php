@@ -1,7 +1,5 @@
 <x-layout>
-
     <div class="user-info w-full">
-
         @section('head')
             @vite(['resources/css/user-info.css'])
         @endsection
@@ -9,17 +7,13 @@
         @section('styles')
             <link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet">
         @endsection
-
         <style>
             @font-face {
                 font-family: 'Lato', sans-serif;
                 src: url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
             }
         </style>
-
-
-        <main class="container mx-auto flex gap-2 flex justify-center p-5" style="height: 100%">
-
+        <main class="container mx-auto gap-2 flex justify-center p-5" style="height: 100%">
             @if (session()->has('success'))
                 <div id="alert-1"
                     class="flex items-center absolute top-0 right-20 p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
@@ -35,14 +29,11 @@
                     </div>
                 </div>
             @endif
-
-
             @if (session()->get('error'))
                 <span id="error" class="text-3xl font-extrabold pb-5"
                     style="color: red; position: absolute; left: 100px; top: 20px">
                     {{ session()->get('error') }}</span>
             @endif
-
             <div class="left-side-container">
                 <div class="background-wallpaper relative">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -51,40 +42,25 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
-
                     <div class="profile-image w-[250px] left-20 absolute bottom-[-80px]">
-
-                        <!-- IMAGE PHP -->
                         @if ($user->image)
                             @php
                                 $image = $user->image->path;
                                 $isDiscordImage = Str::startsWith($image, 'https://');
 
                                 if ($isDiscordImage) {
-                                    $imageUrl = $image; // Use the Discord image URL directly
+                                    $imageUrl = $image;
                                 } else {
-                                    $imageUrl = Storage::url($image); // Use the local storage image URL
+                                    $imageUrl = Storage::url($image);
                                 }
                             @endphp
 
                             <img class="border-[10px]"
-                                style="
-                    border-radius: 50%;
-                    max-width: 250px;
-                    width: 250px;
-                    max-height: 250px;
-                    height: 250px;
-                  "
+                                style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px;"
                                 src="{{ $imageUrl }}" alt="" />
                         @else
                             <img class="border-[10px]"
-                                style="
-                    border-radius: 50%;
-                    max-width: 250px;
-                    width: 250px;
-                    max-height: 250px;
-                    height: 250px;
-                  "
+                                style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px;"
                                 src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}" alt="" />
                         @endif
                     </div>
@@ -99,7 +75,6 @@
                             </div>
                             <p class="text-gray-400 text-md italic">{{ '@' . $user->username }}</p>
                             <section>
-                                <!-- IF STATEMENT SE HA RUOLO DI DEVELOPER-->
                                 @if ($user->is_staff == 1)
                                     <div class="flex justify-start items-center gap-2 py-1">
                                         <p
@@ -116,15 +91,12 @@
                                                 </svg>
                                             </div>
                                         @endforeach
-
                                     </div>
                                 @endif
-
                                 <p class="text-gray-400 text-sm italic">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                                     Quisquam, quidem!
                                 </p>
-
                                 <div class="social-links">
                                     <div class="flex gap-2 py-2">
                                         <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -216,18 +188,12 @@
                             <div class="flex flex-col w-full justify-between items-end py-2 px-2">
                                 @livewire('follow-button', ['user' => $user])
                                 <div class="flex justify-center items-center gap-5">
-
-                                    <!-- Followers Modal Button -->
-
                                     <button class="flex flex-col justify-center items-center" id="modal-user"
                                         onclick="showModal('my_modal_1')">
                                         <span
                                             class="underline decoration-purple-500 underline-offset-2">{{ $user->followers()->count() }}</span>
                                         <span class="text-gray-400 italic text-md">Followers</span>
                                     </button>
-
-                                    <!-- Followers Modal -->
-
                                     <dialog id="my_modal_1" class="modal">
                                         <div class="modal-box">
                                             <h1 class="text-xl font-bold text-white">Followers</h1>
@@ -321,38 +287,32 @@
                                         </p>
                                         <div class="modal-action">
                                             <form method="dialog">
-                                                <!-- if there is a button in form, it will close the modal -->
                                                 <button class="btn">Close</button>
                                             </form>
                                         </div>
                                     </div>
                                 </dialog>
                             </div>
-
-                            <!-- End Followers Modal -->
                         </div>
                     </div>
-
-                    <section class="section-about-me-box relative">
-                        <div class="flex text-center items-center justify-start gap-2 mb-1">
-                            <hr class="w-[1%] border-t-2 border-gray-300" />
-                            <h1 class="text-3xl font-semibold text-white pb-2">About me</h1>
-                            <hr class="w-[85%] border-t-2 border-gray-300" />
-                        </div>
-                        <div id="expandable-content" class="expandable-content text-gray-400 text-sm">
-                            <p class="py-3 px-3">
+                    <div class="ml-12 flex text-center items-center justify-start gap-3">
+                        <hr class="w-[40%] border-t-2 border-gray-300" />
+                        <h1 class="text-3xl font-semibold text-white pb-2">About me</h1>
+                        <hr class="w-[40%] border-t-2 border-gray-300" />
+                    </div>
+                    <section class="section-about-me-box relative py-8">
+                        <div id="expandable-content" class="expandable-content text-gray-400 text-sm py-4 mx-auto w-[85%] text-start border-0 focus:ring-0 focus:outline-none bg-[#141414]">
+                            <p class="px-4">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                             </p>
                         </div>
                     </section>
                     <section class="section-comments-profile w-full">
-
-                        <section class="section-comments-profile mt-10">
-                            <div class="w-full flex flex-col justify-start py-2 items-start">
-                                <h2 id="comments-title" class="text-lg lg:text-2xl font-bold text-white">Comments
-                                    ({{ $user->comments->count() }})</h2>
-                            </div>
-                        </section>
+                            <div class="ml-12 flex text-center items-center justify-start gap-3">
+                                <hr class="w-[40%] border-t-2 border-gray-300" />
+                                <h2 class="text-lg lg:text-2xl font-bold text-white pb-2">Comments ({{ $user->comments->count() }})</h2>
+                                <hr class="w-[38.5%] border-t-2 border-gray-300" />
+                        </div>
                         @auth
                             <form class="mb-6" action="{{ route('user.comment', $user->id) }}" method="POST">
                                 @csrf
@@ -374,7 +334,6 @@
                             <p class="text-gray-400 mb-4">Please <a href="{{ route('login') }}"
                                     class="text-purple-700">login</a> to comment.</p>
                         @endauth
-
                         @if ($user->comments->count() > 0)
                             @foreach ($user->comments->sortByDesc('created_at') as $comment)
                                 <div class="comment-el p-2 w-full mt-2">
@@ -387,11 +346,9 @@
                                                 src="{{ Storage::url('Avatars/avatar-' . $comment->commenter->username . '.png') }}"
                                                 alt="">
                                         @endif
-
                                         <p><span
                                                 class="text-white font-semibold">{{ $comment->commenter->username }}</span>
-                                            - {{ $comment->created_at->diffForHumans() }}:</p>
-
+                                            - {{ $comment->created_at->diffForHumans() }}</p>
                                         @auth
                                             <button id="dropdownComment{{ $comment->id }}Button"
                                                 data-dropdown-toggle="dropdownComment{{ $comment->id }}"
@@ -403,7 +360,6 @@
                                                     <path
                                                         d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                                                 </svg>
-
                                                 <span class="sr-only">Comment settings</span>
                                             </button>
                                             <button type="button"
@@ -423,9 +379,7 @@
                                                     aria-labelledby="dropdownMenuIconHorizontalButton">
                                                     <li>
                                                         @if (auth()->check() && Auth::user()->id === $comment->commenter->id)
-                                                            <button type="button"
-                                                                onclick="toggleEditForm('{{ $comment->id }}')"
-                                                                class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Edit</button>
+                                                            <button type="button" onclick="toggleEditForm('{{ $comment->id }}')" class="toggleedit w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Edit</button>
                                                         @endif
                                                     </li>
                                                     <li>
@@ -434,14 +388,12 @@
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Delete</button>
+                                                                <button type="submit" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Delete</button>
                                                             </form>
                                                         @endif
                                                     </li>
                                                     <li>
-                                                        <button href="#"
-                                                            class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Report</button>
+                                                        <button href="#" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Report</button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -523,26 +475,6 @@
                                 <p class="text-sm font-light text-gray-400">The last</p>
                             </div>
                         </div>
-                        <div class="card w-full flex justify-start items-center">
-                            <div class="card-header">
-                                <img src="https://www.ideabit.com/album/foto_full/formato-immagini-webp_710.jpg"
-                                    alt="" />
-                            </div>
-                            <div class="card-body m-0">
-                                <p class="text-lg font-semibold text-white">The last of us</p>
-                                <p class="text-sm font-light text-gray-400">The last</p>
-                            </div>
-                        </div>
-                        <div class="card w-full flex justify-start items-center">
-                            <div class="card-header">
-                                <img src="https://www.ideabit.com/album/foto_full/formato-immagini-webp_710.jpg"
-                                    alt="" />
-                            </div>
-                            <div class="card-body m-0">
-                                <p class="text-lg font-semibold text-white">The last of us</p>
-                                <p class="text-sm font-light text-gray-400">The last</p>
-                            </div>
-                        </div>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="white"
                             class="size-6 absolute top-8 right-2 cursor-pointer hover:scale-110">
@@ -573,7 +505,6 @@
         </main>
     </div>
 </x-layout>
-
 <script>
     function toggleEditForm(commentId) {
         const editForm = document.getElementById(`editCommentForm${commentId}`);
@@ -599,7 +530,6 @@
             }
         }
 
-        // Assign close buttons to close the modal
         document.querySelectorAll('.modal-backdrop button').forEach(button => {
             button.addEventListener('click', (event) => {
                 const modal = button.closest('.modal');

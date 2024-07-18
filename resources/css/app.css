@@ -164,12 +164,6 @@ header{
     border-radius: 5px!important;
 }
 
-#comments-title{
-    border-bottom: 2px solid var(--quaternary-color);
-    width: 100%;
-}
-
-
 .comment-user{
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.753);
     border-radius: 0.5rem;
@@ -186,6 +180,10 @@ header{
     background-color: #141414;
 }
 
+.expandable-content{
+    border-radius: 0.5rem;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.753);
+}
 
 #modal-user{
     cursor: pointer;

@@ -266,43 +266,6 @@
                         <div id="expandable-content" class="expandable-content text-gray-400 text-sm">
                             <p class="py-3 px-3">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                Blanditiis autem quia praesentium. Sapiente doloremque odit
-                                impedit deleniti dicta non corporis numquam dolor qui excepturi
-                                hic quaerat repellendus, reiciendis atque? Consequatur. Nihil
-                                praesentium quasi, voluptas illo ratione expedita ad error
-                                incidunt rerum ipsa maxime blanditiis obcaecati omnis odit
-                                molestiae sit eveniet voluptatem ullam. Harum sunt quaerat,
-                                aliquam ut unde sequi doloremque? Illum ullam maiores magnam
-                                corporis ipsam! Cum dolorum quod aspernatur nisi excepturi
-                                deleniti architecto sunt distinctio, fuga possimus illum
-                                perspiciatis dolore? Culpa sit, ipsum veritatis enim aliquam
-                                aperiam maiores molestiae. Quasi quisquam, nostrum voluptate in
-                                rerum ut, quos molestiae beatae earum quod nesciunt. Temporibus
-                                tempore dolores quis explicabo excepturi quos, aut quas
-                                voluptates ipsam atque id sed ea exercitationem! Recusandae!
-                                Nisi excepturi, corrupti cumque minima, eaque alias minus
-                                commodi repellat maiores rem cupiditate quidem tempore quaerat
-                                autem corporis error hic molestias voluptatem maxime modi. Quo
-                                iure libero ipsum quae ea? Odit, ipsum enim consectetur
-                                explicabo, sequi odio aliquid itaque accusantium fugiat numquam
-                                atque sint culpa laboriosam earum soluta doloremque tempore eius
-                                dolor, minima aut saepe unde error. Quaerat, optio earum. Neque
-                                eos perspiciatis accusantium impedit numquam magni sed harum
-                                quisquam molestiae explicabo odio modi, incidunt in quaerat cum
-                                laboriosam, quidem blanditiis officia id ad? Deserunt magnam
-                                neque molestias libero. Non. Magnam nobis temporibus obcaecati
-                                assumenda quibusdam natus doloremque velit illo quos nesciunt.
-                                Deserunt, quibusdam maxime? Itaque quia ratione quisquam
-                                repudiandae, quibusdam voluptatum architecto dicta, corrupti
-                                quidem atque temporibus quas nostrum. Totam vel voluptatibus
-                                asperiores enim repudiandae veritatis amet nobis, aliquam
-                                corporis, doloremque, animi sed inventore fugiat aperiam quae
-                                ipsa delectus quisquam molestias. Ea blanditiis quibusdam fugit
-                                debitis veritatis accusantium accusamus? Soluta sit alias fuga
-                                sapiente atque id deleniti inventore illo cupiditate corrupti
-                                provident aperiam nobis amet quo, velit esse adipisci eum
-                                blanditiis delectus nemo minus, omnis reprehenderit deserunt
-                                molestiae! Sequi.
                             </p>
                         </div>
                     </section>
@@ -408,6 +371,94 @@
                 </div>
             </div>
         </main>
-    </div>
+        <section class="py-8 lg:py-16 antialiased">
+            <div class="max-w-2xl mx-auto px-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg lg:text-2xl font-bold text-white">Comments ({{ $user->comments->count() }})</h2>
+                </div>
+                @auth
+                    <form class="mb-6" action="{{ route('user.comment', $user->id) }}" method="POST">
+                        @csrf
+                        <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-white/10 bg-[#1a1a1a]">
+                            <label for="comment" class="sr-only">Your comment</label>
+                            <textarea id="comment" name="body" rows="6"
+                                class="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-[#1a1a1a]"
+                                placeholder="Write a comment..." required></textarea>
+                        </div>
+                        <button type="submit"
+                            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white btn-follow rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                            Post comment
+                        </button>
+                    </form>
+                @else
+                    <p class="text-gray-400 mb-4">Please <a href="{{ route('login') }}" class="text-purple-700">login</a> to comment.</p>
+                @endauth
 
+                @foreach ($user->comments->sortByDesc('created_at') as $comment)
+                <article class="p-6 mb-4 text-base rounded-lg bg-[#1a1a1a]">
+                    <footer class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <p class="inline-flex items-center mr-3 text-sm text-white font-semibold">
+                                <img class="mr-2 w-6 h-6 rounded-full" src="{{ Storage::url('Avatars/avatar-' . $comment->commenter->username . '.png') }}" alt="{{ $comment->commenter->name }}">
+                                {{ $comment->commenter->name }}
+                            </p>
+                            <p class="text-sm text-gray-400"><time pubdate datetime="{{ $comment->created_at }}" title="{{ $comment->created_at->format('F jS, Y') }}">{{ $comment->created_at->diffForHumans() }}</time></p>
+                        </div>
+                        <button id="dropdownComment{{ $comment->id }}Button" data-dropdown-toggle="dropdownComment{{ $comment->id }}"
+                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-white/10 transition duration-300 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                            type="button">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                            </svg>
+                            <span class="sr-only">Comment settings</span>
+                        </button>
+                        <div id="dropdownComment{{ $comment->id }}"
+                            class="hidden z-10 w-36 rounded divide-y shadow bg-gray-700 divide-gray-600">
+                            <ul class="py-1 text-sm text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+                                <li>
+                                    @if (auth()->check() && auth()->user()->id === $comment->commenter->id)
+                                        <form id="editCommentForm{{ $comment->id }}" action="{{ route('comment.update', $comment->id) }}" method="POST" class="hidden">
+                                            @csrf
+                                            @method('PUT')
+                                            <textarea name="body" rows="6" class="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-[#1a1a1a]">{{ $comment->body }}</textarea>
+                                            <div class="flex justify-between mt-2">
+                                                <button type="submit" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Save</button>
+                                                <button type="button" onclick="toggleEditForm('{{ $comment->id }}')" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Cancel</button>
+                                            </div>
+                                        </form>
+                                        <button type="button" onclick="toggleEditForm('{{ $comment->id }}')" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Edit</button>
+                                    @endif
+                                </li>
+                                <li>
+                                    @if (auth()->check() && (auth()->id() === $comment->commenter->id || auth()->id() === $user->id))
+                                    <form action="{{ route('comment.delete', $comment->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Delete</button>
+                                    </form>
+                                @endif
+                                </li>
+                                <li>
+                                    <button href="#" class="w-full block py-2 px-4 hover:bg-gray-600 hover:text-white">Report</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </footer>
+                    <p class="text-gray-500 dark:text-gray-400">{{ $comment->body }}</p>
+                    <div class="flex items-center mt-4 space-x-4">
+                    </div>
+                </article>
+            @endforeach
+            </div>
+        </section>
+    </div>
 </x-layout>
+
+<script>
+    function toggleEditForm(commentId) {
+        const editForm = document.getElementById(`editCommentForm${commentId}`);
+        if (editForm) {
+            editForm.classList.toggle('hidden');
+        }
+    }
+</script>

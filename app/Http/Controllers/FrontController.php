@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DateTime;
 use App\Models\User;
+use App\Models\Comment;
 use App\Models\Article;
 use Laravolt\Avatar\Avatar;
 use App\Models\UserActivity;
@@ -24,14 +25,6 @@ class FrontController extends Controller
 {
     public function index()
     {
-       /*  // Cache
-        $cacheKey = 'welcome_html';
-        $cachedContent = Cache::get($cacheKey);
-
-        if ($cachedContent) {
-            return new \Illuminate\Http\Response($cachedContent);
-        }
- */
         // Se il contenuto non è in cache, calcolalo
         $hoursListened = 0;
 
@@ -63,15 +56,6 @@ class FrontController extends Controller
             'formattedTime' => $formattedTime,
         ];
 
-        // Renderizza la vista con i dati
-       /*  $viewContent = view('welcome', $viewData)->render();
-
-        // Metti in cache il contenuto renderizzato
-        Cache::put($cacheKey, $viewContent, now()->addSeconds(120));
-
-        return new \Illuminate\Http\Response($viewContent); */
-
-
         return view('welcome', $viewData);
     }
 
@@ -102,50 +86,6 @@ class FrontController extends Controller
 
     public function UpdateImage(Request $request)
     {
-/*
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $user = Auth::user();
-
-        $image = $request->file('image');
-
-        // Genera un nome univoco per l'immagine utilizzando il timestamp corrente e l'estensione del file originale
-        $imageName = 'user-' . $user->id . '-' . 'profile-picture' . '.' . $image->getClientOriginalExtension();
-
-        $x = $request->input('x');
-        $y = $request->input('y');
-        $width = $request->input('width');
-        $height = $request->input('height');
-
-        //! Make the values "string" being an Integer.
-        $xNum = intval($x);
-        $yNum = intval($y);
-        $widthNum = intval($width);
-        $heightNum = intval($height);
-
-        //! Creation of the cropped image and his relatives path.
-        $croppedImagePath = public_path('storage/images/' . $imageName);
-        $croppedImage = Image::make($image)
-            ->crop($widthNum, $heightNum, $xNum, $yNum)
-            ->save(public_path('storage/images/' . $imageName));
-
-        // Salva il percorso dell'immagine croppata
-        $imagePath = 'images/' . $imageName;
-
-        // Update or create the image associated with the user
-        if ($user->image) {
-            // Delete the old image file if it exists
-            if (file_exists(public_path('storage/' . $user->image->path))) {
-                unlink(public_path('storage/' . $user->image->path));
-            }
-            $user->image()->update(['path' => $imagePath]);
-        } else {
-            $user->image()->create(['path' => $imagePath]);
-        }
-
-        return redirect()->back()->with('success', 'Image uploaded and cropped successfully.'); */
     }
 
 
@@ -188,27 +128,6 @@ class FrontController extends Controller
         return redirect('/');
     }
 
-    /*
-    public function createArticle(){
-
-        return view('create-article');
-    }
-
-    public function articleShow(){
-        {
-            $article = Article::all();
-            return view('Articles.article', compact('article'));
-        }
-
-    }
-
-
-    public function articleDetail($id){
-        $article = Article::find($id);
-        return view('Articles.article-detail', compact('article'));
-    } */
-
-
     public function createStaff()
     {
         return view('create-staff');
@@ -217,7 +136,54 @@ class FrontController extends Controller
 
     public function userProfile($id)
     {
-        $user = User::find($id);
+        $user = User::with('comments.commenter')->findOrFail($id);
         return view('user-profile', compact('user'));
+    }
+
+    public function postComment(Request $request, $id)
+    {
+        $request->validate([
+            'body' => 'required|string',
+        ]);
+
+        Comment::create([
+            'user_id' => $id,
+            'commenter_id' => auth()->id(),
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('user.profile', $id)->with('success', 'Comment posted successfully!');
+    }
+
+    public function updateComment(Request $request, $commentId)
+    {
+        $request->validate([
+            'body' => 'required|string',
+        ]);
+
+        $comment = Comment::findOrFail($commentId);
+
+        if ($comment->commenter_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $comment->update([
+            'body' => $request->body,
+        ]);
+
+        return redirect()->back()->with('success', 'Comment updated successfully.');
+    }
+
+    public function deleteComment($commentId)
+    {
+        $comment = Comment::findOrFail($commentId);
+
+        if ($comment->commenter_id !== auth()->id() && $comment->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $comment->delete();
+
+        return redirect()->back()->with('success', 'Comment deleted successfully.');
     }
 }

@@ -84,9 +84,6 @@ class FrontController extends Controller
         return view('about', compact('users', 'defaultPath'));
     }
 
-    public function UpdateImage(Request $request)
-    {
-    }
 
 
     public function logout(Request $request)
@@ -140,6 +137,7 @@ class FrontController extends Controller
         return view('user-profile', compact('user'));
     }
 
+
     public function postComment(Request $request, $id)
     {
         $request->validate([
@@ -189,4 +187,7 @@ class FrontController extends Controller
 
         return redirect()->back()->with('success', 'Comment deleted successfully.');
     }
+
+
+
 }

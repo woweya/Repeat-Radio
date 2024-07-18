@@ -33,12 +33,6 @@ Route::middleware('web')->group(function () {
     Route::get('/api/users/search', [FrontController::class, 'search'])->name('api.users.search');
 });
 
-/* Route::get('/about-radio', [FrontController::class, 'About'])->name('about')->middleware(CheckUserOnline::class); */
-
-/* Route::middleware([CheckUserOnline::class])->group(function () {
-    Route::get('/about-radio', [FrontController::class, 'About'])->name('about');
-}); */
-
 
 /*! DISABLED FOR NOW
 Route::get('/create-announcement', [FrontController::class, 'createArticle'])->name('create-announcement');

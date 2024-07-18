@@ -103,7 +103,7 @@
                                         <img class="w-10 h-10 rounded-full" src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}" alt="{{ $user->name }}">
                                     @endif
                                     <div>
-                                        <button type="button" class="text-white bg-[color:var(--primary-color)] hover:bg-[color:var(--purple-color)] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:[color:var(--quaternary-color)]">Follow</button>
+                                        @livewire('follow-button', ['user'=> $user])
                                     </div>
                                 </div>
                                 <p class="text-left font-semibold leading-none text-[color:var(--quaternary-color)]">

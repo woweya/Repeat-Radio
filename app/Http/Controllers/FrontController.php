@@ -178,11 +178,14 @@ class FrontController extends Controller
     {
         $comment = Comment::findOrFail($commentId);
 
-        if ($comment->commenter_id !== auth()->id() && $comment->user_id !== auth()->id()) {
+       if(auth()->user()->is_staff == 1){
+            $comment->delete();
+       }
+       elseif($comment->commenter_id !== auth()->id() && $comment->user_id !== auth()->id()){
             abort(403, 'Unauthorized action.');
-        }
+       }
 
-        $comment->delete();
+       $comment->delete();
 
         return redirect()->back()->with('success', 'Comment deleted successfully.');
     }

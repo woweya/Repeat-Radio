@@ -59,6 +59,8 @@ class User extends Authenticatable
     public function likedSong(){
         return $this->hasMany(\App\Models\Like::class);
     }
+
+
     protected function casts(): array
     {
         return [
@@ -79,5 +81,10 @@ class User extends Authenticatable
 
     public function roles(){
         return $this->belongsToMany(\App\Models\Role::class);
+    }
+
+    public function comments(){
+
+        return $this->hasMany(\App\Models\Comment::class);
     }
 }

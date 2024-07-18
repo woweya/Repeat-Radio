@@ -164,7 +164,26 @@ header{
     border-radius: 5px!important;
 }
 
+#comments-title{
+    border-bottom: 2px solid var(--quaternary-color);
+    width: 100%;
+}
 
+
+.comment-user{
+    box-shadow: inset 0px 0px 20px rgb(0, 0, 0);
+    background-color: #141414;
+}
+
+#comment-textarea{
+    box-shadow: inset 0px 0px 20px rgb(0, 0, 0);
+    background-color: #141414;
+    border-color: #272727!important;
+}
+
+#comment-textarea>textarea{
+    background-color: #141414;
+}
 
 #pause:active{
     transform: scale(0.9);

@@ -24,8 +24,7 @@
     <wireui:scripts />
     <title>Sailor Radio</title>
     @livewireStyles()
-    @yield('styles')
-
+    <link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -66,6 +65,7 @@
     <script src="{{ Storage::url('lib/js/jquery.emojiarea.min.js') }}"></script>
     <script src="{{ Storage::url('lib/js/emoji-picker.min.js') }}"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
 </body>
 
 </html>

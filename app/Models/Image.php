@@ -10,7 +10,8 @@ class Image extends Model
     use HasFactory;
 
     protected $fillable = [
-        'path',
+        'profile_picture_path',
+        'banner_picture_path',
     ];
 
     public function user()

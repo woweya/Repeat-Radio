@@ -1,4 +1,25 @@
 <div class="user-info w-full">
+
+                    @php
+
+                        $user = Auth::user();
+                         if($user->image !== null && $user->image->profile_picture_path !== null)
+                        {
+                            $image = Auth::user()->image->profile_picture_path;
+                            $isDiscordImage = Str::startsWith($image, 'https://');
+
+                         if ($isDiscordImage) {
+                             $imageUrl = $image; // Use the Discord image URL directly
+                         } else {
+                             $imageUrl = Storage::url($user->image->profile_picture_path); // Use the local storage image URL
+                         }
+                        }
+                        else
+                        {
+                            $imageUrl = Storage::url('Avatars/avatar-' . $user->username . '.png');
+                        } 
+                     @endphp
+
     @section('head')
         @vite(['resources/css/user-info.css'])
     @endsection
@@ -15,47 +36,59 @@
     </style>
 
 <div id="alert-1"
-        class="hidden flex items-center absolute bottom-0 right-[0%] p-4 mb-4 text-lg text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
-        role="alert" style="z-index: 99999">
+            class="hidden flex items-center absolute bottom-0 right-0 z-10 p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+            role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
+            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div>
+                <span id="success" class="font-lg">Success!</span> {{ session('success') }}
+            </div>
+        </div>
+
+
+
+    <main class="container mx-auto flex gap-2 flex justify-center p-5" style="height: 100%">
+
+        @if (session()->has('success'))
+        <div id="alert-success"
+            class="flex items-center absolute bottom-0 right-0 z-10 p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+            role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
+            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div>
+                <span id="success" class="font-lg">Success!</span> {{ session('success') }}
+            </div>
+        </div>
+    @endif
+
+
+    @if (session()->get('error'))
+    <div id="alert-error"
+        class="flex items-center absolute top-[50%] right-20 z-10 p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+        role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
         <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             fill="currentColor" viewBox="0 0 20 20">
             <path
                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
         </svg>
-        <span class="sr-only">Info</span>
+        <span class="sr-only">Error</span>
         <div>
-            <span class="font-medium">Info alert!</span> <span id="success"></span>
+            <span id="error" class="font-lg">Error!</span> {{ session()->get('error') }}
         </div>
     </div>
-    <main class="container mx-auto flex gap-2 flex justify-center p-5" style="height: 100%">
-
-
-
-        @if (session()->has('success'))
-            <div id="alert-1"
-                class="flex items-center absolute top-0 right-20 p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
-                role="alert">
-                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                </svg>
-                <span class="sr-only">Info</span>
-                <div>
-                    <span id="success" class="font-medium">Info alert!</span> {{ session('success') }}
-                </div>
-            </div>
-        @endif
-
-
-        @if (session()->get('error'))
-            <span id="error" class="text-3xl font-extrabold pb-5"
-                style="color: red; position: absolute; left: 100px; top: 20px">
-                {{ session()->get('error') }}</span>
-        @endif
+@endif
 
         <div class="left-side-container">
             <div class="background-wallpaper relative">
+                   <x-banner-upload />
                 <svg id="background-image" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="black"
                     class="size-8 absolute top-2 right-2 bg-white rounded-full p-1 hover:cursor-pointer hover:scale-110">
@@ -81,17 +114,9 @@
 
 
                      <!-- IMAGE PHP -->
-                     @if (Auth::user()->image)
-                     @php
-                         $image = Auth::user()->image->path;
-                         $isDiscordImage = Str::startsWith($image, 'https://');
 
-                         if ($isDiscordImage) {
-                             $imageUrl = $image; // Use the Discord image URL directly
-                         } else {
-                             $imageUrl = Storage::url($image); // Use the local storage image URL
-                         }
-                     @endphp
+
+                     
 
                      <img class="border-[10px]"
                          style="
@@ -103,20 +128,6 @@
              border-color: #1A1A1A;
            "
                          src="{{ $imageUrl }}" alt="" />
-                 @else
-                     <img class="border-[10px]"
-                         style="
-             border-radius: 50%;
-             max-width: 250px;
-             width: 250px;
-             max-height: 250px;
-             height: 250px;
-             border-color: #1A1A1A;
-           "
-                         src="{{ Storage::url('Avatars/avatar-' . Auth::user()->username . '.png') }}"
-                         alt="" />
-                 @endif
-
 
                 </div>
                 </div>
@@ -608,6 +619,38 @@
 
     document.addEventListener('livewire:navigated', () => {
 
+            
+
+
+
+        // Success alert
+        const successAlert = document.getElementById('alert-success');
+        if (successAlert) {
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 3000); // 5 seconds
+        }
+
+        // Error alert
+        const errorAlert = document.getElementById('alert-error');
+        if (errorAlert) {
+            setTimeout(() => {
+                errorAlert.style.display = 'none';
+            }, 3000); // 5 seconds
+        }
+
+
+
+
+        const backgroundUpload = document.getElementById('background-image');
+
+        backgroundUpload.addEventListener('click', () => {
+
+            showModal('my_modal_5');
+        })
+
+
+
         Livewire.on('imageUploaded', (event) => {
          closeModal('my_modal_4');
 
@@ -648,6 +691,9 @@
         window.showModal = showModal;
         window.closeModal = closeModal;
     });
+
+
+    
 </script>
    @endscript
 </div>

@@ -70,8 +70,7 @@ class FrontController extends Controller
 
         $users = User::all();
 
-        $imagePath = ImageModel::where('user_id')->value('path');
-
+        $imagePath = ImageModel::where('user_id')->value('profile_picture_path');
 
 
         return view('members', compact('users', 'usersWithActivities', 'imagePath'));
@@ -109,7 +108,6 @@ class FrontController extends Controller
 
             // Imposta lo stato online dell'utente su false
             $user->is_online = false;
-
         } else {
             $request->session()->put('duration_online', 0);
         }
@@ -176,18 +174,59 @@ class FrontController extends Controller
     {
         $comment = Comment::findOrFail($commentId);
 
-       if(auth()->user()->is_staff == 1){
+        if (auth()->user()->is_staff == 1) {
             $comment->delete();
-       }
-       elseif($comment->commenter_id !== auth()->id() && $comment->user_id !== auth()->id()){
+        } elseif ($comment->commenter_id !== auth()->id() && $comment->user_id !== auth()->id()) {
             abort(403, 'Unauthorized action.');
-       }
+        }
 
-       $comment->delete();
+        $comment->delete();
 
         return redirect()->back()->with('success', 'Comment deleted successfully.');
     }
 
 
+
+    public function bannerUserUpload(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            $request->validate([
+                'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $image = $request->file('banner');
+
+            // Naming the image
+            $imageName = 'user-' . $user->username . '-banner.' . $image->getClientOriginalExtension();
+
+            // Define the path
+            $destinationPath = resource_path('css/images/profile-user-banners');
+
+            // Ensure directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Save the image
+            $image->move($destinationPath, $imageName);
+
+            // Full image path
+            $imagePath = 'resources/css/images/profile-user-banners/' . $imageName;
+
+            // Create or update the user's image path
+            $user->image()->updateOrCreate(
+                ['user_id' => $user->id], // Assuming 'user_id' is the foreign key in images table
+                ['banner_picture_path' => $imagePath]
+            
+            );
+
+            return redirect()->back()->with('success', 'Banner updated successfully!');
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', 'An error occurred while uploading the banner.');
+        }
+    }
 
 }

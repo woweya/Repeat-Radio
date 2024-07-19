@@ -18,12 +18,6 @@
                             class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center cursor-pointer"
                             id="dropzone">
                             <div>
-                                <span class="mb-2 block text-xl font-semibold text-[#07074D]">
-                                    Drop files here
-                                </span>
-                                <span class="mb-2 block text-base font-medium text-[#6B7280]">
-                                    Or
-                                </span>
                                 <span
                                     class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
                                     Browse
@@ -56,9 +50,9 @@
                     <div wire:loading wire:target="photo">Uploading...</div>
                 </div>
 
-                <div style="cursor: not-allowed;">
-                    <button style="background-color: #82aae3;" id="saveButton" type="submit"
-                        class="pointer-events-none hover:shadow-form w-full rounded-md  py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                <div id="save-allowed-not" style="cursor: not-allowed;">
+                    <button style="background-color: #82aae3; pointer-events: none;" id="save-Button" type="submit"
+                        class=" hover:shadow-form w-full rounded-md  py-3 px-8 text-center text-base font-semibold text-white outline-none">
                         Upload File
                     </button>
                 </div>
@@ -66,6 +60,8 @@
         </div>
     </div>
 </div>
+
+
 @script
     <script>
         document.addEventListener('livewire:initialized', () => {
@@ -88,13 +84,14 @@
                                 .height;
                         }
                     });
-                    document.getElementById('saveButton').style.pointerEvents = 'all';
-                    document.getElementById('saveButton').style.backgroundColor = '#6A64F1';
-                    document.getElementById('saveButton').style.cursor = 'pointer';
+                    console.log(document.getElementById('save-Button'));
+                    document.getElementById('save-Button').style.pointerEvents = 'all';
+                    document.getElementById('save-Button').style.backgroundColor = '#6A64F1';
+                    document.getElementById('save-allowed-not').style.cursor = 'pointer';
                 }, 2500); // Attendi 2,5 secondi
             });
 
-            document.getElementById('saveButton').addEventListener('click', function() {
+            document.getElementById('save-Button').addEventListener('click', function() {
                 Livewire.dispatch('setCropValues', {
                     x: document.getElementById('cropX').value,
                     y: document.getElementById('cropY').value,

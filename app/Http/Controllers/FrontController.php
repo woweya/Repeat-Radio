@@ -188,45 +188,51 @@ class FrontController extends Controller
 
 
     public function bannerUserUpload(Request $request)
-    {
-        try {
-            $user = Auth::user();
+{
+    try {
+        $user = Auth::user();
 
-            $request->validate([
-                'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
+        // Aggiungi logging per il debug
+        \Log::info('Request received', $request->all());
 
-            $image = $request->file('banner');
+        $request->validate([
+            'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-            // Naming the image
-            $imageName = 'user-' . $user->username . '-banner.' . $image->getClientOriginalExtension();
+        $image = $request->file('banner');
 
-            // Define the path
-            $destinationPath = resource_path('css/images/profile-user-banners');
+        // Aggiungi logging per il debug
+        \Log::info('File uploaded', ['file' => $image]);
 
-            // Ensure directory exists
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
+        // Naming the image
+        $imageName = 'user-' . $user->username . '-banner.' . $image->getClientOriginalExtension();
 
-            // Save the image
-            $image->move($destinationPath, $imageName);
+        // Define the path
+        $destinationPath = resource_path('css/images/profile-user-banners');
 
-            // Full image path
-            $imagePath = 'resources/css/images/profile-user-banners/' . $imageName;
-
-            // Create or update the user's image path
-            $user->image()->updateOrCreate(
-                ['user_id' => $user->id], // Assuming 'user_id' is the foreign key in images table
-                ['banner_picture_path' => $imagePath]
-            
-            );
-
-            return redirect()->back()->with('success', 'Banner updated successfully!');
-        } catch (\Exception $e) {
-
-            return redirect()->back()->with('error', 'An error occurred while uploading the banner.');
+        // Ensure directory exists
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
         }
+
+        // Save the image
+        $image->move($destinationPath, $imageName);
+
+        // Full image path
+        $imagePath = 'resources/css/images/profile-user-banners/' . $imageName;
+
+        // Create or update the user's image path
+        $user->image()->updateOrCreate(
+            ['user_id' => $user->id], // Assuming 'user_id' is the foreign key in images table
+            ['banner_picture_path' => $imagePath]
+        );
+
+        return redirect()->back()->with('success', 'Banner updated successfully!');
+    } catch (\Exception $e) {
+        \Log::error('Error uploading banner', ['error' => $e->getMessage()]);
+
+        return redirect()->back()->with('error', 'An error occurred while uploading the banner.');
     }
+}
 
 }

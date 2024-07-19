@@ -11,7 +11,7 @@
                         </label>
                         <div class="mb-8">
                             <input type="file" name="banner" id="fileBanner" class="sr-only" />
-                            <label for="file"
+                            <label for="fileBanner"
                                 class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center cursor-pointer"
                                 id="dropzone">
                                 <div>
@@ -37,6 +37,21 @@
         </div>
     </form>
 </dialog>
+<script>
+    document.getElementById('fileBanner').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewContainer = document.getElementById('preview-container');
+            const previewBanner = document.getElementById('previewBanner');
+            previewContainer.classList.remove('hidden');
+            previewBanner.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 </div>
 
 

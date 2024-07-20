@@ -322,6 +322,17 @@ header{
   }
 
 
+  #my_modal_6>.modal-box {
+    max-width: 450px;
+    overflow-x: hidden!important;
+}
+
+#my_modal_6 .tooltip:before,#my_modal_6 .tooltip-top:before{
+    left: 100px!important;
+}
+
+
+
   .overlay{
     height: 100%;
     width: 100%;

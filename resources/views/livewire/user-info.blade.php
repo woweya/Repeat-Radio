@@ -1,24 +1,21 @@
 <div class="user-info w-full">
 
-                    @php
+    @php
 
-                        $user = Auth::user();
-                         if($user->image !== null && $user->image->profile_picture_path !== null)
-                        {
-                            $image = Auth::user()->image->profile_picture_path;
-                            $isDiscordImage = Str::startsWith($image, 'https://');
+        $user = Auth::user();
+        if ($user->image !== null && $user->image->profile_picture_path !== null) {
+            $image = Auth::user()->image->profile_picture_path;
+            $isDiscordImage = Str::startsWith($image, 'https://');
 
-                         if ($isDiscordImage) {
-                             $imageUrl = $image; // Use the Discord image URL directly
-                         } else {
-                             $imageUrl = Storage::url($user->image->profile_picture_path); // Use the local storage image URL
-                         }
-                        }
-                        else
-                        {
-                            $imageUrl = Storage::url('Avatars/avatar-' . $user->username . '.png');
-                        } 
-                     @endphp
+            if ($isDiscordImage) {
+                $imageUrl = $image; // Use the Discord image URL directly
+            } else {
+                $imageUrl = Storage::url($user->image->profile_picture_path); // Use the local storage image URL
+            }
+        } else {
+            $imageUrl = Storage::url('Avatars/avatar-' . $user->username . '.png');
+        }
+    @endphp
 
     @section('head')
         @vite(['resources/css/user-info.css'])
@@ -35,60 +32,60 @@
         }
     </style>
 
-<div id="alert-1"
-            class="hidden flex items-center absolute bottom-0 right-0 z-10 p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
-            role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
-            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor" viewBox="0 0 20 20">
-                <path
-                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-            </svg>
-            <span class="sr-only">Info</span>
-            <div>
-                <span id="success" class="font-lg">Success!</span> {{ session('success') }}
-            </div>
-        </div>
-
-
-
-    <main class="container mx-auto flex gap-2 flex justify-center p-5" style="height: 100%">
-
-        @if (session()->has('success'))
-        <div id="alert-success"
-            class="flex items-center absolute bottom-0 right-0 z-10 p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
-            role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
-            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor" viewBox="0 0 20 20">
-                <path
-                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-            </svg>
-            <span class="sr-only">Info</span>
-            <div>
-                <span id="success" class="font-lg">Success!</span> {{ session('success') }}
-            </div>
-        </div>
-    @endif
-
-
-    @if (session()->get('error'))
-    <div id="alert-error"
-        class="flex items-center absolute top-[50%] right-20 z-10 p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+    <div id="alert-1"
+        class="hidden flex items-center absolute bottom-0 right-0 z-10 p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
         role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
         <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             fill="currentColor" viewBox="0 0 20 20">
             <path
                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
         </svg>
-        <span class="sr-only">Error</span>
+        <span class="sr-only">Info</span>
         <div>
-            <span id="error" class="font-lg">Error!</span> {{ session()->get('error') }}
+            <span id="success" class="font-lg">Success!</span> {{ session('success') }}
         </div>
     </div>
-@endif
+
+
+
+    <main class="container mx-auto flex gap-2 flex justify-center p-5" style="height: 100%">
+
+        @if (session()->has('success'))
+            <div id="alert-success"
+                class="flex items-center absolute bottom-0 right-0 z-10 p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+                role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
+                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Info</span>
+                <div>
+                    <span id="success" class="font-lg">Success!</span> {{ session('success') }}
+                </div>
+            </div>
+        @endif
+
+
+        @if (session()->get('error'))
+            <div id="alert-error"
+                class="flex items-center absolute top-[50%] right-20 z-10 p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                role="alert" data-aos="zoom-in-right" data-aos-duration="1000">
+                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Error</span>
+                <div>
+                    <span id="error" class="font-lg">Error!</span> {{ session()->get('error') }}
+                </div>
+            </div>
+        @endif
 
         <div class="left-side-container">
             <div class="background-wallpaper relative">
-                   <x-banner-upload />
+                <x-banner-upload />
                 <svg id="background-image" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="black"
                     class="size-8 absolute top-2 right-2 bg-white rounded-full p-1 hover:cursor-pointer hover:scale-110">
@@ -98,28 +95,30 @@
 
                 <div class="profile-image w-[250px] left-20 absolute bottom-[-80px]">
 
-                   <div class="profile-plus relative">
-                    <button onclick="showModal('my_modal_4')" class="flex flex-col justify-center items-center absolute absolute bottom-0 right-[-10px]" id="modal-user">
-                    <svg id="photoUpload" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8139DD" class="size-20 hover:cursor-pointer hover:scale-110 transition-all">
-                       <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
-                     </svg>
-                    </button>
-                    <dialog id="my_modal_4" class="modal" style="overflow-y: visible">
+                    <div class="profile-plus relative">
+                        <button onclick="showModal('my_modal_4')"
+                            class="flex flex-col justify-center items-center absolute absolute bottom-0 right-[-10px]"
+                            id="modal-user">
+                            <svg id="photoUpload" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8139DD"
+                                class="size-20 hover:cursor-pointer hover:scale-110 transition-all">
+                                <path fill-rule="evenodd"
+                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <dialog id="my_modal_4" class="modal" style="overflow-y: visible">
                             @livewire('image-upload')
-                        <form method="dialog" class="modal-backdrop absolute h-[100%] w-[100%]">
-                            <button>Close</button>
-                        </form>
-                    </dialog>
+                            <form method="dialog" class="modal-backdrop absolute h-[100%] w-[100%]">
+                                <button>Close</button>
+                            </form>
+                        </dialog>
 
 
 
-                     <!-- IMAGE PHP -->
+                        <!-- IMAGE PHP -->
 
-
-                     
-
-                     <img class="border-[10px]"
-                         style="
+                        <img class="border-[10px]"
+                            style="
              border-radius: 50%;
              max-width: 250px;
              width: 250px;
@@ -127,9 +126,9 @@
              height: 250px;
              border-color: #1A1A1A;
            "
-                         src="{{ $imageUrl }}" alt="" />
+                            src="{{ $imageUrl }}" alt="" />
 
-                </div>
+                    </div>
                 </div>
             </div>
             <div class="bottom-user-infos px-10 py-1">
@@ -143,24 +142,80 @@
                         <p class="text-gray-400 text-md italic">{{ '@' . Auth::user()->username }}</p>
                         <section>
                             <!-- IF STATEMENT SE HA RUOLO DI DEVELOPER-->
-                            @if (Auth::user()->is_staff == 1)
-                                <div class="flex justify-start items-center gap-2 py-1">
+                            <div class="flex justify-start items-center gap-2 py-1">
+                                @if (Auth::user()->is_staff == 1 && count(Auth::user()->roles) == 0)
                                     <p
-                                        class="text-purple-400 text-lg font-semibold italic underline hover:cursor-pointer hover:scale-110">
+                                        class="text-[#8946f4] text-lg font-semibold text-center italic underline hover:cursor-pointer hover:scale-110">
                                         Staff Member
                                     </p>
-                                    @foreach (Auth::user()->roles as $role)
-                                        <div class="tooltip" data-tip="{{ $role->name }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="rgb(192 132 252)" class="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                            </svg>
-                                        </div>
-                                    @endforeach
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8946f4" class="size-6 hover:cursor-pointer hover:scale-110">
+                                        <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                      </svg>
 
+                                @else
+                                <p class="text-[#8946f4] text-lg font-semibold text-center italic underline hover:cursor-pointer hover:scale-110">
+                                        Staff Member
+                                    </p>
+                                @foreach (Auth::user()->roles as $role)
+                                <div class="tooltip" data-tip="{{ $role->name }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8946f4" class="size-6 hover:cursor-pointer hover:scale-110">
+                                        <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                      </svg>
                                 </div>
+                            @endforeach
                             @endif
+                                <hr class="w-[1.2%] border-gray-400">
+                                <button
+                                    class="contact-infos text-purple-400 underline underline-offset-2 decoration-purple-400"
+                                    onclick="showModal('my_modal_3')">
+                                    Contact information
+                                </button>
+                                <dialog id="my_modal_3" class="modal" wire:ignore.self>
+                                    <div style="max-width: 300px" class="modal-box relative">
+                                        <h3 class="text-xl font-bold">Contact information</h3>
+                                        <hr class="w-[98%] border-t-2 border-gray-500" />
+                                        <p class="py-1">
+                                        <div class="flex flex-col justify-start items-start gap-2">
+                                            <h1 class="text-lg font-semibold text-white">Name</h1>
+                                            <p class="text-gray-400 text-md italic">{{ Auth::user()->name }}</p>
+                                            <h1 class="text-lg font-semibold text-white">Email</h1>
+                                            <p class="text-gray-400 text-md italic">{{ Auth::user()->email }}</p>
+                                            <h1 class="text-lg font-semibold text-white">Birthday</h1>
+                                            <p class="text-gray-400 text-md italic">{{ Auth::user()->birthday }}</p>
+                                            <h1 class="text-lg font-semibold text-white">Website</h1>
+
+                                            @if ($isEditingWebsiteURL)
+                                                <input type="text"
+                                                    class="input input-sm input-bordered input-primary w-full max-w-xs"
+                                                    placeholder="If you have a website, insert one!"
+                                                    wire:model.blur="WebsiteURL">
+                                            @else
+                                                <div class="modify-link flex flex-row w-full">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
+                                                        class="size-4 cursor-pointer hover:scale-110 absolute bottom-[35%] right-[62%]"
+                                                        wire:click="enableEditingWebsiteURL">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                                    </svg>
+                                                    <a class="text-white text-md italic"
+                                                        style="text-decoration:underline; color:rgb(183, 0, 255);"
+                                                        href="{{ $user->website_url }}" target="_blank">{{ $user->website_url }}</a>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        </p>
+                                        <hr class="w-[98%] border-t-2 border-gray-500 mt-5" />
+                                        <div class="modal-action w-full flex justify-center items-center">
+                                            <form method="dialog" class="w-full">
+                                                <button
+                                                    class="w-full bg-[#14191e] hover:bg-[#621ebc] hover:text-white p-3 text-center rounded">Close</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </dialog>
+
+                            </div>
 
                             <p class="text-gray-400 text-sm italic">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -170,7 +225,8 @@
                             <div class="social-links">
                                 <div class="flex gap-2 py-2">
                                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                            width="50" height="50" viewBox="0,0,256,256" style="fill:#000000;">
+                                            width="50" height="50" viewBox="0,0,256,256"
+                                            style="fill:#000000;">
                                             <g fill="#2550d2" fill-rule="nonzero" stroke="none" stroke-width="1"
                                                 stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
                                                 stroke-dasharray="" stroke-dashoffset="0" font-family="none"
@@ -185,8 +241,9 @@
                                         </svg></a>
                                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                                             width="48" height="48" viewBox="0 0 48 48">
-                                            <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38"
-                                                cy="42.035" r="44.899" gradientUnits="userSpaceOnUse">
+                                            <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1"
+                                                cx="19.38" cy="42.035" r="44.899"
+                                                gradientUnits="userSpaceOnUse">
                                                 <stop offset="0" stop-color="#fd5"></stop>
                                                 <stop offset=".328" stop-color="#ff543f"></stop>
                                                 <stop offset=".348" stop-color="#fc5245"></stop>
@@ -251,8 +308,153 @@
                         </section>
                     </div>
                     <div class="header-infos-right flex w-full justify-center">
-                        <div class="flex flex-col w-full justify-between items-end py-2 px-2">
+                        <div class="flex flex-col w-full justify-start gap-10 items-end py-2 px-6">
+                            <button data-tip="Settings User Profile"
+                                class="tooltip z-10 flex flex-col justify-center items-center" id="modal-user"
+                                onclick="showModal('my_modal_6')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+
+                            </button>
+                            <dialog id="my_modal_6" class="modal" wire:ignore>
+                                <div class="modal-box">
+                                    <h1 class="text-xl font-bold text-white">User settings</h1>
+                                    <hr class="w-[98%] border-t-2 border-gray-500 py-2">
+                                    <div class="flex flex-col gap-5 justify-start items-start">
+                                        <label
+                                            class="inline-flex items-center justify-between cursor-pointer relative w-full">
+                                            <!-- DATA TOOL TIP -->
+                                            <div data-tip="About me, is a box that you can add to your profile and write everything you think of!"
+                                                class="tooltip absolute left-[32%] bottom-[55%]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                </svg>
+                                            </div>
+
+                                            <!-- Checkbox with toggle -->
+                                            <span
+                                                class="ms-3 text-lg font-medium font-semibold text-gray-100 dark:text-gray-300">About
+                                                me box</span>
+                                            @if ($AboutMe === true)
+                                                <input type="checkbox" wire:model.change="AboutMe"
+                                                    class="sr-only peer" checked>
+                                            @else
+                                                <input type="checkbox" wire:model.change="AboutMe"
+                                                    class="sr-only peer">
+                                            @endif
+                                            <div
+                                                class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700  dark:peer-focus:ring-purple-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600">
+                                            </div>
+                                        </label>
+
+                                        <hr class="w-[80%] border-1 border-gray-900">
+
+                                        <label
+                                            class="inline-flex items-center justify-between cursor-pointer relative w-full">
+                                            <!-- DATA TOOL TIP -->
+                                            <div data-tip="You want others to connect with you even with other socials? Enable this!"
+                                                class="tooltip absolute left-[28%] bottom-[55%]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                </svg>
+                                            </div>
+
+                                            <!-- Checkbox with toggle -->
+                                            <span
+                                                class="ms-3 text-lg font-medium font-semibold text-gray-100 dark:text-gray-300">Socials
+                                                Infos</span>
+                                            @if ($SocialsInfos === true)
+                                                <input type="checkbox" wire:model.change="SocialsInfos"
+                                                    class="sr-only peer" checked>
+                                            @else
+                                                <input type="checkbox" wire:model.change="SocialsInfos"
+                                                    class="sr-only peer">
+                                            @endif
+                                            <div
+                                                class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700  dark:peer-focus:ring-purple-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600">
+                                            </div>
+                                        </label>
+
+                                        <hr class="w-[80%] border-1 border-gray-900">
+
+                                        <label
+                                            class="inline-flex items-center justify-between cursor-pointer relative w-full">
+                                            <!-- DATA TOOL TIP -->
+                                            <div data-tip="Toggle to show your personal information! (No worries, we're not going to show your password.)"
+                                                class="tooltip absolute left-[30%] bottom-[55%]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                </svg>
+                                            </div>
+
+                                            <!-- Checkbox with toggle -->
+                                            <span
+                                                class="ms-3 text-lg font-medium font-semibold text-gray-100 dark:text-gray-300">Contact
+                                                Infos</span>
+                                            @if ($ContactInfos === true)
+                                                <input type="checkbox" wire:model.change="ContactInfos"
+                                                    class="sr-only peer" checked>
+                                            @else
+                                                <input type="checkbox" wire:model.change="ContactInfos"
+                                                    class="sr-only peer">
+                                            @endif
+                                            <div
+                                                class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700  dark:peer-focus:ring-purple-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600">
+                                            </div>
+                                        </label>
+
+                                        <hr class="w-[80%] border-1 border-gray-900">
+
+                                        <label
+                                            class="inline-flex items-center justify-between cursor-pointer relative w-full">
+                                            <!-- DATA TOOL TIP -->
+                                            <div data-tip="You don't want others to visit your profile without your permission? No worries!"
+                                                class="tooltip absolute left-[32%] bottom-[55%]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                </svg>
+                                            </div>
+
+                                            <!-- Checkbox with toggle -->
+                                            <span
+                                                class="ms-3 text-lg font-medium font-semibold text-gray-100 dark:text-gray-300">Private
+                                                profile</span>
+                                            @if ($PrivateProfile === true)
+                                                <input type="checkbox" wire:model.change="PrivateProfile"
+                                                    class="sr-only peer" checked>
+                                            @else
+                                                <input type="checkbox" wire:model.change="PrivateProfile"
+                                                    class="sr-only peer">
+                                            @endif
+                                            <div
+                                                class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700  dark:peer-focus:ring-purple-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600">
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <form method="dialog" class="modal-backdrop">
+                                    <button>Close</button>
+                                </form>
+                            </dialog>
                             <div class="flex justify-center items-center gap-5">
+
                                 <button class="flex flex-col justify-center items-center" id="modal-user"
                                     onclick="showModal('my_modal_1')">
                                     <span
@@ -328,37 +530,6 @@
                                     </form>
                                 </dialog>
                             </div>
-
-
-                            <button class="contact-infos" onclick="showModal('my_modal_3')">
-                                Contact information
-                            </button>
-                            <dialog id="my_modal_3" class="modal">
-                                <div class="modal-box">
-                                    <h3 class="text-xl font-bold">Contact information</h3>
-                                    <hr class="w-[98%] border-t-2 border-gray-500" />
-                                    <p class="py-1">
-                                    <div class="flex flex-col justify-start items-start gap-2">
-                                        <h1 class="text-lg font-semibold text-white">Name</h1>
-                                        <p class="text-gray-400 text-md italic">{{ Auth::user()->name }}</p>
-                                        <h1 class="text-lg font-semibold text-white">Email</h1>
-                                        <p class="text-gray-400 text-md italic">{{ Auth::user()->email }}</p>
-                                        <h1 class="text-lg font-semibold text-white">Birthday</h1>
-                                        <p class="text-gray-400 text-md italic">{{ Auth::user()->birthday }}</p>
-                                        <h1 class="text-lg font-semibold text-white">Website</h1>
-                                        <a class="text-gray-400 text-md italic"
-                                            style="text-decoration:underline; color:rgb(42, 85, 228);" href="">
-                                            https://yourwebsite.com</a>
-                                    </div>
-                                    </p>
-                                    <div class="modal-action">
-                                        <form method="dialog">
-                                            <!-- if there is a button in form, it will close the modal -->
-                                            <button class="btn">Close</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </dialog>
 
                         </div>
                     </div>
@@ -603,97 +774,93 @@
             </div>
         </div>
     </main>
-   @script
-   <script>
-    function toggleEditForm(commentId) {
-        const editForm = document.getElementById(`editCommentForm${commentId}`);
-        const bodyMessage = document.getElementById(`comment${commentId}`);
-        if (editForm) {
-            editForm.classList.toggle('hidden');
-            bodyMessage.classList.toggle('hidden');
-        }
-    }
-
-
-
-
-    document.addEventListener('livewire:navigated', () => {
-
-            
-
-
-
-        // Success alert
-        const successAlert = document.getElementById('alert-success');
-        if (successAlert) {
-            setTimeout(() => {
-                successAlert.style.display = 'none';
-            }, 3000); // 5 seconds
-        }
-
-        // Error alert
-        const errorAlert = document.getElementById('alert-error');
-        if (errorAlert) {
-            setTimeout(() => {
-                errorAlert.style.display = 'none';
-            }, 3000); // 5 seconds
-        }
-
-
-
-
-        const backgroundUpload = document.getElementById('background-image');
-
-        backgroundUpload.addEventListener('click', () => {
-
-            showModal('my_modal_5');
-        })
-
-
-
-        Livewire.on('imageUploaded', (event) => {
-         closeModal('my_modal_4');
-
-    const success = document.getElementById('success');
-    const alert1 = document.getElementById('alert-1');
-
-
-    setTimeout(() => {
-        alert1.classList.remove('hidden');
-        success.innerText = event.message;
-        window.location.reload();
-    }, 2000);
-});
-        function showModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.showModal();
-            }
-        }
-
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.close();
-            }
-        }
-
-        // Assign close buttons to close the modal
-        document.querySelectorAll('.modal-backdrop button').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const modal = button.closest('.modal');
-                if (modal) {
-                    modal.close();
+    @script
+        <script>
+            function toggleEditForm(commentId) {
+                const editForm = document.getElementById(`editCommentForm${commentId}`);
+                const bodyMessage = document.getElementById(`comment${commentId}`);
+                if (editForm) {
+                    editForm.classList.toggle('hidden');
+                    bodyMessage.classList.toggle('hidden');
                 }
+            }
+
+
+
+
+            document.addEventListener('livewire:navigated', () => {
+
+
+
+                // Success alert
+                const successAlert = document.getElementById('alert-success');
+                if (successAlert) {
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000); // 5 seconds
+                }
+
+                // Error alert
+                const errorAlert = document.getElementById('alert-error');
+                if (errorAlert) {
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 3000); // 5 seconds
+                }
+
+
+
+
+                const backgroundUpload = document.getElementById('background-image');
+
+                backgroundUpload.addEventListener('click', () => {
+
+                    showModal('my_modal_5');
+                })
+
+
+
+                Livewire.on('imageUploaded', (event) => {
+                    closeModal('my_modal_4');
+
+                    const success = document.getElementById('success');
+                    const alert1 = document.getElementById('alert-1');
+
+
+                    setTimeout(() => {
+                        alert1.classList.remove('hidden');
+                        success.innerText = event.message;
+                        window.location.reload();
+                    }, 2000);
+                });
+
+                function showModal(modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.showModal();
+                    }
+                }
+
+                function closeModal(modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.close();
+                    }
+                }
+
+                // Assign close buttons to close the modal
+                document.querySelectorAll('.modal-backdrop button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const modal = button.closest('.modal');
+                        if (modal) {
+                            modal.close();
+                        }
+                    });
+                });
+
+                window.showModal = showModal;
+                window.closeModal = closeModal;
             });
-        });
-
-        window.showModal = showModal;
-        window.closeModal = closeModal;
-    });
-
-
-    
-</script>
-   @endscript
+        </script>
+    @endscript
 </div>

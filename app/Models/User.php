@@ -26,6 +26,11 @@ class User extends Authenticatable
         'city',
         'birthday',
         'username',
+        'about_me',
+        'social_infos',
+        'contact_infos',
+        'private_profile',
+        'website_url',
     ];
 
 
@@ -44,19 +49,20 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    public static function findByUsernameOrEmail($username) : ?User
+    public static function findByUsernameOrEmail($username): ?User
     {
         return static::where('username', $username)->orWhere('email', $username)->first();
     }
 
 
-    public function image(){
+    public function image()
+    {
 
         return $this->hasOne(\App\Models\Image::class);
-
     }
 
-    public function likedSong(){
+    public function likedSong()
+    {
         return $this->hasMany(\App\Models\Like::class);
     }
 
@@ -66,34 +72,45 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'about_me' => 'boolean',
+            'social_infos' => 'boolean',
+            'contact_infos' => 'boolean',
+            'private_profile' => 'boolean',
+            'website_url'=>'string',
         ];
     }
 
-    public function activity(){
+    public function activity()
+    {
         return $this->hasMany(\App\Models\UserActivity::class);
     }
 
 
-    public function article(){
+    public function article()
+    {
 
         return $this->hasMany(\App\Models\Article::class);
     }
 
-    public function roles(){
+    public function roles()
+    {
         return $this->belongsToMany(\App\Models\Role::class);
     }
 
-    public function comments(){
+    public function comments()
+    {
 
         return $this->hasMany(\App\Models\Comment::class);
     }
 
 
-    public function followers(){
+    public function followers()
+    {
         return $this->belongsToMany(User::class, 'followers', 'followed_id', 'follower_id')->withTimestamps();
     }
 
-    public function followings(){
+    public function followings()
+    {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'followed_id')->withTimestamps();
     }
 }

@@ -14,8 +14,31 @@ class UserInfo extends Component
     public $image;
     public $user;
 
-    public $updatedInfos = [];  //USE THIS PROPERTY TO UPDATE THE USER INFO or whatever you like. USE "dd()" to console.log the values. To see if you have access to the checkboxes,
-    //do a dd of the this value.
+    public $AboutMe = false;
+    public $SocialsInfos = false;
+    public $ContactInfos = false;
+    public $isEditingWebsiteURL = false;
+    public $PrivateProfile = false;
+
+    public $WebsiteURL = '';
+
+
+
+
+    public function mount()
+    {
+        $this->user = Auth::user();
+
+        if ($this->user) {
+            $this->AboutMe = $this->user->about_me;
+            $this->SocialsInfos = $this->user->social_infos;
+            $this->ContactInfos = $this->user->contact_infos;
+            $this->PrivateProfile = $this->user->private_profile;
+            $this->WebsiteURL = $this->user->website_url;
+        }
+    }
+
+
     public function render()
     {
         return view('livewire.user-info')->layout('components.layout');
@@ -29,20 +52,65 @@ class UserInfo extends Component
 
 
 
-    //HERE U CAN MANAGE TO EDIT USER INFO, USE WIRE:MODEL TO PASS THE USER VALUES.
-    //$userID it's being called by the Save button near the end of HTML in user-info.
-
     public function editUser($userID)
     {
 
         $this->user = \App\Models\User::find($userID);
-
-
     }
 
 
     #[On('uploadImage')]
-    public function sendRequest(){
+    public function sendRequest()
+    {
         $this->dispatch('uploadImage');
+    }
+
+
+    public function updatedWebsiteURL(){
+        if($this->user)
+        {
+            $this->user->website_url = $this->WebsiteURL;
+            $this->user->save();
+            $this->isEditingWebsiteURL = false;
+        }
+    }
+
+
+    public function enableEditingWebsiteURL()
+    {
+        $this->isEditingWebsiteURL = true;
+    }
+
+
+    public function updatedAboutMe()
+    {
+        if ($this->user) {
+            $this->user->about_me = $this->AboutMe;
+            $this->user->save();
+        }
+    }
+
+    public function updatedSocialsInfos()
+    {
+        if ($this->user) {
+            $this->user->social_infos = $this->SocialsInfos;
+            $this->user->save();
+        }
+    }
+
+    public function updatedContactInfos()
+    {
+        if ($this->user) {
+            $this->user->contact_infos = $this->ContactInfos;
+            $this->user->save();
+        }
+    }
+
+    public function updatedPrivateProfile()
+    {
+        if ($this->user) {
+            $this->user->private_profile = $this->PrivateProfile;
+            $this->user->save();
+        }
     }
 }

@@ -97,10 +97,10 @@
 
                     <div class="profile-plus relative">
                         <button onclick="showModal('my_modal_4')"
-                            class="flex flex-col justify-center items-center absolute absolute bottom-0 right-[-10px]"
+                            class="flex flex-col justify-center items-center absolute bottom-4 right-[5px]"
                             id="modal-user">
                             <svg id="photoUpload" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8139DD"
-                                class="size-20 hover:cursor-pointer hover:scale-110 transition-all">
+                                class="size-14 hover:cursor-pointer hover:scale-110 transition-all">
                                 <path fill-rule="evenodd"
                                     d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
                                     clip-rule="evenodd" />

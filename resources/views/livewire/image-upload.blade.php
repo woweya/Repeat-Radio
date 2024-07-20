@@ -1,9 +1,9 @@
 <div>
     <div class="flex items-center justify-center p-12">
-        <div class="mx-auto w-full max-w-[550px] bg-white">
+        <div class="mx-auto w-full max-w-[550px] bg-[#1d232a]">
             <div class="py-6 px-9">
                 <div class="mb-6 pt-4">
-                    <label class="mb-5 block text-xl font-semibold text-[#07074D]">
+                    <label class="mb-5 block text-xl font-semibold text-white">
                         Upload File
                     </label>
 
@@ -19,7 +19,7 @@
                             id="dropzone">
                             <div>
                                 <span
-                                    class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
+                                    class="inline-flex rounded-sm py-2 px-7 text-base font-medium btn-follow text-white">
                                     Browse
                                 </span>
                             </div>
@@ -29,10 +29,10 @@
                     @if ($previewUrl)
                         <div class="mb-5 rounded-md bg-[#F5F7FB] py-4 px-8">
                             <div class="flex items-center justify-between">
-                                <span class="truncate pr-3 text-base font-medium text-[#07074D]">
+                                <span class="truncate pr-3 text-base font-medium text-white">
                                     <img id="image" src="{{ $previewUrl }}" alt="Image Preview" class="max-w-xs">
                                 </span>
-                                <button type="button" wire:click="removePhoto" class="text-[#07074D]">
+                                <button type="button" wire:click="removePhoto" class="text-white">
                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -51,8 +51,8 @@
                 </div>
 
                 <div id="save-allowed-not" style="cursor: not-allowed;">
-                    <button style="background-color: #82aae3; pointer-events: none;" id="save-Button" type="submit"
-                        class=" hover:shadow-form w-full rounded-md  py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                    <button style="background-color: #7a32beda; pointer-events: none;" id="save-Button" type="submit"
+                        class="hover:shadow-form w-full border-0 rounded-sm py-3 px-8 text-center text-base font-semibold text-white outline-none">
                         Upload File
                     </button>
                 </div>
@@ -86,7 +86,7 @@
                     });
                     console.log(document.getElementById('save-Button'));
                     document.getElementById('save-Button').style.pointerEvents = 'all';
-                    document.getElementById('save-Button').style.backgroundColor = '#6A64F1';
+                    document.getElementById('save-Button').style.backgroundColor = '#6212ac';
                     document.getElementById('save-allowed-not').style.cursor = 'pointer';
                 }, 2500); // Attendi 2,5 secondi
             });

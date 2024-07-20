@@ -3,10 +3,10 @@
     <form action="{{ route('banner.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="flex items-center justify-center p-12">
-            <div class="mx-auto w-full max-w-[550px] bg-white">
+            <div class="mx-auto w-full max-w-[550px] bg-[#1d232a]">
                 <div class="py-6 px-9">
                     <div class="mb-6 pt-4">
-                        <label class="mb-5 block text-xl font-semibold text-[#07074D]">
+                        <label class="mb-5 block text-xl font-semibold text-white">
                             Upload File
                         </label>
                         <div class="mb-8">
@@ -16,7 +16,7 @@
                                 id="dropzone">
                                 <div>
                                     <span
-                                        class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
+                                        class="inline-flex rounded-sm btn-follow py-2 px-7 text-base font-medium text-white">
                                         Browse
                                     </span>
                                 </div>
@@ -27,8 +27,8 @@
                         </div>
                     </div>
                     <div>
-                        <button style="background-color: #82aae3;" id="saveButton" type="submit"
-                            class="hover:shadow-form w-full rounded-md py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                        <button style="background-color: #7a32beda;" id="saveButton" type="submit"
+                            class="hover:shadow-form w-full rounded-sm py-3 px-8 text-center text-base font-semibold text-white outline-none">
                             Upload File
                         </button>
                     </div>

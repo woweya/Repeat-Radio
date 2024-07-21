@@ -24,7 +24,14 @@
     <wireui:scripts />
     <title>Sailor Radio</title>
     @livewireStyles()
+    @livewireScripts()
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
+    <script>
+        initFlowbite();
+    </script>
 </head>
 
 <body>
@@ -38,7 +45,6 @@
 
     <x-footer />
     @yield('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
     <script>
         AOS.init();
@@ -56,16 +62,10 @@
         };
     </script>
 
-    @livewireScripts()
-    <script>
-        initFlowbite();
-    </script>
     <script src="{{ Storage::url('lib/js/config.min.js') }}"></script>
     <script src="{{ Storage::url('lib/js/util.min.js') }}"></script>
     <script src="{{ Storage::url('lib/js/jquery.emojiarea.min.js') }}"></script>
     <script src="{{ Storage::url('lib/js/emoji-picker.min.js') }}"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
 </body>
 
 </html>

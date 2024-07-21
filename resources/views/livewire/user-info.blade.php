@@ -90,7 +90,7 @@
         @endif
 
         <div class="left-side-container">
-            <div class="background-wallpaper relative" style="background-image: url('{{ $user->image->banner_picture_path }}');">
+            <div class="background-wallpaper relative" style="background-image: url('{{ Auth::user()->image && Auth::user()->image->banner_picture_path ? asset(Auth::user()->image->banner_picture_path) : asset('storage/images/image-not-found.png') }}');">
                 <x-banner-upload />
                 <svg id="background-image" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="black"

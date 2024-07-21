@@ -131,25 +131,19 @@ class FrontController extends Controller
 
     public function userProfile($id)
     {
+        $authenticatedUserId = Auth::id();
+
+        // Check if the provided ID matches the authenticated user's ID
+        if ($id == $authenticatedUserId) {
+            // Redirect to another page, e.g., the dashboard or home page
+            return redirect()->route('user'); // You can change 'home' to the desired route
+        }
         $user = User::with('comments.commenter')->findOrFail($id);
         return view('user-profile', compact('user'));
     }
 
 
-    public function postComment(Request $request, $id)
-    {
-        $request->validate([
-            'body' => 'required|string',
-        ]);
 
-        Comment::create([
-            'user_id' => $id,
-            'commenter_id' => auth()->id(),
-            'body' => $request->body,
-        ]);
-
-        return redirect()->route('user.profile', $id)->with('success', 'Comment posted successfully!');
-    }
 
     public function updateComment(Request $request, $commentId)
     {
@@ -170,69 +164,54 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'Comment updated successfully.');
     }
 
-    public function deleteComment($commentId)
-    {
-        $comment = Comment::findOrFail($commentId);
-
-        if (auth()->user()->is_staff == 1) {
-            $comment->delete();
-        } elseif ($comment->commenter_id !== auth()->id() && $comment->user_id !== auth()->id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $comment->delete();
-
-        return redirect()->back()->with('success', 'Comment deleted successfully.');
-    }
 
 
 
     public function bannerUserUpload(Request $request)
-{
-    try {
-        $user = Auth::user();
+    {
+        try {
+            $user = Auth::user();
 
-        // Aggiungi logging per il debug
-        \Log::info('Request received', $request->all());
+            // Aggiungi logging per il debug
+            \Log::info('Request received', $request->all());
 
-        $request->validate([
-            'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+            $request->validate([
+                'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
-        $image = $request->file('banner');
+            $image = $request->file('banner');
 
-        // Aggiungi logging per il debug
-        \Log::info('File uploaded', ['file' => $image]);
+            // Aggiungi logging per il debug
+            \Log::info('File uploaded', ['file' => $image]);
 
-        // Naming the image
-        $imageName = 'user-' . $user->username . '-banner.' . $image->getClientOriginalExtension();
+            // Naming the image
+            $imageName = 'user-' . $user->username . '-banner.' . $image->getClientOriginalExtension();
 
-        // Define the path
-        $destinationPath = public_path('storage/images/profile-user-banners');
+            // Define the path
+            $destinationPath = public_path('storage/images/profile-user-banners');
 
-        // Ensure directory exists
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
+            // Ensure directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Save the image
+            $image->move($destinationPath, $imageName);
+
+            // Full image path
+            $imagePath = 'storage/images/profile-user-banners/' . $imageName;
+
+            // Create or update the user's image path
+            $user->image()->updateOrCreate(
+                ['user_id' => $user->id], // Assuming 'user_id' is the foreign key in images table
+                ['banner_picture_path' => $imagePath]
+            );
+
+            return redirect()->back()->with('success', 'Banner updated successfully!');
+        } catch (\Exception $e) {
+            \Log::error('Error uploading banner', ['error' => $e->getMessage()]);
+
+            return redirect()->back()->with('error', 'An error occurred while uploading the banner.');
         }
-
-        // Save the image
-        $image->move($destinationPath, $imageName);
-
-        // Full image path
-        $imagePath = 'storage/images/profile-user-banners/' . $imageName;
-
-        // Create or update the user's image path
-        $user->image()->updateOrCreate(
-            ['user_id' => $user->id], // Assuming 'user_id' is the foreign key in images table
-            ['banner_picture_path' => $imagePath]
-        );
-
-        return redirect()->back()->with('success', 'Banner updated successfully!');
-    } catch (\Exception $e) {
-        \Log::error('Error uploading banner', ['error' => $e->getMessage()]);
-
-        return redirect()->back()->with('error', 'An error occurred while uploading the banner.');
     }
-}
-
 }

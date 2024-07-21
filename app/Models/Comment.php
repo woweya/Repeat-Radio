@@ -9,7 +9,7 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'commenter_id', 'body'];
+    protected $fillable = ['user_id', 'commenter_id', 'body', 'is_reply', 'reply_to'];
 
     public function user()
     {
@@ -19,5 +19,10 @@ class Comment extends Model
     public function commenter()
     {
         return $this->belongsTo(User::class, 'commenter_id');
+    }
+
+    public function repliedToComment()
+    {
+        return $this->belongsTo(Comment::class, 'reply_to');
     }
 }

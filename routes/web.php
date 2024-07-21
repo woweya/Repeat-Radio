@@ -17,7 +17,6 @@ Route::middleware('web')->group(function () {
 
     Route::get('/profile', UserInfo::class)->name('user');
     Route::get('/user/{id}', [FrontController::class, 'userProfile'])->name('user.profile');
-    Route::post('/user/{id}/comment', [FrontController::class, 'postComment'])->name('user.comment')->middleware('auth');
     Route::post('/user-banner-upload', [FrontController::class, 'bannerUserUpload'])->name('banner.update')->middleware('auth');
 
 
@@ -25,7 +24,6 @@ Route::middleware('web')->group(function () {
 
 
     Route::put('/comments/{commentId}', [FrontController::class, 'updateComment'])->name('comment.update');
-    Route::delete('/comments/{commentId}', [FrontController::class, 'deleteComment'])->name('comment.delete');
 
     Route::get('/members', [FrontController::class, 'Members'])->name('members');
     Route::post('/logout', [FrontController::class, 'logout'])->name('logout');

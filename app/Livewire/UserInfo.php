@@ -21,9 +21,7 @@ class UserInfo extends Component
     public $PrivateProfile = false;
 
     public $WebsiteURL = '';
-
-
-
+    public $AboutMeText = '';
 
     public function mount()
     {
@@ -35,6 +33,7 @@ class UserInfo extends Component
             $this->ContactInfos = $this->user->contact_infos;
             $this->PrivateProfile = $this->user->private_profile;
             $this->WebsiteURL = $this->user->website_url;
+            $this->AboutMeText = $this->user->about_me_text;
         }
     }
 
@@ -81,6 +80,19 @@ class UserInfo extends Component
         $this->isEditingWebsiteURL = true;
     }
 
+    public function updatedAboutMeText()
+    {
+        if ($this->user) {
+            $this->user->about_me_text = $this->AboutMeText;
+        }
+    }
+
+    public function saveAboutMe()
+    {
+        if ($this->user && $this->AboutMeText) {
+            $this->user->save();
+        }
+    }
 
     public function updatedAboutMe()
     {

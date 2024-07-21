@@ -14,7 +14,7 @@ class FollowButton extends Component
 
     public function mount(User $user){
         $this->user = $user;
-        $this->isFollowing = auth()->user()->followings()->where('followed_id', $user->id)->exists();
+        $this->isFollowing = $user->followings()->where('followed_id', $user->id)->exists();
         $this->followersCount = $user->followers()->count();
         \Log::info("Mount: User {$this->user->user_id} is following: " . ($this->isFollowing ? 'Yes' : 'No'));
     }

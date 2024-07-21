@@ -1,4 +1,21 @@
 <x-layout>
+    @php
+        if (Auth::check()) {
+            // Check if the user has an image and if the image path is available
+            if ($user->image !== null && $user->image->profile_picture_path !== null) {
+                $image = $user->image->profile_picture_path;
+                $isDiscordImage = Str::startsWith($image, 'https://');
+
+                elseif ($isDiscordImage) {
+                    $imageUrl = $image; // Use the Discord image URL directly
+                } else {
+                    $imageUrl = Storage::url($user->image->profile_picture_path); // Use the local storage image URL
+                }
+            } else {
+                $imageUrl = Storage::url('Avatars/avatar-' . $user->username . '.png');
+            }
+        }
+    @endphp
     <div class="user-info w-full">
         @section('head')
             @vite(['resources/css/user-info.css'])
@@ -35,28 +52,11 @@
                     {{ session()->get('error') }}</span>
             @endif
             <div class="left-side-container">
-                <div class="background-wallpaper relative">
+                <div class="background-wallpaper relative" style="background-image: url('{{ $user->image && $user->image->banner_picture_path ? asset($user->image->banner_picture_path) : asset('storage/images/image-not-found.png') }}');">
                     <div class="profile-image w-[250px] left-20 absolute bottom-[-80px]">
-                        @if ($user->image)
-                            @php
-                                $image = $user->image->path;
-                                $isDiscordImage = Str::startsWith($image, 'https://');
-
-                                if ($isDiscordImage) {
-                                    $imageUrl = $image;
-                                } else {
-                                    $imageUrl = Storage::url($image);
-                                }
-                            @endphp
-
                             <img class="border-[10px]"
                                 style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px;"
                                 src="{{ $imageUrl }}" alt="" />
-                        @else
-                            <img class="border-[10px]"
-                                style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px;"
-                                src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}" alt="" />
-                        @endif
                     </div>
                 </div>
                 <div class="bottom-user-infos px-10 py-1">
@@ -233,7 +233,9 @@
                         </div>
                         <div class="header-infos-right flex w-full justify-center">
                             <div class="flex flex-col w-full justify-between items-end py-2 px-2">
-                                @livewire('follow-button', ['user' => $user])
+                                @auth
+                                    @livewire('follow-button', ['user' => $user])
+                                @endauth
                                 <div class="flex justify-center items-center gap-5">
                                     <button class="flex flex-col justify-center items-center" id="modal-user"
                                         onclick="showModal('my_modal_1')">
@@ -341,7 +343,7 @@
                                     </div>
                                 </section>
                             @endif
-                            <section class="section-comments-profile w-full">
+                            <section class="section-comments-profile w-full mt-8">
                                 <div class="ml-12 flex text-center items-center justify-start gap-3">
                                     <hr class="w-[40%] border-t-2 border-gray-300" />
                                     <h2 class="text-lg lg:text-2xl font-bold text-white pb-2">Comments
@@ -367,7 +369,7 @@
                                         </button>
                                     </form>
                                 @else
-                                    <p class="text-gray-400 mb-4">Please <a href="{{ route('login') }}"
+                                    <p class="text-gray-400 mb-4 text-center">Please <a href="{{ route('login') }}"
                                             class="text-purple-700">login</a> to comment.</p>
                                 @endauth
                                 @if ($user->comments->count() > 0)
@@ -376,7 +378,7 @@
                                             <div class="flex justify-start items-start py-3">
                                                 @if ($comment->commenter && $comment->commenter->image)
                                                     <img class="mr-2 w-6 h-6 rounded-full"
-                                                        src="{{ $comment->commenter->image->path }}"
+                                                        src="{{ Storage::url($comment->commenter->image->profile_picture_path) }}"
                                                         alt="Commenter's image">
                                                 @else
                                                     <img class="mr-2 w-6 h-6 rounded-full"
@@ -467,7 +469,7 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <h1 class="py-5 text-lg">No comments yet</h1>
+                                    <h1 class="py-5 text-lg text-center">No comments yet</h1>
                                 @endif
                             </section>
                         </div>

@@ -208,7 +208,7 @@ class FrontController extends Controller
         $imageName = 'user-' . $user->username . '-banner.' . $image->getClientOriginalExtension();
 
         // Define the path
-        $destinationPath = resource_path('css/images/profile-user-banners');
+        $destinationPath = public_path('storage/images/profile-user-banners');
 
         // Ensure directory exists
         if (!file_exists($destinationPath)) {
@@ -219,7 +219,7 @@ class FrontController extends Controller
         $image->move($destinationPath, $imageName);
 
         // Full image path
-        $imagePath = 'resources/css/images/profile-user-banners/' . $imageName;
+        $imagePath = 'storage/images/profile-user-banners/' . $imageName;
 
         // Create or update the user's image path
         $user->image()->updateOrCreate(

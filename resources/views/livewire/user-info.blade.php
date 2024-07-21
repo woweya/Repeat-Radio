@@ -1,19 +1,25 @@
 <div class="user-info w-full">
 
     @php
-
+        if (Auth::check()) {
         $user = Auth::user();
-        if ($user->image !== null && $user->image->profile_picture_path !== null) {
-            $image = Auth::user()->image->profile_picture_path;
-            $isDiscordImage = Str::startsWith($image, 'https://');
 
-            if ($isDiscordImage) {
-                $imageUrl = $image; // Use the Discord image URL directly
+            // Check if the user has an image and if the image path is available
+            if ($user->image !== null && $user->image->profile_picture_path !== null) {
+                $image = $user->image->profile_picture_path;
+                $isDiscordImage = Str::startsWith($image, 'https://');
+
+                if ($isDiscordImage) {
+                    $imageUrl = $image; // Use the Discord image URL directly
+                } else {
+                    $imageUrl = Storage::url($user->image->profile_picture_path); // Use the local storage image URL
+                }
             } else {
-                $imageUrl = Storage::url($user->image->profile_picture_path); // Use the local storage image URL
+                $imageUrl = Storage::url('Avatars/avatar-' . $user->username . '.png');
             }
         } else {
-            $imageUrl = Storage::url('Avatars/avatar-' . $user->username . '.png');
+            // User is not logged in, redirect to login page
+            return redirect()->route('login');
         }
     @endphp
 
@@ -84,7 +90,7 @@
         @endif
 
         <div class="left-side-container">
-            <div class="background-wallpaper relative">
+            <div class="background-wallpaper relative" style="background-image: url('{{ $user->image->banner_picture_path }}');">
                 <x-banner-upload />
                 <svg id="background-image" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="black"
@@ -542,56 +548,35 @@
                         <hr class="w-[40%] border-t-2 border-gray-300" />
                     </div>
                     <div id="expandable-content"
-                        class="expandable-content text-gray-400 text-sm py-4 mx-auto w-[85%] text-start border-0 focus:ring-0 focus:outline-none bg-[#141414]">
-                        <p class="px-4">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Blanditiis autem quia praesentium. Sapiente doloremque odit
-                            impedit deleniti dicta non corporis numquam dolor qui excepturi
-                            hic quaerat repellendus, reiciendis atque? Consequatur. Nihil
-                            praesentium quasi, voluptas illo ratione expedita ad error
-                            incidunt rerum ipsa maxime blanditiis obcaecati omnis odit
-                            molestiae sit eveniet voluptatem ullam. Harum sunt quaerat,
-                            aliquam ut unde sequi doloremque? Illum ullam maiores magnam
-                            corporis ipsam! Cum dolorum quod aspernatur nisi excepturi
-                            deleniti architecto sunt distinctio, fuga possimus illum
-                            perspiciatis dolore? Culpa sit, ipsum veritatis enim aliquam
-                            aperiam maiores molestiae. Quasi quisquam, nostrum voluptate in
-                            rerum ut, quos molestiae beatae earum quod nesciunt. Temporibus
-                            tempore dolores quis explicabo excepturi quos, aut quas
-                            voluptates ipsam atque id sed ea exercitationem! Recusandae!
-                            Nisi excepturi, corrupti cumque minima, eaque alias minus
-                            commodi repellat maiores rem cupiditate quidem tempore quaerat
-                            autem corporis error hic molestias voluptatem maxime modi. Quo
-                            iure libero ipsum quae ea? Odit, ipsum enim consectetur
-                            explicabo, sequi odio aliquid itaque accusantium fugiat numquam
-                            atque sint culpa laboriosam earum soluta doloremque tempore eius
-                            dolor, minima aut saepe unde error. Quaerat, optio earum. Neque
-                            eos perspiciatis accusantium impedit numquam magni sed harum
-                            quisquam molestiae explicabo odio modi, incidunt in quaerat cum
-                            laboriosam, quidem blanditiis officia id ad? Deserunt magnam
-                            neque molestias libero. Non. Magnam nobis temporibus obcaecati
-                            assumenda quibusdam natus doloremque velit illo quos nesciunt.
-                            Deserunt, quibusdam maxime? Itaque quia ratione quisquam
-                            repudiandae, quibusdam voluptatum architecto dicta, corrupti
-                            quidem atque temporibus quas nostrum. Totam vel voluptatibus
-                            asperiores enim repudiandae veritatis amet nobis, aliquam
-                            corporis, doloremque, animi sed inventore fugiat aperiam quae
-                            ipsa delectus quisquam molestias. Ea blanditiis quibusdam fugit
-                            debitis veritatis accusantium accusamus? Soluta sit alias fuga
-                            sapiente atque id deleniti inventore illo cupiditate corrupti
-                            provident aperiam nobis amet quo, velit esse adipisci eum
-                            blanditiis delectus nemo minus, omnis reprehenderit deserunt
-                            molestiae! Sequi.
+                        class="expandable-content relative text-gray-400 text-sm py-4 mx-auto w-[85%] text-start border-0 focus:ring-0 focus:outline-none bg-[#141414]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
+                        class="size-6 cursor-pointer hover:scale-110 absolute right-3 top-3" id="changeaboutme">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                    </svg>
+                        <div class="hidden" id="saveOrCancel">
+                            <textarea id="changedaboutme" name="body" rows="7" wire:model="AboutMeText"
+                        class="hidden px-4 py-4 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-[#141414]">{{ Auth::user()->about_me_text }}</textarea>
+                        <div class="flex justify-center items-center py-2 gap-3">
+                            <button type="submit" id="ButtonSave"
+                                class="w-[20%] block py-2 px-4 bg-violet-950 hover:bg-violet-900 hover:text-white rounded" wire:click="saveAboutMe">Save</button>
+                            <button type="button" id="ButtonCancel"
+                                class="w-[20%] block bg-red-900 py-2 px-4 hover:bg-red-800 hover:text-white rounded">Cancel</button>
+                        </div>
+                        </div>
+                        <p class="px-4 py-4" id="aboutmetext">
+                            {{ Auth::user()->about_me_text }}
                         </p>
                     </div>
                 </section>
                 <section class="section-comments-profile w-full">
                     <div class="w-full flex flex-col justify-start py-2 items-start">
                         <div class="w-full mt-10 ml-10 flex text-center items-center justify-start gap-3">
-                            <hr class="w-[40%] border-t-2 border-gray-300" />
+                            <hr class="w-[37.9%] border-t-2 border-gray-300" />
                             <h2 class="text-lg lg:text-2xl font-bold text-white pb-2">Comments
                                 ({{ Auth::user()->comments->count() }})</h2>
-                            <hr class="w-[38.5%] border-t-2 border-gray-300" />
+                            <hr class="w-[37.9%] border-t-2 border-gray-300" />
                         </div>
                         @if (Auth::user()->comments->count() > 0)
                             @foreach (Auth::user()->comments->sortByDesc('created_at') as $comment)
@@ -675,7 +660,7 @@
                                 </div>
                             @endforeach
                         @else
-                            <h1 class="py-5 ml-10 text-lg">No comments yet</h1>
+                            <h1 class="py-5 text-lg text-center w-full">No comments yet</h1>
                         @endif
                     </div>
 
@@ -786,13 +771,29 @@
             }
 
 
-
-
             document.addEventListener('livewire:navigated', () => {
+                const ChangeAboutMe = document.getElementById('changeaboutme');
+                const ChangedAboutMe = document.getElementById('changedaboutme');
+                const AboutMeText = document.getElementById('aboutmetext');
+                const ButtonSave = document.getElementById('ButtonSave');
+                const ButtonCancel = document.getElementById('ButtonCancel');
+                const SaveOrCancel = document.getElementById('saveOrCancel');
+
+                ButtonCancel.addEventListener('click', () => {
+                    ChangedAboutMe.classList.add('hidden');
+                    ChangeAboutMe.classList.remove('hidden');
+                    AboutMeText.classList.remove('hidden');
+                    SaveOrCancel.classList.add('hidden');
+                })
+
+                ChangeAboutMe.addEventListener('click', () => {
+                    ChangedAboutMe.classList.remove('hidden');
+                    ChangeAboutMe.classList.add('hidden');
+                    AboutMeText.classList.add('hidden');
+                    SaveOrCancel.classList.remove('hidden');
+                })
 
 
-
-                // Success alert
                 const successAlert = document.getElementById('alert-success');
                 if (successAlert) {
                     setTimeout(() => {
@@ -800,16 +801,12 @@
                     }, 3000); // 5 seconds
                 }
 
-                // Error alert
                 const errorAlert = document.getElementById('alert-error');
                 if (errorAlert) {
                     setTimeout(() => {
                         errorAlert.style.display = 'none';
                     }, 3000); // 5 seconds
                 }
-
-
-
 
                 const backgroundUpload = document.getElementById('background-image');
 
@@ -848,7 +845,6 @@
                     }
                 }
 
-                // Assign close buttons to close the modal
                 document.querySelectorAll('.modal-backdrop button').forEach(button => {
                     button.addEventListener('click', (event) => {
                         const modal = button.closest('.modal');

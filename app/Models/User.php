@@ -30,6 +30,7 @@ class User extends Authenticatable
         'social_infos',
         'contact_infos',
         'private_profile',
+        'about_me_text',
         'website_url',
     ];
 
@@ -54,7 +55,6 @@ class User extends Authenticatable
         return static::where('username', $username)->orWhere('email', $username)->first();
     }
 
-
     public function image()
     {
 
@@ -65,7 +65,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Models\Like::class);
     }
-
 
     protected function casts(): array
     {

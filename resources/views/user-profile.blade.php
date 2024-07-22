@@ -100,7 +100,7 @@
                                             </button>
                                             <dialog id="my_modal_3" class="modal">
                                                 <div style="max-width: 300px" class="modal-box">
-                                                    <h3 class="text-xl font-bold">Contact information</h3>
+                                                    <h3 class="text-xl font-bold text-gray-200">Contact information</h3>
                                                     <hr class="w-[98%] border-t-2 border-gray-500" />
                                                     <p class="py-1">
                                                     <div class="flex flex-col justify-start items-start gap-2">
@@ -116,10 +116,14 @@
                                                             {{ $user->birthday }}
                                                         </p>
                                                         <h1 class="text-lg font-semibold text-white">Website</h1>
+                                                        @if($user->website_url)
                                                         <a class="text-md italic"
-                                                            style="text-decoration:underline; color:rgb(183, 0, 255);"
-                                                            href="{{$user->website_url}}" target="_blank">
-                                                            {{$user->website_url}}</a>
+                                                        style="text-decoration:underline; color:rgb(183, 0, 255);"
+                                                        href="{{$user->website_url}}" target="_blank">
+                                                        {{$user->website_url}}</a>
+                                                        @else
+                                                        <p>No website!</p>
+                                                        @endif
                                                     </div>
                                                     </p>
                                                     <hr class="w-[98%] border-t-2 border-gray-500 mt-5" />

@@ -4,9 +4,10 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
-use App\View\Components\layout;
-use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use App\View\Components\layout;
+use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Auth;
 
 class UserInfo extends Component
 {
@@ -18,10 +19,16 @@ class UserInfo extends Component
     public $SocialsInfos = false;
     public $ContactInfos = false;
     public $isEditingWebsiteURL = false;
+    public $isEditingName = false;
+    public $isEditingBirthday = false;
     public $PrivateProfile = false;
 
     public $WebsiteURL = '';
+
+    #[Validate]
+    public $name = '';
     public $AboutMeText = '';
+    public $Birthday;
 
     public function mount()
     {
@@ -33,21 +40,22 @@ class UserInfo extends Component
             $this->ContactInfos = $this->user->contact_infos;
             $this->PrivateProfile = $this->user->private_profile;
             $this->WebsiteURL = $this->user->website_url;
+            $this->Birthday = $this->user->birthday;
             $this->AboutMeText = $this->user->about_me_text;
         }
     }
 
+    public function rules(){
+        return [
+            'name' => 'required|min:3',
+        ];
+    }
 
     public function render()
     {
         return view('livewire.user-info')->layout('components.layout');
     }
 
-
-    public function loadUser($userID)
-    {
-        $this->user = \App\Models\User::find($userID);
-    }
 
 
 
@@ -78,6 +86,32 @@ class UserInfo extends Component
     public function enableEditingWebsiteURL()
     {
         $this->isEditingWebsiteURL = true;
+    }
+
+    public function enableEditingName(){
+        $this->isEditingName = true;
+    }
+
+    public function enableEditingBirthday(){
+        $this->isEditingBirthday = true;
+    }
+
+    public function updatedName(){
+        if ($this->user && $this->name && Auth::check() && $this->name != $this->user->name) {
+            $this->user->name = $this->name;
+            $this->user->save();
+            $this->dispatch('nameChanged');
+            $this->isEditingName = false;
+        }
+    }
+
+    public function updatedBirthday(){
+        if($this->user && $this->Birthday && Auth::check() && $this->Birthday != $this->user->birthday){
+            $this->user->birthday = $this->Birthday;
+            $this->user->save();
+            $this->dispatch('birthdayChanged');
+            $this->isEditingBirthday = false;
+        }
     }
 
     public function updatedAboutMeText()

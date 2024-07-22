@@ -36,29 +36,13 @@
     @endif
 </div>
 
-{{--
-@script
-    <script>
-      /*   let secondsTotal = {{ $secondsTotal }};
-        let secondsElapsed = {{ $secondsElapsed }};
-        let nextrun = ((secondsTotal - secondsElapsed) - 1) * 1000; */
-    </script>
-@endscript --}}
+
 @script
 <script>
        document.addEventListener('livewire:initialized', function() {
 
         document.addEventListener('livewire:navigated', function() {
-       /*      const parentDiv = document.getElementById('title-song');
-        let secondsTotal = {{$cachedData['total_seconds']}};
-        let secondsElapsed = {{$cachedData['seconds_elapsed']}};
-        let nextrun = (secondsTotal - secondsElapsed - 1);
-            console.log(secondsTotal, secondsElapsed, nextrun);
-        setTimeout(function () {
-            Livewire.dispatch('fetchSongData');
-            console.log('refreshed');
-        }, nextrun);
- */
+
 
 
         Livewire.on('eventPlay', () =>{

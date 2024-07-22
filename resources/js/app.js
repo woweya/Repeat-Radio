@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import 'flowbite';
 
 window.moment = moment;
 
@@ -6,9 +7,11 @@ window.moment = moment;
 
 document.addEventListener('livewire:navigate', (event) => {
 
+    initFlowbite();
+
     console.log('Navigating');
-        console.log('Navigated');
-        function updateTime() {
+    console.log('Navigated');
+    function updateTime() {
         let localTime = new Date().toLocaleTimeString();
         document.getElementById('current-time').innerText = localTime;
     }
@@ -21,7 +24,8 @@ document.addEventListener('livewire:navigate', (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-        function updateTime() {
+    initFlowbite();
+    function updateTime() {
         let localTime = new Date().toLocaleTimeString();
         document.getElementById('current-time').innerText = localTime;
     }

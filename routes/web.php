@@ -15,7 +15,7 @@ Route::middleware('web')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::get('/', [FrontController::class, 'index'])->name('home');
 
-    Route::get('/profile', UserInfo::class)->name('user');
+    Route::get('/profile/{id}', [FrontController::class, 'ProfilePage'])->name('user');
     Route::get('/user/{id}', [FrontController::class, 'userProfile'])->name('user.profile');
     Route::post('/user-banner-upload', [FrontController::class, 'bannerUserUpload'])->name('banner.update')->middleware('auth');
 

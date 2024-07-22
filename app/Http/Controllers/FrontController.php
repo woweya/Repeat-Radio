@@ -214,4 +214,11 @@ class FrontController extends Controller
             return redirect()->back()->with('error', 'An error occurred while uploading the banner.');
         }
     }
+
+
+    public function ProfilePage($id)
+    {
+        $user = User::find($id);
+        return view('user-info', compact('user'));
+    }
 }

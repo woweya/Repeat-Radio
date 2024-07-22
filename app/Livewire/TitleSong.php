@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Log;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Lazy;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
@@ -13,20 +14,9 @@ use Illuminate\Support\Facades\Cache;
 class TitleSong extends Component
 {
 
-
-
-
-    //PROVO A PASSARE DIRETTAMENTE I DATI DI CACHE
-    //DIFATTI NE HA VELOCIZZATO DI MOLTO LA RISPOSTA!!!!
-
-    /*  public string $songTitle;
-    public string $songArtist;
-    public string $songImage;
-    public int $secondsTotal;
-    public int $secondsElapsed; */
     public $loading = true;
-   /*  public $loadingElement; */
-    public $elementToShow = 'songTitle';
+
+    public $elementToShow = '';
     public array $cachedData = [];
     public int $remainingTime;
     public $error = 'Something went wrong, try again...';
@@ -44,17 +34,17 @@ class TitleSong extends Component
     {
         $this->cachedData = Cache::get('song_data', []);
 
-        if (!empty($this->cachedData)) {
-            $this->loading = false;
-        } else {
+        if ($this->cachedData) {
             $this->fetchSongData();
+            $this->loading = false;
+            $this->remainingTime = $this->cachedData['total_seconds'] - $this->cachedData['seconds_elapsed'];
         }
     }
 
     public function fetchSongData()
     {
         try {
-            $response = Http::timeout(2)->get('http://138.197.88.112/api/proc/s/currently_playing');
+            $response = Http::get('http://138.197.88.112/api/proc/s/currently_playing');
 
             if (!$response->successful()) {
                 throw new \Exception('Failed to fetch song data.');
@@ -62,19 +52,29 @@ class TitleSong extends Component
 
             $data = $response->json()['song'];
 
-            $this->cachedData = [
-                'title' => $data['title'],
-                'artist' => $data['artist'],
-                'image' => $data['art'],
-                'total_seconds' => $data['seconds_total'],
-                'seconds_elapsed' => $data['seconds_elapsed'],
-            ];
-            $this->loading = false;
+            $remainingTime = $data['seconds_total'] - $data['seconds_elapsed'];
+            // Update the component's state
+            if ($data['title'] !== $this->cachedData['title'] || $data['artist'] !== $this->cachedData['artist']) {
 
-            // Cache the data
-            Cache::put('song_data', $this->cachedData, now()->addMinutes(10));
+                $this->cachedData = [
+                    'title' => $data['title'],
+                    'artist' => $data['artist'],
+                    'image' => $data['art'],
+                    'total_seconds' => $data['seconds_total'],
+                    'seconds_elapsed' => $data['seconds_elapsed'],
+                    'spotifyURL' => $data['url'],
+                    'audioURL' => 'https://stream.repeatradio.net/',
+                ];
 
+                $this->loading = false;
+
+                // Cache the updated data
+                Cache::put('song_data', $this->cachedData);
+            }
+
+            $this->remainingTime = $remainingTime;
         } catch (\Throwable $th) {
+            \Log::info($th);
             $this->handleFetchError();
         }
     }
@@ -88,11 +88,9 @@ class TitleSong extends Component
             'image' => '',
             'total_seconds' => 0,
             'seconds_elapsed' => 0,
+            'audioURL' => '',
+            'spotifyURL'=> '',
         ];
         $this->loading = false;
-
-        // Cache the error state
-        Cache::put('song_data', $this->cachedData, now()->addMinutes(10));
     }
-
 }

@@ -11,7 +11,7 @@
         <div class="top-side-header w-full" style="height:60%; min-height: 60%; max-height: 60%; position:relative;">
             <div class="background-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;{{-- background-image: url('{{$cachedData['image']}}');--}} background-size: cover; background-position: center;"></div>
             <div class="flex flex-row justify-center items-center">
-                <div id="artist-info" class="artist-info container flex flex-col justify-center items-start"
+                <div id="artist-info" class="artist-info container flex flex-col justify-center items-start mt-5"
                     style="position: absolute; left: 20%; top:10%; width: 40%; height: 50%;">
                     @livewire('title-song', ['elementToShow' => 'songTitle'])
                     @livewire('title-song', ['elementToShow' => 'songArtist'])
@@ -70,6 +70,7 @@
 
                         </div>
                     </div>
+                    @livewire('title-song', ['elementToShow' => 'spotifyURL'])
                 </div>
                 <div class="top-right-header"
                     style="max-height: 50%; height: 100%; width: 40%; position: absolute; right: 0; top: 10%">

@@ -238,14 +238,8 @@ function updateTime(timezone) {
             rightSide.removeAttribute('data-aos-duration');
         }
 
-        function updateTime() {
-            let localTime = new Date().toLocaleTimeString();
-            document.getElementById('current-time').innerText = localTime;
-        }
 
-        updateTime();
 
-        setInterval(updateTime, 1000);
     })
 
     const divs = document.querySelectorAll('#top-listeners div[data-user-id]');

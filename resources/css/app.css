@@ -123,13 +123,29 @@ nav>ul, nav>ul>a, nav h1, .right-side-nav>ul>li>a{
     color: var(--quaternary-color);
 }
 
-nav > .middle-ul > li > a:hover,
-nav > .right-side-nav > ul > li > a:hover {
-    text-decoration: underline; /* Aggiungi uno spazio tra underline e il colore */
-    text-decoration-thickness: 2px;
-    color: var(--purple-color);
-    transition: color 0.3s ease;
+nav, .middle-ul {
+    position: relative;
+}
 
+.middle-ul > li > a {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.middle-ul > li > a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--purple-color);
+    transition: width 0.4s ease;
+}
+
+.middle-ul > li > a:hover::after {
+    width: 100%;
 }
 
 .left-side-nav{
@@ -332,35 +348,28 @@ header{
 }
 
 .spotify{
-    padding:10px;
+    padding:9px;
     display:flex;
-    gap: 15px;
+    gap: 10px;
     margin-top:1rem;
-    border-radius:10px;
+    border-radius:9px;
     flex-direction: row;
-    background: rgb(0,0,0);
-    background: -moz-linear-gradient(35deg, rgba(0,0,0,0.9220063025210083) 36%, rgba(0,128,0,0.908000700280112) 100%);
-    background: -webkit-linear-gradient(35deg, rgba(0,0,0,0.9220063025210083) 36%, rgba(0,128,0,0.908000700280112) 100%);
-    background: linear-gradient(35deg, rgba(0,0,0,0.9220063025210083) 36%, rgba(0,128,0,0.908000700280112) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#008000",GradientType=1);
-    box-shadow: 0px 5px 10px 1px black;
+    background: #093028;
+    background: -webkit-linear-gradient(to right, #093028, #237a57);
+    background: linear-gradient(to right, #093028, #237a57);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     transition: all 0.2s ease-in-out;
 }
 
 .spotify:hover{
-    transform:scale(1.1);
+    transform:scale(1.05);
     cursor: pointer;
     color:white;
-    text-decoration:underline;
 }
-
 
 .spotify>a:hover{
     color: white;
-    text-decoration: underline;
 }
-
-
 
   .overlay{
     height: 100%;

@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 import 'flowbite';
-import { createPopper } from '@popperjs/core';
+
 window.moment = moment;
 
 

@@ -28,7 +28,7 @@ class UserInfo extends Component
     #[Validate]
     public $name = '';
     public $AboutMeText = '';
-    public $birthday;
+    public $Birthday;
 
     public function mount()
     {
@@ -40,7 +40,7 @@ class UserInfo extends Component
             $this->ContactInfos = $this->user->contact_infos;
             $this->PrivateProfile = $this->user->private_profile;
             $this->WebsiteURL = $this->user->website_url;
-            $this->birthday = $this->user->birthday;
+            $this->Birthday = $this->user->birthday;
             $this->AboutMeText = $this->user->about_me_text;
         }
     }
@@ -56,11 +56,6 @@ class UserInfo extends Component
         return view('livewire.user-info')->layout('components.layout');
     }
 
-
-    public function loadUser($userID)
-    {
-        $this->user = \App\Models\User::find($userID);
-    }
 
 
 
@@ -111,9 +106,8 @@ class UserInfo extends Component
     }
 
     public function updatedBirthday(){
-        dd($this->birthday);
-        if($this->user && $this->birthday && Auth::check() && $this->birthday != $this->user->birthday){
-            $this->user->birthday = $this->birthday;
+        if($this->user && $this->Birthday && Auth::check() && $this->Birthday != $this->user->birthday){
+            $this->user->birthday = $this->Birthday;
             $this->user->save();
             $this->dispatch('birthdayChanged');
             $this->isEditingBirthday = false;

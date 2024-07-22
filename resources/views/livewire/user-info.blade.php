@@ -226,7 +226,7 @@
                                             <div class="w-full relative h-100">
                                                     <input type="date"
                                                         class="input input-sm input-bordered input-primary max-w-xs"
-                                                        placeholder="Change your birthday" wire:model="birthday">
+                                                        placeholder="Change your birthday" wire:model.change.defer="Birthday">
                                             </div>
                                         @elseif(!$isEditingBirthday && $user->birthday)
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"

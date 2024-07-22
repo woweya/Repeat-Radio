@@ -168,55 +168,50 @@
 
 
 @script
-    <script>
-        document.addEventListener('livewire:initialized', function() {
+<script>
+    document.addEventListener('livewire:initialized', function() {
+        let loveSVG = document.getElementById('love');
+        let songInfo = document.getElementById('artist-info');
+        loveSVG.addEventListener('click', function() {
+            loveSVG.classList.toggle('active');
+        });
 
+        let playBtn = document.getElementById('play');
+        let pauseBtn = document.getElementById('pause');
+        let volumeBtn = document.getElementById('volume-btn');
+        let volumeSlider = document.getElementById('volume-slider');
+        let volumePin = document.getElementById('volume-input');
+        let volumeProgress = document.querySelector('.progress');
 
+        const defaultVolume = localStorage.getItem('volume') !== null ? localStorage.getItem('volume') : 5;
 
-            let loveSVG = document.getElementById('love');
-            let songInfo = document.getElementById('artist-info');
-            loveSVG.addEventListener('click', function() {
-                // Aggiungi o rimuovi la classe 'active' dall'elemento SVG
-                loveSVG.classList.toggle('active');
-                // Comunica al componente Livewire che il like è stato cliccato
-            });
+        volumePin.value = defaultVolume;
+        volumeProgress.style.height = defaultVolume + '%';
 
+        playBtn.addEventListener('click', function() {
+            $wire.dispatch('eventPlay');
+            playBtn.classList.add('hidden');
+            pauseBtn.classList.remove('hidden');
+        });
 
+        pauseBtn.addEventListener('click', function() {
+            $wire.dispatch('eventPause');
+            playBtn.classList.remove('hidden');
+            pauseBtn.classList.add('hidden');
+        });
 
-            let playBtn = document.getElementById('play');
-            let pauseBtn = document.getElementById('pause');
-            let volumeBtn = document.getElementById('volume-btn');
-            let volumeSlider = document.getElementById('volume-slider');
-            let volumePin = document.getElementById('volume-input');
-            let volumeProgress = document.querySelector('.progress');
-            const defaultVolume = 50;
+        volumeBtn.addEventListener('click', function() {
+            volumeSlider.classList.toggle('hidden');
+            volumeSlider.style.marginTop = '100px';
+        });
 
-            playBtn.addEventListener('click', function() {
-                $wire.dispatch('eventPlay');
-                playBtn.classList.add('hidden');
-                pauseBtn.classList.remove('hidden');
-            });
-
-            pauseBtn.addEventListener('click', function() {
-                $wire.dispatch('eventPause');
-                playBtn.classList.remove('hidden');
-                pauseBtn.classList.add('hidden');
-            });
-
-            volumeBtn.addEventListener('click', function() {
-                volumeSlider.classList.toggle('hidden');
-                volumeSlider.style.marginTop = '100px';
-            });
-
-            volumeSlider.addEventListener('change', function(event) {
-
-                let volumePercentage = event.target.value;
-                volumeProgress.style.height = volumePercentage + '%';
-                volumePin.style.bottom = volumePercentage + '%';
-                Livewire.dispatch('eventVolume', volumePercentage);
-            });
-
-
-        })
-    </script>
+        volumeSlider.addEventListener('input', function(event) {
+            let volumePercentage = event.target.value;
+            volumeProgress.style.height = volumePercentage + '%';
+            volumePin.style.bottom = volumePercentage + '%';
+            localStorage.setItem('volume', volumePercentage);
+            Livewire.dispatch('eventVolume', volumePercentage);
+        });
+    });
+</script>
 @endscript

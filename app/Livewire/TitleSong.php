@@ -16,6 +16,7 @@ class TitleSong extends Component
 
     public $loading = true;
 
+    public $timepolling;
     public $elementToShow = '';
     public array $cachedData = [];
     public int $remainingTime;
@@ -32,13 +33,24 @@ class TitleSong extends Component
 
     public function mount(): void
     {
-        $this->cachedData = Cache::get('song_data', []);
+        $this->cachedData = Cache::get('song_data', [
+            'title' => '',
+            'artist' => '',
+            'image' => '',
+            'total_seconds' => 0,
+            'seconds_elapsed' => 0,
+            'seconds_remaining' => 0,
+            'spotifyURL' => '',
+            'audioURL' => '',
+        ]);
 
-        if ($this->cachedData) {
+        $this->timepolling = intval($this->cachedData['seconds_remaining']);
+
+/*         if ($this->cachedData) {
             $this->fetchSongData();
             $this->loading = false;
             $this->remainingTime = $this->cachedData['total_seconds'] - $this->cachedData['seconds_elapsed'];
-        }
+        } */
     }
 
     public function fetchSongData()
@@ -52,7 +64,6 @@ class TitleSong extends Component
 
             $data = $response->json()['song'];
 
-            $remainingTime = $data['seconds_total'] - $data['seconds_elapsed'];
             // Update the component's state
             if ($data['title'] !== $this->cachedData['title'] || $data['artist'] !== $this->cachedData['artist']) {
 
@@ -62,6 +73,7 @@ class TitleSong extends Component
                     'image' => $data['art'],
                     'total_seconds' => $data['seconds_total'],
                     'seconds_elapsed' => $data['seconds_elapsed'],
+                    'seconds_remaining' => $data['seconds_remaining'],
                     'spotifyURL' => $data['url'],
                     'audioURL' => 'https://stream.repeatradio.net/',
                 ];

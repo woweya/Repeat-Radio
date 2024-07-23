@@ -55,12 +55,16 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::findByUsernameOrEmail($request->input('username'));
-            if($user && Hash::check($request->input('password'), $user->password)) {
+
+            if ($user && Hash::check($request->input('password'), $user->password)) {
                 $user->is_online = true;
                 $user->last_online_at = now();
                 $user->save();
-                return $user;
+
+                return $user;  // Return the user object
             }
+
+            return null;  // Return null if authentication fails
         });
 
     }

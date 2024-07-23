@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Comment;
 use App\Models\Article;
+use App\Models\Comment;
 use Laravolt\Avatar\Avatar;
 use App\Models\UserActivity;
 use Illuminate\Http\Request;
@@ -64,16 +65,13 @@ class FrontController extends Controller
     {
         $usersWithActivities = UserActivity::with('user') // Carica anche le informazioni dell'utente associato all'attività
             ->orderBy('hours_online', 'desc') // Ordina le attività in base al numero di ore online in ordine decrescente
-            ->take(4) // Limita il risultato alle prime 4 attività
+            ->take(3) // Limita il risultato alle prime 4 attività
             ->get();
 
 
         $users = User::all();
 
-        $imagePath = ImageModel::where('user_id')->value('profile_picture_path');
-
-
-        return view('members', compact('users', 'usersWithActivities', 'imagePath'));
+        return view('members', compact('users', 'usersWithActivities'));
     }
 
     public function About()
@@ -92,26 +90,25 @@ class FrontController extends Controller
 
         // Verifica se l'utente è autenticato
         if ($user) {
-            $lastOnlineDateTime = new DateTime($user->last_online_at);
+            $lastOnlineDateTime = new Carbon($user->last_online_at);
 
-            // Ottieni l'orario dell'ultimo accesso online dell'utente
-            $lastOnlineTime = $lastOnlineDateTime->format('H:i:s');
             // Calcola la durata della sessione online
-            $durationOnline = now()->diffInSeconds($lastOnlineTime);
+            $durationOnline = $lastOnlineDateTime->diffInSeconds(now());
 
             $request->session()->put('duration_online', $durationOnline);
 
             UserActivity::updateOrCreate(
                 ['user_id' => $user->id],
-                ['hours_played' => 0] // Non aggiornare qui le ore online
+                ['duration_online' => $durationOnline]
             );
 
             // Imposta lo stato online dell'utente su false
             $user->is_online = false;
+            $user->online_duration = $durationOnline;
+            $user->save();
         } else {
             $request->session()->put('duration_online', 0);
         }
-
         // Effettua il logout dell'utente
         Auth::logout();
 
@@ -136,7 +133,7 @@ class FrontController extends Controller
         // Check if the provided ID matches the authenticated user's ID
         if ($id == $authenticatedUserId) {
             // Redirect to another page, e.g., the dashboard or home page
-            return redirect()->route('user'); // You can change 'home' to the desired route
+            return redirect()->route('user', ['id' => Auth::user()->id]); // You can change 'home' to the desired route
         }
         $user = User::with('comments.commenter')->findOrFail($id);
         return view('user-profile', compact('user'));

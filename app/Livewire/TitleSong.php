@@ -15,20 +15,13 @@ class TitleSong extends Component
 {
 
     public $loading = true;
-
-    public $timepolling;
     public $elementToShow = '';
     public array $cachedData = [];
     public int $remainingTime;
+    public int $secondsElapsed;
     public $error = 'Something went wrong, try again...';
     public $audioURL;
 
-    public function render()
-    {
-
-
-        return view('livewire.title-song');
-    }
 
 
     public function mount(): void
@@ -44,15 +37,18 @@ class TitleSong extends Component
             'audioURL' => '',
         ]);
 
-        $this->timepolling = intval($this->cachedData['seconds_remaining']);
+        $this->remainingTime = $this->cachedData['seconds_remaining'] ?? 0;
+        $this->fetchSongData();
 
-/*         if ($this->cachedData) {
+        /*         if ($this->cachedData) {
             $this->fetchSongData();
             $this->loading = false;
             $this->remainingTime = $this->cachedData['total_seconds'] - $this->cachedData['seconds_elapsed'];
         } */
     }
 
+
+    #[On('fetchSongData')]
     public function fetchSongData()
     {
         try {
@@ -63,6 +59,11 @@ class TitleSong extends Component
             }
 
             $data = $response->json()['song'];
+
+            $remainingTime = $data['seconds_remaining'];
+            $secondsElapsed = $data['seconds_elapsed'];
+            $this->remainingTime = $remainingTime;
+            $this->secondsElapsed = $secondsElapsed;
 
             // Update the component's state
             if ($data['title'] !== $this->cachedData['title'] || $data['artist'] !== $this->cachedData['artist']) {
@@ -78,18 +79,30 @@ class TitleSong extends Component
                     'audioURL' => 'https://stream.repeatradio.net/',
                 ];
 
+
+
                 $this->loading = false;
 
                 // Cache the updated data
                 Cache::put('song_data', $this->cachedData);
+                $this->dispatch('songUpdated', $data);
+
             }
 
-            $this->remainingTime = $remainingTime;
         } catch (\Throwable $th) {
-            \Log::info($th);
+            Log::error($th->getMessage());
             $this->handleFetchError();
         }
     }
+
+
+
+    public function render()
+    {
+
+        return view('livewire.title-song');
+    }
+
 
     private function handleFetchError()
     {
@@ -101,7 +114,7 @@ class TitleSong extends Component
             'total_seconds' => 0,
             'seconds_elapsed' => 0,
             'audioURL' => '',
-            'spotifyURL'=> '',
+            'spotifyURL' => '',
         ];
         $this->loading = false;
     }

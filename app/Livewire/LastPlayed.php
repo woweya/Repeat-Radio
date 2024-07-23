@@ -24,27 +24,23 @@ class LastPlayed extends Component
     {
         $cachedData = Cache::get('last_three_songs', []);
 
-        if (!empty($cachedData)) {
-            $this->lastThreeSongs = $cachedData;
-            $this->loading = false;
-        } else {
-            $this->fetchPreviousSongData();
-        }
+        $this->fetchPreviousSongData();
+        $this->loading = true;
     }
 
     public function placeholder()
     {
-        if ($this->loading) {
-            return view('skeletons.skeleton-lastPlayed');
-        } else {
+        if ($this->error) {
             return view('livewire.last-played', ['lastThreeSongs' => $this->lastThreeSongs, 'error' => $this->error]);
+        } else {
+            return view('skeletons.skeleton-lastPlayed');
         }
     }
 
     public function fetchPreviousSongData()
     {
         try {
-            $response = Http::timeout(2)->get('http://138.197.88.112/api/proc/s/song_history');
+            $response = Http::get('http://138.197.88.112/api/proc/s/song_history');
 
             if (!$response->successful()) {
                 throw new \Exception('Failed to fetch previous songs data.');
@@ -61,6 +57,7 @@ class LastPlayed extends Component
             $this->handleFetchError();
         }
     }
+
 
     private function handleFetchError()
     {

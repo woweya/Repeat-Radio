@@ -109,35 +109,12 @@
                                 <p style="left:10px; bottom:15px; color:var(--quaternary-color)">Time</p>
                             </div>
                             <h3 id="current-time" class="font-bold text-4xl mb-5"></h3>
-                            {{-- <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="location-dropdown absolute right-2.5 bottom-2.5 z-10 inline-flex items-center" type="button">Change Location
-                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                            </svg>
-                            </button>
 
-                            <div id="dropdownInformation" style="z-index: 9999999" class="hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                                    <b>Europe</b>
-                                    <ul id="europeDropdown" class="py-2 text-sm text-gray-700 dark:text-gray-200 z-10" aria-labelledby="dropdownInformationButton">
-                                        <li id="westernEurope">Western Europe</li>
-                                        <li id="centralEurope">Central Europe</li>
-                                        <li id="easternEurope">Eastern Europe</li>
-                                    </ul>
-                                </div>
-                                <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                                    <b>North America</b>
-                                    <ul id="northAmericaDropdown" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
-                                        <li id="easternTime">Eastern Time (US & Canada)</li>
-                                        <li id="centralTime">Central Time (US & Canada)</li>
-                                        <li id="mountainTime">Mountain Time (US & Canada)</li>
-                                    </ul>
-                                </div>
-                            </div> --}}
                         </div>
                         @auth
                             <div class="time-listener mt-5 flex items-center justify-center" style="z-index: -10">
                                 <p style="left:10px; bottom:15px; z-index: -10">Time listened this week</p>
-                                <h3 class="font-bold text-4xl mb-5">{{ $hoursListened ? $formattedTime : 0 }}</h3>
+                                <h3 class="font-bold text-4xl mb-5">{{ Auth::user()->online_duration ? 0 : 0 }}</h3>
                             </div>
                         @endauth
                         @guest
@@ -179,53 +156,6 @@
 
 
 <script>
-    //! Funzione per aggiornare l'orario in base al fuso orario specificato !//
-
-    // Aggiungi event listener per gestire il click sugli elementi <li> nell'elenco dell'Europa
-    /*   document.getElementById('europeDropdown').addEventListener('click', function(event) {
-    let timezone;
-    if (event.target.id === 'westernEurope') {
-        timezone = 'Europe/London'; // Imposta il fuso orario per l'Europa occidentale
-    } else if (event.target.id === 'centralEurope') {
-        timezone = 'Europe/Berlin'; // Imposta il fuso orario per l'Europa centrale
-    } else if (event.target.id === 'easternEurope') {
-        timezone = 'Europe/Moscow'; // Imposta il fuso orario per l'Europa orientale
-    }
-
-    // Chiama la funzione updateTime con il fuso orario selezionato come argomento
-    updateTime(timezone);
-});
-
-// Aggiungi event listener per gestire il click sugli elementi <li> nell'elenco del Nord America
-document.getElementById('northAmericaDropdown').addEventListener('click', function(event) {
-    let timezone;
-    if (event.target.id === 'easternTime') {
-        timezone = 'America/New_York'; // Imposta il fuso orario per l'Eastern Time (US & Canada)
-    } else if (event.target.id === 'centralTime') {
-        timezone = 'America/Chicago'; // Imposta il fuso orario per il Central Time (US & Canada)
-    } else if (event.target.id === 'mountainTime') {
-        timezone = 'America/Denver'; // Imposta il fuso orario per il Mountain Time (US & Canada)
-    }
-
-    // Chiama la funzione updateTime con il fuso orario selezionato come argomento
-    updateTime(timezone);
-});
-
-function updateTime(timezone) {
-            // Utilizza Moment.js e Moment Timezone per ottenere l'ora corrente nel fuso orario selezionato
-            let currentTime = moment().tz(timezone);
-
-            // Estrai le ore e i minuti dalla data e ora corrente
-            let hours = currentTime.format('HH');
-            let minutes = currentTime.format('mm');
-
-            // Crea una stringa dell'ora nel formato desiderato
-            let timeString = hours + ':' + minutes;
-
-            // Aggiorna l'orario visualizzato nella tua interfaccia utente
-            document.getElementById('current-time').innerText = timeString;
-            document.getElementById('selected-location').innerText = timezone.split('/')[1].replace('_', ' ');
-        } */
 
 
     const currentTime = document.getElementById('current-time').innerText;

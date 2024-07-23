@@ -52,9 +52,21 @@
             <div class="left-side-container">
                 <div class="background-wallpaper relative" style="background-image: url('{{ $user->image && $user->image->banner_picture_path ? asset($user->image->banner_picture_path) : asset('storage/images/image-not-found.png') }}');">
                     <div class="profile-image w-[250px] left-20 absolute bottom-[-80px]">
-                            <img class="border-[10px]"
-                                style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px;"
-                                src="{{ $user->image && $user->image->profile_picture_path ? $imageUrl : Storage::url('Avatars/avatar-' . $user->username . '.png') }}" alt="" />
+                        @if ($user->is_online == 1)
+                        <x-badge style="border:none; padding-right: 0px; gap:0px">
+                         <img class="border-[10px]"
+                         style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
+                         src="{{ $imageUrl }}" alt="" />
+                         <x-slot name="append" class="relative flex items-center w-8 h-8">
+                             <span class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-green-500 animate-ping top-[-50px] left-[-250px]"></span>
+                             <span class="relative inline-flex w-8 h-8 rounded-full bg-green-500 top-[-50px] left-[-250px]"></span>
+                         </x-slot>
+                     </x-badge>
+                        @else
+                        <img class="border-[10px]"
+                        style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
+                        src="{{ $imageUrl }}" alt="" />
+                        @endif
                     </div>
                 </div>
                 <div class="bottom-user-infos px-10 py-1">
@@ -62,8 +74,13 @@
                         <div class="header-infos-left">
                             <div class="flex text-center items-center justify-start gap-2 w-full">
                                 <h1 class="text-3xl font-semibold text-white pb-2">{{ $user->name }}</h1>
-                                <hr class="w-[2%] border-t-2 border-gray-500" />
+                                <hr class="w-[1.2%] border-t-2 border-gray-500" />
                                 <p>He/him</p>
+                                @if ($user->is_online == 1)
+                                <hr class="w-[1.2%] border-t-2 border-gray-500" />
+                                <span class="flex w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                                <p class="animate-pulse text-green-500 text-sm font-semibold text-center italic hover:cursor-pointer hover:scale-110">Online</p>
+                                @endif
                             </div>
                             <p class="text-gray-400 text-md italic">{{ '@' . $user->username }}</p>
                             <section>

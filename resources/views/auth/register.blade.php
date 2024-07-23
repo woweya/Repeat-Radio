@@ -30,9 +30,6 @@
 
                 <div class="input-group d-flex flex-column">
                     <x-inputs.password label="Password" name="password" placeholder="Password" value="" />
-                    @error('password')
-                        <span class="text-rose-900">{{ $message }}</span>
-                    @enderror
                 </div>
                 <div class="input-group d-flex flex-column">
                     <x-inputs.password label="Confirm Password" name="password_confirmation" placeholder="Confirm Password" value="" />

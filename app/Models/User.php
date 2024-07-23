@@ -32,6 +32,7 @@ class User extends Authenticatable
         'private_profile',
         'about_me_text',
         'website_url',
+        'online_duration',
     ];
 
 

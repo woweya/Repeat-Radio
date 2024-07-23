@@ -35,10 +35,12 @@
     clear: both;
 }
 .user-info .btn-follow {
+    border: 1px solid red;
     display: flex;
     flex-direction: row!important;
     justify-content: center;
     align-items: center;
+    flex-wrap: nowrap!important;
     gap: 5px;
     width: 145px;
     max-width: 145px;

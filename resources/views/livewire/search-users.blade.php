@@ -1,6 +1,5 @@
 <div class="w-full flex flex-col justify-center items-center mt-5 mb-5">
         <form class="max-w-md w-full mb-5">
-            @csrf
             <div class="relative flex items-center justify-center">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 ">
                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -19,7 +18,7 @@
                           <li>
                             <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                               <div class="flex items-center h-5">
-                                  <input wire:model.change="filterResults" wire:change="filterResults" id="helper-checkbox-1" aria-describedby="helper-checkbox-text-1" type="checkbox" value="staff" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                  <input wire:model.change="filterResults" wire:change="filterResults" id="helper-checkbox" aria-describedby="helper-checkbox-text-1" type="checkbox" value="staff" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                               </div>
                               <div class="ms-2 text-sm">
                                   <label for="helper-checkbox-1" class="font-medium text-white dark:text-white">
@@ -32,7 +31,7 @@
                           <li>
                             <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                               <div class="flex items-center h-5">
-                                  <input wire:model.change="filterResults" id="helper-checkbox-2" aria-describedby="helper-checkbox-text-2" type="checkbox" value="vip" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                  <input wire:model.change="filterResults" id="helper-checkbox" aria-describedby="helper-checkbox-text-2" type="checkbox" value="vip" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                               </div>
                               <div class="ms-2 text-sm">
                                   <label for="helper-checkbox-2" class="font-medium text-white dark:text-white">

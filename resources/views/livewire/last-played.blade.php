@@ -1,11 +1,5 @@
-<div wire:poll.visible>
-    @if ($loading)
-        <div role="status" class="max-w-sm animate-pulse">
-            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-4"></div>
-            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-4"></div>
-        </div>
-    @elseif ($error)
+<div wire:poll.5000s>
+    @if ($error)
         <div class="card-highlight flex flex-row" style="min-width: 65%; width: 80%; position: relative">
             <div class="card mt-5 px-3 py-2 flex flex-row justify-start items-center w-full"
                 style="max-height: 200px; min-height: 200px; border-radius: 10px;">

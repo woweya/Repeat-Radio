@@ -6,11 +6,12 @@ use Log;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Isolate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 
 
-
+#[Lazy]
 class TitleSong extends Component
 {
 
@@ -26,19 +27,16 @@ class TitleSong extends Component
 
     public function mount(): void
     {
-        $this->cachedData = Cache::get('song_data', [
-            'title' => '',
-            'artist' => '',
-            'image' => '',
-            'total_seconds' => 0,
-            'seconds_elapsed' => 0,
-            'seconds_remaining' => 0,
-            'spotifyURL' => '',
-            'audioURL' => '',
-        ]);
+        $this->cachedData = Cache::get('song_data', []);
 
-        $this->remainingTime = $this->cachedData['seconds_remaining'] ?? 0;
-        $this->fetchSongData();
+        if (!$this->cachedData) {
+            $this->loading = true;
+            $this->fetchSongData();
+        } else {
+            $this->loading = true;
+            $this->remainingTime = $this->cachedData['seconds_remaining'] ?? 0;
+            $this->dispatch('fetchSongData');
+        }
 
         /*         if ($this->cachedData) {
             $this->fetchSongData();
@@ -48,15 +46,16 @@ class TitleSong extends Component
     }
 
 
+    public function placeholder()
+    {
+        return view('skeletons.skeleton-header');
+    }
+
     #[On('fetchSongData')]
     public function fetchSongData()
     {
         try {
             $response = Http::get('http://138.197.88.112/api/proc/s/currently_playing');
-
-            if (!$response->successful()) {
-                throw new \Exception('Failed to fetch song data.');
-            }
 
             $data = $response->json()['song'];
 
@@ -86,9 +85,7 @@ class TitleSong extends Component
                 // Cache the updated data
                 Cache::put('song_data', $this->cachedData);
                 $this->dispatch('songUpdated', $data);
-
             }
-
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             $this->handleFetchError();

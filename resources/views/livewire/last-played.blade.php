@@ -23,9 +23,9 @@
                             <p id="songTitle" class="text-[color:var(--quaternary-color)] text-2xl font-bold">{{ Str::limit($songs['title'], 35) }}</p>
                             <p id="songArtist" class="text-[color:var(--quinary-color)]" style="margin-bottom: 1.5rem">{{ $songs['artist'] }}</p>
                             <ul class="flex flex-row gap-2">
-                                <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">R&B/Soul</a></li>
+                               {{--  <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">R&B/Soul</a></li>
                                 <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">Afroswing</a></li>
-                                <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">UK Rap</a></li>
+                                <li class="px-3 py-0 rounded text-[color:var(--quinary-color)]"><a href="">UK Rap</a></li> --}}
                             </ul>
                         </div>
                     </div>

@@ -168,8 +168,11 @@
 
 
 @script
-<script>
+<script data-navigate-once>
     document.addEventListener('livewire:initialized', function() {
+
+
+
         let loveSVG = document.getElementById('love');
         let songInfo = document.getElementById('artist-info');
         loveSVG.addEventListener('click', function() {

@@ -63,7 +63,7 @@
 
 
 @script
-    <script>
+    <script data-navigate-once>
         document.addEventListener('livewire:initialized', () => {
             let cropper;
             Livewire.on('previewImage', () => {

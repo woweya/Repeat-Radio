@@ -9,16 +9,11 @@
     </div>
     --}}
     <div class="text-center mt-10 mb-10 flex flex-col justify-center items-center">
-        <div class="w-2/4 flex flex-col mb-5 justify-center items-center">
+        <div class="w-2/4 flex flex-col justify-center items-center">
             <h1 class="text-5xl text-[color:var(--quaternary-color)] font-normal mb-5">Members</h1>
         </div>
-
-        <livewire:search-users />
-        <div class="w-1/4 flex flex-col mb-5">
-            {{-- x-select --}}
-        </div>
         <div class="flex justify-center flex-col items-center container">
-            <div class="flex justify-center items-center gap-5 mt-5 mb-10 flex-wrap">
+            <div class="flex justify-center items-center gap-5 mt-5 mb-5 flex-wrap">
                 <div id="topUser" class="card flex flex-col justify-center items-center"
                     style="border: 1px solid var(--purple-color)">
                     <h1 class="text-xl uppercase text-[color:var(--quaternary-color)] font-extrabold mb-3">Top Online
@@ -29,21 +24,10 @@
                             <div class="flex justify-center items-center w-full">
                                 @foreach ($usersWithActivities as $activity)
                                     @if ($loop->first)
-                                        @php
-                                            //! If the User has a custom profile image, use it, otherwise use the default one.
-                                            $id = $activity->user->id;
-                                            $username = $activity->user->username;
-                                            if ($activity->user->image) {
-                                                $customProfileImage = $activity->user->image->profile_picture_path;
-                                            } else {
-                                                $customProfileImage = Storage::url('Avatars/avatar-' . $username . '.png');
-                                            }
-
-                                        @endphp
                                             <div class="hover:scale-105 w-full flex justify-center items-center flex-nowrap transition-all hover:cursor-pointer hover:underline underline-offset-2">
                                                 <a class="w-full flex justify-center items-center gap-2" href="{{ route('user.profile', $activity->user->id) }}">
 
-                                                    <img src="{{ $customProfileImage }}"
+                                                    <img src="{{ $activity->user->image ? Storage::url($activity->user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}"
                                                     style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
                                                     class="" alt="">
 
@@ -58,11 +42,7 @@
                             <hr class="mt-2 mb-2 border-[color:var(--quinary-color)] w-full">
                         @else
                                <div data-user-id="{{ $activity->user->id }}2" class="flex w-full justify-start items-center py-2 gap-2 hover:scale-105">
-                                @if ($activity->user->image)
-                                <img style="rounded" width="35" height="20" src="{{ $activity->user->image->profile_picture_path }}" alt="">
-                                @else
-                                <img style="rounded" width="35" height="20" src="{{ Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}" alt="">
-                                @endif
+                                <img style="rounded" width="35" height="20" src="{{ $activity->user->image ? Storage::url($activity->user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}" alt="">
                                 <a href="{{ route('user.profile', $activity->user->id) }}" class="w-full hover:underline hover:cursor-pointer underline-offset-2">
                                     <p class="text-lg w-full font-semibold text-start text-[color:var(--quaternary-color)]">
                                         {{ $activity->user->username }}</p>
@@ -76,8 +56,10 @@
             </div>
         </div>
 
+        <livewire:search-users />
+
         <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold mt-5">Staff Members Active</h1>
-        <div id="StaffMembers" class="flex justify-center items-center flex-wrap mt-10">
+        <div id="StaffMembers" class="flex justify-center items-center flex-wrap mt-10 w-full container">
 
             @foreach ($users as $user)
                 @if ($user->is_staff && $user->is_online == 1)
@@ -109,8 +91,6 @@
                                     </x-slot>
                                 </x-badge>
                             @endif
-                            <h1 class="text-lg text-[color:var(--quaternary-color)] font-extrabold mr-2">
-                                {{ $user->name }}</h1>
                             <div id="popover-user-{{ $user->id }}" data-popover role="tooltip"
                                 class="absolute top-[45px] cursor-pointer z-10 invisible w-64 text-sm text-gray-500 transition-opacity duration-300 bg-[color:var(--secondary-color)] rounded-lg shadow-sm opacity-0 color:var(--quaternary-color)"
                                 style="border: 2px solid #45056d">
@@ -167,7 +147,7 @@
 
 
 <script>
-    document.addEventListener('livewire:navigated', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('search');
         const checkBoxes = document.querySelectorAll('#helper-checkbox');
         const topUserDiv = document.getElementById('topUser');
@@ -194,7 +174,7 @@
         });
 
 
-        checkBoxes.forEach(checkbox => {
+   /*      checkBoxes.forEach(checkbox => {
             checkbox.addEventListener('change', function() {
 
                 if (this.checked) {
@@ -211,6 +191,6 @@
             } else {
                 topUserDiv.style.display = 'block';
             }
-        });
+        }); */
     });
 </script>

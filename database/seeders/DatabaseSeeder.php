@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
             \Illuminate\Support\Facades\Event::dispatch(new UserAvatars($user));
         });
 
-        $categories = ['Tech', 'Sports', 'Entertainment', 'Business', 'Health', 'Finance', 'Science'];
+     /*    $categories = ['Tech', 'Sports', 'Entertainment', 'Business', 'Health', 'Finance', 'Science'];
         foreach ($categories as $category) {
             \App\Models\Category::create([
                 'name' => $category
             ]);
-        }
+        } */
 
         \App\Models\User::create([
             'name' => 'Admin',

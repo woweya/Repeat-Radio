@@ -25,7 +25,7 @@
 
                         <!-- TOP LISTENER !-->
 
-                        @foreach ($usersTopListener as $activity)
+                        {{--  @foreach ($usersTopListener as $activity)
 
                              <div class="card-listener flex flex-col" id="user-{{ $activity->user_id }}" style="min-width: 50%; max-width: 50%; z-index: 0">
                             <h1 @if ($loop->first) class="text-3xl text-[color:var(--quaternary-color)] font-extrabold w-full mt-5 capitalize flex items-center" @else class="text-xl capitalize text-[color:var(--quaternary-color)] font-semibold mt-5 flex items-center" @endif >
@@ -83,6 +83,8 @@
 
                         @endforeach
 
+
+
                     </div>
                     <div class="button-top-listeners">
                         <button
@@ -95,7 +97,10 @@
                             </svg>
 
                             View full Leaderboard</button>
+                            --}}
+                        <p class="py-2">At the moment still in work!</p>
                     </div>
+
                 </div>
             </div>
 
@@ -158,22 +163,10 @@
 <script>
 
 
-    const currentTime = document.getElementById('current-time').innerText;
 
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const rightSide = document.getElementById('right-side');
-        if (window.innerWidth < 720) {
-            rightSide.removeAttribute('data-aos');
-            rightSide.removeAttribute('data-aos-duration');
-        }
-
-
-
-    })
-
+   document.addEventListener('DOMContentLoaded', function () {
     const divs = document.querySelectorAll('#top-listeners div[data-user-id]');
-        console.log(divs);
+    console.log(divs);
     // Attach event listeners to each image
     divs.forEach(div => {
         // Get the corresponding PopOver element
@@ -191,4 +184,5 @@
             popover.classList.add('opacity-0', 'invisible');
         });
     });
+   })
 </script>

@@ -148,8 +148,11 @@
         @endif
     </section>
 
-    @script
-    <script>
+</div>
+@script
+    <script data-navigate-once>
+
+
         Livewire.on('replyAdded', (event) => {
             console.log('Event received:', event); // Debugging
 
@@ -182,7 +185,3 @@
         });
     </script>
     @endscript
-
-
-
-</div>

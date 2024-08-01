@@ -80,8 +80,8 @@
     </form>
 </div>
 
-@script
-<script>
+{{-- @script
+<script data-navigate-once>
 
 
 document.addEventListener('livewire:navigated', function() {
@@ -129,4 +129,4 @@ function getCaretCharacterOffsetWithin(element) {
 
 
 </script>
-@endscript
+@endscript --}}

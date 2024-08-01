@@ -48,71 +48,74 @@
 </div>
 
 @script
-    <script>
-        console.log('API reloading:')
-        let secondsTotal = {{ $cachedData['total_seconds'] }};
-        let secondsElapsed = {{ $secondsElapsed }};
-        let secondsRemaining =( {{ $remainingTime }} - 1) * 1000;
-        let nextrun = ((secondsRemaining  - secondsElapsed));
-        console.log(secondsTotal, secondsElapsed, secondsRemaining, nextrun);
-        setInterval(() => {
-            console.log('dispatching the new data..')
-            $wire.dispatch('fetchSongData');
-        }, secondsRemaining);
+    <script data-navigate-once>
 
 
-        document.addEventListener('livewire:initialized', function() {
-            /*    let component = Livewire.all()[6];
-               let totalSeconds = parseInt(component.canonical.cachedData.total_seconds);
+       /*  let eventListenerAdded = false;
 
-               const parentDiv = document.getElementById('title-song');
+        if(!eventListenerAdded) {
+            console.log('Hey!');
+            console.log(!eventListenerAdded);
+            Livewire.on('songUpdated', (event) => {
+            console.log('Event received:', event);
+            eventListener = event[0];
+            eventListenerAdded = true;
+            console.log('Event listener:', eventListener.seconds_remaining);
+            let nextrun = eventListener.seconds_remaining;
+            if (eventListenerAdded) {
+                setTimeout(() => {
+                    Livewire.dispatch('fetchSongData');
+                    eventListenerAdded = false;
+                    console.log('Fetching new song data');
+            }, eventListener.seconds_remaining);
+            }else{
+                console.log('No song fetched.');
+            }
+        })
 
-               parentDiv.setAttribute('wire:poll.'+ totalSeconds +'s', 'fetchSongData');
-               console.log(parentDiv); */
+        } */
 
 
-            document.addEventListener('livewire:navigated', function() {
 
 
-                let audio = document.getElementById('audio');
-                let savedVolume = localStorage.getItem('audioVolume');
-                if (savedVolume !== null) {
-                    audio.volume = savedVolume / 100;
-                }
+        document.addEventListener('livewire:navigated', function() {
 
-                audio.src = "{{ $cachedData['audioURL'] }}";
-                audio.setAttribute('autoplay', true);
+            let audio = document.getElementById('audio');
+            let savedVolume = localStorage.getItem('audioVolume');
+            audio.volume = savedVolume !== null ? savedVolume / 100 : 0.3;
 
+            audio.src = "{{ $cachedData['audioURL'] }}";
+            audio.setAttribute('autoplay', true);
+
+            audio.play().then(() => {
+                console.log('audio playing');
+            }).catch(error => {
+                console.log('audio play failed', error);
+            });
+
+            Livewire.on('eventPlay', () => {
                 audio.play().then(() => {
-                    console.log('audio playing');
+                    console.log('play event triggered');
                 }).catch(error => {
-                    console.log('audio play failed', error);
+                    console.log('play event failed', error);
                 });
+                if (!artImage.classList.contains('spin')) {
+                    artImage.classList.add('spin');
+                }
+            });
 
-                Livewire.on('eventPlay', () => {
-                    audio.play().then(() => {
-                        console.log('play event triggered');
-                    }).catch(error => {
-                        console.log('play event failed', error);
-                    });
-                    if (!artImage.classList.contains('spin')) {
-                        artImage.classList.add('spin');
-                    }
-                });
+            Livewire.on('eventPause', () => {
+                audio.pause();
+                console.log('pause event triggered');
+                if (artImage.classList.contains('spin')) {
+                    artImage.classList.remove('spin');
+                }
+            });
 
-                Livewire.on('eventPause', () => {
-                    audio.pause();
-                    console.log('pause event triggered');
-                    if (artImage.classList.contains('spin')) {
-                        artImage.classList.remove('spin');
-                    }
-                });
-
-                Livewire.on('eventVolume', (volume) => {
-                    audio.volume = volume / 100;
-                    localStorage.setItem('audioVolume', volume);
-                    console.log('volume changed', volume);
-                });
+            Livewire.on('eventVolume', (volume) => {
+                audio.volume = volume / 100;
+                localStorage.setItem('audioVolume', volume);
+                console.log('volume changed', volume);
             });
         });
     </script>

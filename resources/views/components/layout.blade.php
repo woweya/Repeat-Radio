@@ -20,8 +20,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{ Storage::url('lib/css/emoji.css') }}" rel="stylesheet">
-    <wireui:scripts />
     <title>Sailor Radio</title>
     @livewireStyles()
     @livewireScripts()
@@ -58,10 +56,7 @@
         };
     </script>
 
-    <script src="{{ Storage::url('lib/js/config.min.js') }}"></script>
-    <script src="{{ Storage::url('lib/js/util.min.js') }}"></script>
-    <script src="{{ Storage::url('lib/js/jquery.emojiarea.min.js') }}"></script>
-    <script src="{{ Storage::url('lib/js/emoji-picker.min.js') }}"></script>
+
     <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 
 </body>

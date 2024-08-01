@@ -1,90 +1,78 @@
 <?php
 
 namespace App\Livewire;
-use Livewire\Component;
-use Livewire\Attributes\Url;
-use Livewire\WithPagination;
 
+use Livewire\Component;
+use Livewire\Attributes\On;
+use Livewire\WithPagination;
+use Livewire\Attributes\Computed;
+use Livewire\WithoutUrlPagination;
 
 class SearchUsers extends Component
 {
-    public $searchTerm= '';
+    use WithPagination, WithoutUrlPagination;
 
-    public $vip = false;  // Assuming you have a VIP filter
-    public $staff = false;  // Assuming you have a Staff filter
-    public $users = [];
+    public $searchTerm = '';
+    public $vip = false;  // VIP filter
+    public $staff = false;  // Staff filter
 
-    public $roles = [];
-    public $hasSearched = false;
-    public $filterResults = [];
+    public $isLoading = false;
 
 
-    public function render()
+    public function mount()
     {
+        $this->searchTerm = '';
+        $this->vip = false;
+        $this->staff = false;
 
-        return view('livewire.search-users', [
-            'users' => $this->users,
-            'hasSearched' => $this->hasSearched,
-        ]);
     }
 
-    public function search(){
+    #[On('songUpdated')]
+    public function getFilteredUsersProperty()
+    {
+
         $query = \App\Models\User::query();
 
+        $this->isLoading = false;
 
-        // Apply search term filter
-        if (!empty($this->searchTerm)) {
-            $query->where(function($query) {
-                $query->where('username', 'like', $this->searchTerm . '%')
-                      ->orWhere('name', 'like', $this->searchTerm . '%')
-                      ->orWhere('email', 'like', $this->searchTerm . '%');
+        if ($this->searchTerm) {
+
+            $query->where(function ($subQuery) {
+                $subQuery->where('name', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('username', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
             });
-        }else{
-            $this->searchTerm = '';
-            $this->hasSearched = false;
-            $this->users = [];
+
         }
 
-       /*  // Apply VIP filter
         if ($this->vip) {
             $query->where('is_vip', true);
-        } */
+        }
 
-
-
-        // Apply Staff filter
         if ($this->staff) {
             $query->where('is_staff', true);
-            $this->roles = \App\Models\Role::all();
 
         }
 
-        if (!empty($this->searchTerm) || $this->vip || $this->staff) {
-            // If any search is applied, get the filtered users
-
-            $this->users = $query->get();
-        } else {
-            // If all filters are empty, reset users to an empty array
-            $this->users = [];
-        }
+        return $query->paginate(10);
     }
 
     public function updated($propertyName)
     {
-        if (in_array($propertyName, ['searchTerm', 'filterResults.0'])) {
-            $this->hasSearched = true;
-
-            if ($this->filterResults) {
-                $this->staff = true;
-                $this->search();
-            }else{
-                $this->staff = false;
-                $this->search();
-            }
-
-
+        if ($propertyName === 'staff' || $propertyName === 'searchTerm' || $propertyName === 'vip') {
+            $this->resetPage();
+            $this->getFilteredUsersProperty();
         }
     }
 
 
+
+    public function render()
+    {
+        $AllUsers = \App\Models\User::paginate(10);
+
+        return view('livewire.search-users', [
+            'users' => $this->searchTerm || $this->vip || $this->staff ? $this->filteredUsers : $AllUsers,
+        ]);
+    }
 }

@@ -33,6 +33,7 @@ class User extends Authenticatable
         'about_me_text',
         'website_url',
         'online_duration',
+        'quote',
     ];
 
 
@@ -76,7 +77,10 @@ class User extends Authenticatable
             'social_infos' => 'boolean',
             'contact_infos' => 'boolean',
             'private_profile' => 'boolean',
-            'website_url'=>'string',
+            'website_url' => 'string',
+            'is_admin' => 'boolean',
+            'is_online' => 'boolean',
+            'quote' => 'string'
         ];
     }
 

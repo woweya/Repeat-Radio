@@ -428,12 +428,15 @@
         </main>
     </div>
 </x-layout>
+
+
+
+
+
 <script>
 
+document.addEventListener('DOMContentLoaded', (event) => {
 
-
-
-    document.addEventListener('DOMContentLoaded', () => {
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -460,4 +463,5 @@
         window.showModal = showModal;
         window.closeModal = closeModal;
     });
+
 </script>

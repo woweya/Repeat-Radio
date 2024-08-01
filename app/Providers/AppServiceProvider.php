@@ -18,7 +18,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
+        //! Laravel Telescope for local development
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -52,10 +57,10 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-
+/*
         $categories = \App\Models\Category::all();
         view()->share('categories', $categories);
-
+ */
 
     }
 

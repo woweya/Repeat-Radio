@@ -14,6 +14,7 @@
         "laravel/fortify": "^1.21",
         "laravel/framework": "^11.0",
         "laravel/octane": "^2.4",
+        "laravel/reverb": "^1.0",
         "laravel/scout": "^10.8",
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.9",
@@ -28,7 +29,8 @@
         "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
-        "laravel/sail": "^1.26",
+        "laravel/sail": "*",
+        "laravel/telescope": "^5.1",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0",
@@ -66,10 +68,13 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
+        "platform-check": false,
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,

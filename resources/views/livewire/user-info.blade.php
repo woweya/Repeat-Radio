@@ -113,7 +113,7 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <dialog id="my_modal_4" class="modal" style="overflow-y: visible">
+                        <dialog id="my_modal_4" class="modal" style="overflow-y: visible" wire:ignore.self>
                             @livewire('image-upload')
                             <form method="dialog" class="modal-backdrop absolute h-[100%] w-[100%]">
                                 <button>Close</button>
@@ -124,21 +124,23 @@
 
                         <!-- IMAGE PHP -->
 
-                       @if (Auth::user()->is_online == 1)
-                       <x-badge style="border:none; padding-right: 0px; gap:0px">
-                        <img class="border-[10px]"
-                        style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
-                        src="{{ $imageUrl }}" alt="" />
-                        <x-slot name="append" class="relative flex items-center w-8 h-8">
-                            <span class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-green-500 animate-ping top-[-50px] left-[-250px]"></span>
-                            <span class="relative inline-flex w-8 h-8 rounded-full bg-green-500 top-[-50px] left-[-250px]"></span>
-                        </x-slot>
-                    </x-badge>
-                       @else
-                       <img class="border-[10px]"
-                       style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
-                       src="{{ $imageUrl }}" alt="" />
-                       @endif
+                        @if (Auth::user()->is_online == 1)
+                            <x-badge style="border:none; padding-right: 0px; gap:0px">
+                                <img class="border-[10px]"
+                                    style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
+                                    src="{{ $imageUrl }}" alt="" />
+                                <x-slot name="append" class="relative flex items-center w-8 h-8">
+                                    <span
+                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-green-500 animate-ping top-[-50px] left-[-250px]"></span>
+                                    <span
+                                        class="relative inline-flex w-8 h-8 rounded-full bg-green-500 top-[-50px] left-[-250px]"></span>
+                                </x-slot>
+                            </x-badge>
+                        @else
+                            <img class="border-[10px]"
+                                style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
+                                src="{{ $imageUrl }}" alt="" />
+                        @endif
                     </div>
                 </div>
             </div>
@@ -150,9 +152,11 @@
                             <hr class="w-[2%] border-t-2 border-gray-500" />
                             <p>He/him</p>
                             @if ($user->is_online == 1)
-                            <hr class="w-[1.2%] border-t-2 border-gray-500" />
-                            <span class="flex w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-                            <p class="animate-pulse text-green-500 text-sm font-semibold text-center italic hover:cursor-pointer hover:scale-110">Online</p>
+                                <hr class="w-[1.2%] border-t-2 border-gray-500" />
+                                <span class="flex w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                                <p
+                                    class="animate-pulse text-green-500 text-sm font-semibold text-center italic hover:cursor-pointer hover:scale-110">
+                                    Online</p>
                             @endif
                         </div>
                         <p class="text-gray-400 text-md italic">{{ '@' . Auth::user()->username }}</p>
@@ -176,9 +180,10 @@
                                         Staff Member
                                     </p>
                                     @foreach (Auth::user()->roles as $role)
-                                        <div class="tooltip" data-tip="{{ $role->name }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8946f4"
-                                                class="size-6 hover:cursor-pointer hover:scale-110">
+                                        <div wire:key="{{ $role->id }}" class="tooltip"
+                                            data-tip="{{ $role->name }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                fill="#8946f4" class="size-6 hover:cursor-pointer hover:scale-110">
                                                 <path fill-rule="evenodd"
                                                     d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
                                                     clip-rule="evenodd" />
@@ -273,7 +278,7 @@
                                                 <div class="modify-link flex flex-row w-full">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
-                                                        class="size-4 cursor-pointer hover:scale-110 absolute bottom-[32%] right-[62%]"
+                                                        class="size-4 cursor-pointer hover:scale-110 absolute bottom-[37%] right-[62%]"
                                                         wire:click="enableEditingWebsiteURL">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
@@ -308,16 +313,33 @@
                                 </dialog>
 
                             </div>
+                            <!-- Quote -->
+                            <div class="py-2 flex justify-start items-center gap-2 w-full">
+                                @if (!$isEditingQuote)
+                                    <q class="text-gray-400 text-md italic">
+                                        {{ $this->getUpdatedQuote() }}
+                                    </q>
+                                    <hr class="w-[1%] border-t-2 border-gray-500 " />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="white"
+                                        class="size-4 cursor-pointer hover:scale-120" wire:click="enableEditingQuote">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                    </svg>
+                                @elseif ($isEditingQuote)
+                                    <input type="text" placeholder="Type here"
+                                        class="input input-bordered input-primary w-full max-w-xs"
+                                        wire:model.blur="quote" />
+                                @endif
+                            </div>
 
-                            <p class="text-gray-400 text-sm italic">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Quisquam, quidem!
-                            </p>
+                            <!-- Social Links -->
 
                             <div class="social-links">
-                                <div class="flex gap-2 py-2">
+                                <div class="flex gap-2">
                                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                            width="50" height="50" viewBox="0,0,256,256"
+                                            width="40" height="40" viewBox="0,0,256,256"
+                                            class="roundend-full hover:scale-125 transition-all  cursor-pointer"
                                             style="fill:#000000;">
                                             <g fill="#2550d2" fill-rule="nonzero" stroke="none" stroke-width="1"
                                                 stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
@@ -332,7 +354,8 @@
                                             </g>
                                         </svg></a>
                                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                            width="48" height="48" viewBox="0 0 48 48">
+                                            width="40" height="40" viewBox="0 0 48 48"
+                                            class="roundend-full hover:scale-125 transition-all cursor-pointer">
                                             <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1"
                                                 cx="19.38" cy="42.035" r="44.899"
                                                 gradientUnits="userSpaceOnUse">
@@ -366,7 +389,8 @@
                                             </path>
                                         </svg></a>
                                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                            width="50" height="50" viewBox="0,0,256,256"
+                                            width="40" height="40" viewBox="0,0,256,256"
+                                            class="roundend-full hover:scale-125 transition-all cursor-pointer"
                                             style="fill:#000000;">
                                             <g fill="#0078d4" fill-rule="nonzero" stroke="none" stroke-width="1"
                                                 stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
@@ -381,7 +405,8 @@
                                             </g>
                                         </svg></a>
                                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                            width="50" height="50" viewBox="0,0,256,256"
+                                            width="40" height="40" viewBox="0,0,256,256"
+                                            class="roundend-full hover:scale-125 transition-all cursor-pointer"
                                             style="fill:#000000;">
                                             <g fill="#000000" fill-rule="nonzero" stroke="none" stroke-width="1"
                                                 stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
@@ -395,6 +420,23 @@
                                                 </g>
                                             </g>
                                         </svg></a>
+                                    <button onclick="showModal('my_modal_7')" class="btn btn-square btn-outline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+
+                                    </button>
+
+                                    <dialog id="my_modal_7" class="modal" wire:ignore.self>
+                                        <div class="modal-box">
+                                            <h3 class="font-bold text-lg">Add new Social Link</h3>
+                                        </div>
+                                        <form method="dialog" class="modal-backdrop">
+                                            <button>Close</button>
+                                        </form>
+                                    </dialog>
                                 </div>
                             </div>
                         </section>
@@ -413,7 +455,7 @@
                                 </svg>
 
                             </button>
-                            <dialog id="my_modal_6" class="modal" wire:ignore>
+                            <dialog id="my_modal_6" class="modal" wire:ignore.self>
                                 <div class="modal-box">
                                     <h1 class="text-xl font-bold text-white">User settings</h1>
                                     <hr class="w-[98%] border-t-2 border-gray-500 py-2">
@@ -553,7 +595,7 @@
                                         class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followers()->count() }}</span>
                                     <span class="text-gray-400 italic text-md">Followers</span>
                                 </button>
-                                <dialog id="my_modal_1" class="modal">
+                                <dialog id="my_modal_1" class="modal" wire:ignore>
                                     <div class="modal-box">
                                         <h1 class="text-xl font-bold text-white">Followers</h1>
                                         <hr class="w-[98%] border-t-2 border-gray-500 py-2">
@@ -561,22 +603,26 @@
                                             <p class="text-center text-gray-400 italic">No followers</p>
                                         @else
                                             @foreach (Auth::user()->followers as $follower)
-                                                <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
-                                                    href="{{ route('user.profile', $follower->id) }}">
-                                                    <div
-                                                        class="flex py-2 justify-start items-center hover:scale-105 transition-all">
-                                                        @if ($follower->image)
-                                                            <img src="{{ Storage::url($follower->image->path) }}"
-                                                                alt="" class="w-10 h-10 mr-2">
-                                                        @else
-                                                            <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
-                                                                alt="" class="w-10 h-10 mr-2">
-                                                        @endif
-                                                        <p
-                                                            class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
-                                                            {{ $follower->username }}</p>
-                                                    </div>
-                                                </a>
+                                                <div wire:key="{{ $follower->id }}">
+                                                    <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
+                                                        href="{{ route('user.profile', $follower->id) }}">
+                                                        <div
+                                                            class="flex py-2 justify-start items-center hover:scale-105 transition-all">
+                                                            @if ($follower->image)
+                                                                <img src="{{ Storage::url($follower->image->profile_picture_path) }}"
+                                                                    alt=""
+                                                                    class="w-10 h-10 mr-2 rounded-full">
+                                                            @else
+                                                                <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
+                                                                    alt=""
+                                                                    class="w-10 h-10 mr-2 rounded-full">
+                                                            @endif
+                                                            <p
+                                                                class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
+                                                                {{ $follower->username }}</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
                                             @endforeach
                                         @endif
                                     </div>
@@ -590,7 +636,7 @@
                                         class="underline decoration-purple-500 underline-offset-2">{{ Auth::user()->followings()->count() }}</span>
                                     <span class="text-gray-400 italic text-md">Following</span>
                                 </button>
-                                <dialog id="my_modal_2" class="modal">
+                                <dialog id="my_modal_2" class="modal" wire:ignore>
                                     <div class="modal-box">
                                         <h1 class="text-xl font-bold text-white">Followers</h1>
                                         <hr class="w-[98%] border-t-2 border-gray-500 py-2">
@@ -598,22 +644,26 @@
                                             <p class="text-center text-gray-400 italic">No following</p>
                                         @else
                                             @foreach (Auth::user()->followings as $follower)
-                                                <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
-                                                    href="{{ route('user.profile', $follower->id) }}">
-                                                    <div
-                                                        class="flex py-2 justify-start items-center hover:scale-105 transition-all">
-                                                        @if ($follower->image)
-                                                            <img src="{{ Storage::url($follower->image->path) }}"
-                                                                alt="" class="w-10 h-10 mr-2">
-                                                        @else
-                                                            <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
-                                                                alt="" class="w-10 h-10 mr-2">
-                                                        @endif
-                                                        <p
-                                                            class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
-                                                            {{ $follower->username }}</p>
-                                                    </div>
-                                                </a>
+                                                <div wire:key="{{ $follower->id }}">
+                                                    <a class="hover:underline decoration-purple-500 hover:underline-offset-2"
+                                                        href="{{ route('user.profile', $follower->id) }}">
+                                                        <div
+                                                            class="flex py-2 justify-start items-center hover:scale-105 transition-all">
+                                                            @if ($follower->image)
+                                                                <img src="{{ Storage::url($follower->image->profile_picture_path) }}"
+                                                                    alt=""
+                                                                    class="w-10 h-10 mr-2 rounded-full">
+                                                            @else
+                                                                <img src="{{ Storage::url('Avatars/avatar-' . $follower->username . '.png') }}"
+                                                                    alt=""
+                                                                    class="w-10 h-10 mr-2 rounded-full">
+                                                            @endif
+                                                            <p
+                                                                class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center capitalize">
+                                                                {{ $follower->username }}</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
                                             @endforeach
                                         @endif
                                     </div>
@@ -667,7 +717,7 @@
                         </div>
                         @if (Auth::user()->comments->count() > 0)
                             @foreach (Auth::user()->comments->sortByDesc('created_at') as $comment)
-                                <div class="comment-el p-2 w-full mt-2">
+                                <div wire:key="{{ $comment->id }}" class="comment-el p-2 w-full mt-2">
                                     <div class="flex justify-start items-start py-3">
                                         @if ($comment->commenter && $comment->commenter->image)
                                             <img class="mr-2 w-6 h-6 rounded-full"
@@ -695,7 +745,8 @@
                                             <span class="sr-only">Comment settings</span>
                                         </button>
                                         <div id="dropdownComment{{ $comment->id }}"
-                                            class="hidden z-10 w-36 rounded divide-y shadow bg-gray-700 divide-gray-600">
+                                            class="hidden z-10 w-36 rounded divide-y shadow bg-gray-700 divide-gray-600"
+                                            wire:ignore>
                                             <ul class="py-1 text-sm text-gray-200"
                                                 aria-labelledby="dropdownMenuIconHorizontalButton">
                                                 <li>
@@ -723,7 +774,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="comment-user">
+                                    <div class="comment-user" wire:ignore>
                                         <p class="p-3 py-5">{{ $comment->body }}</p>
                                         <form id="editCommentForm{{ $comment->id }}"
                                             action="{{ route('comment.update', $comment->id) }}" method="POST"
@@ -760,12 +811,41 @@
                     <h1 class="text-xl font-semibold text-white pb-2">
                         Country of origin
                     </h1>
-                    <p>{{ Auth::user()->country }} - {{ Auth::user()->city }}</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="white" class="size-6 absolute top-8 right-2 cursor-pointer hover:scale-110">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                    </svg>
+                    @if (!$isEditingCountry && $user->country)
+                        <p>{{ Auth::user()->country }} - {{ Auth::user()->city }}</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="white"
+                            class="size-6 absolute top-8 right-2 cursor-pointer hover:scale-110"
+                            wire:click="enableEditingCountry">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                        </svg>
+                    @elseif ($isEditingCountry)
+                        <select class="select select-bordered w-full max-w-xs mb-2" wire:model.change.defer="Country"
+                            name="country" id="country">
+                            <option value="">Select Country</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country['cca2'] }}">{{ $country['name']['common'] }}</option>
+                            @endforeach
+                        </select>
+                        <div wire:loading wire:target="Country" class="skeleton-placeholder">
+                            <span class="loading loading-dots loading-lg"></span>
+                        </div>
+                        <div wire:loading.remove wire:target="Country">
+                            <select class="select select-bordered w-full max-w-xs" wire:model.change.defer="City"
+                                name="city" class="input-group w-100" id="city">
+                                <option value="">Select City</option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city['geonameId'] }}">{{ $city['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <button
+                                class="py-2 mt-2 w-full px-4 bg-violet-950 hover:bg-violet-900 hover:text-white rounded"
+                                wire:click="save">Save</button>
+                        </div>
+                    @endif
                 </div>
                 <hr class="w-[98%] border-t-2 border-gray-500" />
                 <div class="top-songs w-full py-5 flex flex-col gap-2 relative">
@@ -821,7 +901,7 @@
                         </div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="white" class="size-6 absolute top-8 right-2 cursor-pointer hover:scale-110">
+                        stroke="white" class="size-6 absolute top-5 right-2 cursor-pointer hover:scale-110">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                     </svg>
@@ -829,7 +909,7 @@
                 <hr class="w-[98%] border-t-2 border-gray-500" />
                 <div class="like-counts w-full pt-5 relative">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="white" class="size-6 absolute top-6 right-2 cursor-pointer hover:scale-110">
+                        stroke="white" class="size-6 absolute top-5 right-2 cursor-pointer hover:scale-110">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                     </svg>
@@ -845,107 +925,119 @@
                 </div>
             </div>
         </div>
+        @assets
+            <link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet"
+                type="text/css" />
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+        @endassets
     </main>
     @script
-        <script>
-            function toggleEditForm(commentId) {
-                const editForm = document.getElementById(`editCommentForm${commentId}`);
-                const bodyMessage = document.getElementById(`comment${commentId}`);
-                if (editForm) {
-                    editForm.classList.toggle('hidden');
-                    bodyMessage.classList.toggle('hidden');
+        <script data-navigate-once>
+            Livewire.on('countryChanged', () => {
+                window.location.reload();
+            })
+
+
+            document.addEventListener('livewire:navigated', function() {
+
+                function toggleEditForm(commentId) {
+                    const editForm = document.getElementById(`editCommentForm${commentId}`);
+                    const bodyMessage = document.getElementById(`comment${commentId}`);
+                    if (editForm) {
+                        editForm.classList.toggle('hidden');
+                        bodyMessage.classList.toggle('hidden');
+                    }
+
+
                 }
-            }
 
 
-            document.addEventListener('livewire:initialized', () => {
-                document.addEventListener('livewire:navigated', () => {
 
-                    const ChangeAboutMe = document.getElementById('changeaboutme');
-                    const ChangedAboutMe = document.getElementById('changedaboutme');
-                    const AboutMeText = document.getElementById('aboutmetext');
-                    const ButtonSave = document.getElementById('ButtonSave');
-                    const ButtonCancel = document.getElementById('ButtonCancel');
-                    const SaveOrCancel = document.getElementById('saveOrCancel');
+                const ChangeAboutMe = document.getElementById('changeaboutme');
+                const ChangedAboutMe = document.getElementById('changedaboutme');
+                const AboutMeText = document.getElementById('aboutmetext');
+                const ButtonSave = document.getElementById('ButtonSave');
+                const ButtonCancel = document.getElementById('ButtonCancel');
+                const SaveOrCancel = document.getElementById('saveOrCancel');
 
-                    ButtonCancel.addEventListener('click', () => {
-                        ChangedAboutMe.classList.add('hidden');
-                        ChangeAboutMe.classList.remove('hidden');
-                        AboutMeText.classList.remove('hidden');
-                        SaveOrCancel.classList.add('hidden');
-                    })
+                ButtonCancel.addEventListener('click', () => {
+                    ChangedAboutMe.classList.add('hidden');
+                    ChangeAboutMe.classList.remove('hidden');
+                    AboutMeText.classList.remove('hidden');
+                    SaveOrCancel.classList.add('hidden');
+                })
 
-                    ChangeAboutMe.addEventListener('click', () => {
-                        ChangedAboutMe.classList.remove('hidden');
-                        ChangeAboutMe.classList.add('hidden');
-                        AboutMeText.classList.add('hidden');
-                        SaveOrCancel.classList.remove('hidden');
-                    })
+                ChangeAboutMe.addEventListener('click', () => {
+                    ChangedAboutMe.classList.remove('hidden');
+                    ChangeAboutMe.classList.add('hidden');
+                    AboutMeText.classList.add('hidden');
+                    SaveOrCancel.classList.remove('hidden');
+                })
 
 
-                    const successAlert = document.getElementById('alert-success');
-                    if (successAlert) {
-                        setTimeout(() => {
-                            successAlert.style.display = 'none';
-                        }, 3000); // 5 seconds
+                const successAlert = document.getElementById('alert-success');
+                if (successAlert) {
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000); // 5 seconds
+                }
+
+                const errorAlert = document.getElementById('alert-error');
+                if (errorAlert) {
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 3000); // 5 seconds
+                }
+
+                const backgroundUpload = document.getElementById('background-image');
+
+                backgroundUpload.addEventListener('click', () => {
+
+                    showModal('my_modal_5');
+                })
+
+
+
+                Livewire.on('imageUploaded', (event) => {
+                    closeModal('my_modal_4');
+
+                    const success = document.getElementById('success');
+                    const alert1 = document.getElementById('alert-1');
+
+
+                    setTimeout(() => {
+                        alert1.classList.remove('hidden');
+                        success.innerText = event.message;
+                        window.location.reload();
+                    }, 2000);
+                });
+
+                function showModal(modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.showModal();
                     }
+                }
 
-                    const errorAlert = document.getElementById('alert-error');
-                    if (errorAlert) {
-                        setTimeout(() => {
-                            errorAlert.style.display = 'none';
-                        }, 3000); // 5 seconds
+                function closeModal(modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.close();
                     }
+                }
 
-                    const backgroundUpload = document.getElementById('background-image');
-
-                    backgroundUpload.addEventListener('click', () => {
-
-                        showModal('my_modal_5');
-                    })
-
-
-
-                    Livewire.on('imageUploaded', (event) => {
-                        closeModal('my_modal_4');
-
-                        const success = document.getElementById('success');
-                        const alert1 = document.getElementById('alert-1');
-
-
-                        setTimeout(() => {
-                            alert1.classList.remove('hidden');
-                            success.innerText = event.message;
-                            window.location.reload();
-                        }, 2000);
-                    });
-
-                    function showModal(modalId) {
-                        const modal = document.getElementById(modalId);
-                        if (modal) {
-                            modal.showModal();
-                        }
-                    }
-
-                    function closeModal(modalId) {
-                        const modal = document.getElementById(modalId);
+                document.querySelectorAll('.modal-backdrop button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const modal = button.closest('.modal');
                         if (modal) {
                             modal.close();
                         }
-                    }
-
-                    document.querySelectorAll('.modal-backdrop button').forEach(button => {
-                        button.addEventListener('click', (event) => {
-                            const modal = button.closest('.modal');
-                            if (modal) {
-                                modal.close();
-                            }
-                        });
                     });
-
-                    window.showModal = showModal;
-                    window.closeModal = closeModal;
                 });
+
+                window.showModal = showModal;
+                window.closeModal = closeModal;
             })
         </script>
     @endscript

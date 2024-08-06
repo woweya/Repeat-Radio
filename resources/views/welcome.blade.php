@@ -119,7 +119,9 @@
                         @auth
                             <div class="time-listener mt-5 flex items-center justify-center" style="z-index: -10">
                                 <p style="left:10px; bottom:15px; z-index: -10">Time listened this week</p>
-                                <h3 class="font-bold text-4xl mb-5">{{ Auth::user()->online_duration ? 0 : 0 }}</h3>
+                                <h3 id="time-listener" class="font-bold text-4xl mb-5">
+                                    {{ Auth::user()->activity->hours_online }}
+                                </h3>
                             </div>
                         @endauth
                         @guest
@@ -161,28 +163,50 @@
 
 
 <script>
+    function formatTime() {
+        // Prendi il contenuto dell'elemento con id 'time-listener'
+        let timeListened = document.getElementById('time-listener').innerText;
+        let seconds = parseInt(timeListened, 10); // Converte la stringa in un intero
+        let hours = Math.floor(seconds / 3600);
+        let minutes = Math.floor((seconds % 3600) / 60);
+        let remainingSeconds = seconds % 60;
+
+        // Ritorna il tempo formattato come 'HH:MM:SS'
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    // Funzione per aggiornare il contenuto dell'elemento
+    function updateFormattedTime() {
+        let timeElement = document.getElementById('time-listener');
+        timeElement.innerText = formatTime();
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateFormattedTime();
+        initFlowbite();
+
+        function updateTime() {
+            let localTime = new Date().toLocaleTimeString();
+            let currentTime = document.getElementById('current-time');
+
+
+            if (currentTime) {
+                currentTime.innerText = localTime;
+            }
+        }
+
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        const rightSide = document.getElementById('right-side');
+        if (window.innerWidth < 720) {
+            rightSide.removeAttribute('data-aos');
+            rightSide.removeAttribute('data-aos-duration');
+        }
 
 
 
-   document.addEventListener('DOMContentLoaded', function () {
-    const divs = document.querySelectorAll('#top-listeners div[data-user-id]');
-    console.log(divs);
-    // Attach event listeners to each image
-    divs.forEach(div => {
-        // Get the corresponding PopOver element
-        const userId = div.getAttribute('data-user-id');
-        let popover = document.getElementById(`popover-user-${userId}`);
-
-        // Toggle PopOver visibility on mouseover and mouseout events
-        div.addEventListener('mouseenter', () => {
-            popover.classList.add('opacity-100', 'visible');
-            popover.classList.remove('opacity-0', 'invisible');
-        });
-
-        div.addEventListener('mouseleave', () => {
-            popover.classList.remove('opacity-100', 'visible');
-            popover.classList.add('opacity-0', 'invisible');
-        });
-    });
-   })
+    })
 </script>

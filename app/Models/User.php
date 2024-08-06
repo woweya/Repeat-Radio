@@ -86,7 +86,7 @@ class User extends Authenticatable
 
     public function activity()
     {
-        return $this->hasMany(\App\Models\UserActivity::class);
+        return $this->hasOne(\App\Models\UserActivity::class);
     }
 
 

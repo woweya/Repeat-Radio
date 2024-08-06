@@ -16,13 +16,12 @@ class UserActivity extends Model
 
     protected $casts = [
         'hours_played' => 'integer',
+        'hours_online' => 'integer',
     ];
 
-    public function user(){
+    public function user()
+    {
 
         return $this->belongsTo(User::class);
     }
-
-
-
 }

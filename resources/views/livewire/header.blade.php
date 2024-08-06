@@ -9,7 +9,9 @@
         @endif --}}
 
         <div class="top-side-header w-full" style="height:60%; min-height: 60%; max-height: 60%; position:relative;">
-            <div class="background-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;{{-- background-image: url('{{$cachedData['image']}}');--}} background-size: cover; background-position: center;"></div>
+            <div class="background-image"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;{{-- background-image: url('{{$cachedData['image']}}'); --}} background-size: cover; background-position: center;">
+            </div>
             <div class="flex flex-row justify-center items-center">
                 <div id="artist-info" class="artist-info container flex flex-col justify-center items-start mt-5"
                     style="position: absolute; left: 20%; top:10%; width: 40%; height: 50%;">
@@ -49,11 +51,12 @@
                                         </svg>
                                     </div>
                                     <div id="volume-slider" class="volume-controls hidden">
-                                            <div class="progress">
-                                                <input type="range" id="volume-input" class="vertical-slider" min="0" step="1" max="100" value="100">
-                                            </div>
+                                        <div class="progress">
+                                            <input type="range" id="volume-input" class="vertical-slider"
+                                                min="0" step="1" max="100" value="100">
+                                        </div>
 
-                                </div>
+                                    </div>
                                 </div>
                                 <div class="love">
                                     <div style="z-index:9999;">
@@ -99,7 +102,9 @@
         <div id="song-image" class="container flex justify-center items-center"
             style="width: 290px; position: absolute; left: 5%; top: 2%; height: 290px; z-index: 1">
             @livewire('title-song', ['elementToShow' => 'songImage'])
-            <p style="z-index: 1 ; position: absolute; bottom: 6%; color: var(--quinary-color); font-weight: 400">On Air
+            <p id="on-air"
+                style="z-index: 1 ; position: absolute; bottom: 6%; color: var(--quinary-color); font-weight: 400">On
+                Air
             </p>
         </div>
 
@@ -168,53 +173,53 @@
 
 
 @script
-<script data-navigate-once>
-    document.addEventListener('livewire:initialized', function() {
+    <script data-navigate-once>
+        document.addEventListener('livewire:initialized', function() {
 
 
 
-        let loveSVG = document.getElementById('love');
-        let songInfo = document.getElementById('artist-info');
-        loveSVG.addEventListener('click', function() {
-            loveSVG.classList.toggle('active');
+            let loveSVG = document.getElementById('love');
+            let songInfo = document.getElementById('artist-info');
+            loveSVG.addEventListener('click', function() {
+                loveSVG.classList.toggle('active');
+            });
+
+            let playBtn = document.getElementById('play');
+            let pauseBtn = document.getElementById('pause');
+            let volumeBtn = document.getElementById('volume-btn');
+            let volumeSlider = document.getElementById('volume-slider');
+            let volumePin = document.getElementById('volume-input');
+            let volumeProgress = document.querySelector('.progress');
+
+            const defaultVolume = localStorage.getItem('volume') !== null ? localStorage.getItem('volume') : 5;
+
+            volumePin.value = defaultVolume;
+            volumeProgress.style.height = defaultVolume + '%';
+
+            playBtn.addEventListener('click', function() {
+                $wire.dispatch('eventPlay');
+                playBtn.classList.add('hidden');
+                pauseBtn.classList.remove('hidden');
+            });
+
+            pauseBtn.addEventListener('click', function() {
+                $wire.dispatch('eventPause');
+                playBtn.classList.remove('hidden');
+                pauseBtn.classList.add('hidden');
+            });
+
+            volumeBtn.addEventListener('click', function() {
+                volumeSlider.classList.toggle('hidden');
+                volumeSlider.style.marginTop = '100px';
+            });
+
+            volumeSlider.addEventListener('input', function(event) {
+                let volumePercentage = event.target.value;
+                volumeProgress.style.height = volumePercentage + '%';
+                volumePin.style.bottom = volumePercentage + '%';
+                localStorage.setItem('volume', volumePercentage);
+                Livewire.dispatch('eventVolume', volumePercentage);
+            });
         });
-
-        let playBtn = document.getElementById('play');
-        let pauseBtn = document.getElementById('pause');
-        let volumeBtn = document.getElementById('volume-btn');
-        let volumeSlider = document.getElementById('volume-slider');
-        let volumePin = document.getElementById('volume-input');
-        let volumeProgress = document.querySelector('.progress');
-
-        const defaultVolume = localStorage.getItem('volume') !== null ? localStorage.getItem('volume') : 5;
-
-        volumePin.value = defaultVolume;
-        volumeProgress.style.height = defaultVolume + '%';
-
-        playBtn.addEventListener('click', function() {
-            $wire.dispatch('eventPlay');
-            playBtn.classList.add('hidden');
-            pauseBtn.classList.remove('hidden');
-        });
-
-        pauseBtn.addEventListener('click', function() {
-            $wire.dispatch('eventPause');
-            playBtn.classList.remove('hidden');
-            pauseBtn.classList.add('hidden');
-        });
-
-        volumeBtn.addEventListener('click', function() {
-            volumeSlider.classList.toggle('hidden');
-            volumeSlider.style.marginTop = '100px';
-        });
-
-        volumeSlider.addEventListener('input', function(event) {
-            let volumePercentage = event.target.value;
-            volumeProgress.style.height = volumePercentage + '%';
-            volumePin.style.bottom = volumePercentage + '%';
-            localStorage.setItem('volume', volumePercentage);
-            Livewire.dispatch('eventVolume', volumePercentage);
-        });
-    });
-</script>
+    </script>
 @endscript

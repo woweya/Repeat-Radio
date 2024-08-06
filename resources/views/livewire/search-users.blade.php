@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col justify-center items-center mt-5 mb-5" >
+<div class="w-full flex flex-col justify-center items-center mt-5 mb-5">
     <div class="max-w-md w-full mb-5">
         <div class="relative flex items-center justify-center">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 ">
@@ -63,19 +63,22 @@
 
     </div>
 
-    <div wire:transition class="w-full flex flex-col justify-center items-center bg-[color:var(--secondary-color)] p-5">
+    <div id="usersALL" wire:transition
+        class="w-full flex flex-col justify-center items-center bg-[color:var(--secondary-color)] p-5">
         <ul class="w-3/4 flex-wrap flex justify-center items-start">
             @foreach ($users as $user)
-                <div wire:key="{{ $user->id }}" id="usersResult"
-                    class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded"
-                    style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
-                    <img src="{{ $user->image ? Storage::url($user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
-                        alt="" class="w-10 h-10 mr-2 rounded-full">
-                    <li class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center"
-                        style="max-width: 236px; min-width: 236px; width: 236px; height: 56px; max-height: 56px; min-height: 56px">
-                        {{ $user->name }} - {{ '@' . $user->username }}
-                    </li>
-                </div>
+                <a href="{{ route('user.profile', $user->id) }}" class="w-1/4 p-2">
+                    <div wire:key="{{ $user->id }}" id="usersResult"
+                        class="flex justify-center items-center mr-5 mt-2 mb-2 p-2 rounded"
+                        style="min-width: 300px; width: 300px; max-width: 300px; height:72px; max-height:72px; min-height:72px">
+                        <img src="{{ $user->image ? Storage::url($user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
+                            alt="" class="w-10 h-10 mr-2 rounded-full">
+                        <li class="text-[color:var(--quaternary-color)] text-xl flex justify-center items-center"
+                            style="max-width: 236px; min-width: 236px; width: 236px; height: 56px; max-height: 56px; min-height: 56px">
+                            {{ $user->name }} - {{ '@' . $user->username }}
+                        </li>
+                    </div>
+                </a>
             @endforeach
         </ul>
         @if ($searchTerm && count($users) == 0)
@@ -83,33 +86,33 @@
         @endif
     </div>
     @if ($users->hasPages())
-    <div class="w-full flex flex-col justify-center items-center bg-[color:var(--secondary-color)] p-5">
-        {{ $users->links() }}
-    </div>
+        <div class="w-full flex flex-col justify-center items-center bg-[color:var(--secondary-color)] p-5">
+            {{ $users->links() }}
+        </div>
     @endif
 </div>
 
 @script
-        <script data-navigate-once>
-            console.log('Memebers!');
+    <script data-navigate-once>
+        console.log('Memebers!');
 
 
 
-            const userContainer = document.getElementById('userContainer');
-            console.log('userContainer', userContainer);
-            if (userContainer && userContainer.style.display === 'none') {
-                userContainer.style.display = 'flex';
-            }
+        const userContainer = document.getElementById('userContainer');
+        console.log('userContainer', userContainer);
+        if (userContainer && userContainer.style.display === 'none') {
+            userContainer.style.display = 'flex';
+        }
 
-            const paginator = document.getElementsByClassName('relative z-0');
-            console.log('paginator', paginator);
-            Array.from(paginator).forEach((element) => {
-                element.addEventListener('click', (event) => {
+        const paginator = document.getElementsByClassName('relative z-0');
+        console.log('paginator', paginator);
+        Array.from(paginator).forEach((element) => {
+            element.addEventListener('click', (event) => {
 
-                    localStorage.setItem('scrollPosition', window.scrollY);
-                    console.log(localStorage.getItem('scrollPosition'));
-                    window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition'), 10));
-                });
+                localStorage.setItem('scrollPosition', window.scrollY);
+                console.log(localStorage.getItem('scrollPosition'));
+                window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition'), 10));
             });
-        </script>
-    @endscript
+        });
+    </script>
+@endscript

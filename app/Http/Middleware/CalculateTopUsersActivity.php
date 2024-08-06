@@ -12,27 +12,29 @@ use Illuminate\Support\Facades\Session;
 class CalculateTopUsersActivity
 {
     public function handle($request, Closure $next)
-{
-    // Ottenere tutti gli utenti online
-    $onlineUsers = User::where('is_online', true)->get();
+    {
+        // Retrieve all online users
+        $onlineUsers = User::where('is_online', true)->get();
 
-    foreach ($onlineUsers as $user) {
-        // Calcola la durata della sessione online dell'utente
-        $lastOnlineAt = new Carbon($user->last_online_at);
-        $currentOnlineDuration = $lastOnlineAt->diffInSeconds(now());
+        foreach ($onlineUsers as $user) {
+            // Calculate the user's online session duration
+            $lastOnlineAt = new Carbon($user->last_online_at);
+            $currentOnlineDuration = $lastOnlineAt->diffInSeconds(now());
 
-        // Aggiorna l'attività dell'utente con la durata della sessione online
-        UserActivity::updateOrCreate(
-            ['user_id' => $user->id],
-            ['hours_online' => DB::raw("hours_online + $currentOnlineDuration"), 'hours_played' => 0]
-        );
+            // Find or create the UserActivity record
+            $userActivity = UserActivity::firstOrNew(['user_id' => $user->id]);
 
-        // Aggiorna il timestamp dell'ultimo aggiornamento
-        $user->last_online_at = now();
-        $user->save();
+            // Increment the hours_online
+            $userActivity->hours_online = $userActivity->hours_online + $currentOnlineDuration;
+            $userActivity->hours_played = $userActivity->hours_played ?? 0; // Ensure hours_played is not null
+            $userActivity->save();
+
+            // Update the user's last online timestamp
+            $user->last_online_at = now();
+            $user->save();
+        }
+
+        // Continue with the request handling
+        return $next($request);
     }
-
-    // Continua con la gestione della richiesta
-    return $next($request);
-}
 }

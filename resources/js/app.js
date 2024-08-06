@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTime() {
         let localTime = new Date().toLocaleTimeString();
         let currentTime = document.getElementById('current-time').innerText;
-        if(currentTime)
-        {
+        if (currentTime) {
             currentTime = localTime;
         }
     }
@@ -46,19 +45,9 @@ document.addEventListener('livewire:navigating', function () {
     initFlowbite();
 
 
-    function updateTime() {
-        let localTime = new Date().toLocaleTimeString();
-        let currentTime = document.getElementById('current-time').innerText;
-        if(currentTime)
-        {
-            currentTime = localTime;
-        }
-
-    }
-
-    updateTime();
-    setInterval(updateTime, 1000);
 });
+
+
 
 document.addEventListener('livewire:initialized', function () {
 

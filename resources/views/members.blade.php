@@ -24,33 +24,40 @@
                             <div class="flex justify-center items-center w-full">
                                 @foreach ($usersWithActivities as $activity)
                                     @if ($loop->first)
-                                            <div class="hover:scale-105 w-full flex justify-center items-center flex-nowrap transition-all hover:cursor-pointer hover:underline underline-offset-2">
-                                                <a class="w-full flex justify-center items-center gap-2" href="{{ route('user.profile', $activity->user->id) }}">
+                                        <div
+                                            class="hover:scale-105 w-full flex justify-center items-center flex-nowrap transition-all hover:cursor-pointer hover:underline underline-offset-2">
+                                            <a class="w-full flex justify-center items-center gap-2"
+                                                href="{{ route('user.profile', $activity->user->id) }}">
 
-                                                    <img src="{{ $activity->user->image ? Storage::url($activity->user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}"
+                                                <img src="{{ $activity->user->image ? Storage::url($activity->user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}"
                                                     style="width: 50px; height: 50px; border-radius: 50%; border:1px solid var(--quaternary-color);"
                                                     class="" alt="">
 
 
                                                 <h1
-                                                class="text-2xl text-[color:var(--quaternary-color)] font-extrabold uppercase">
-                                                {{ $activity->user->username }}</h1>
-                                                    </a>
+                                                    class="text-2xl text-[color:var(--quaternary-color)] font-extrabold uppercase">
+                                                    {{ $activity->user->username }}</h1>
+                                            </a>
 
-                                            </div>
+                                        </div>
                             </div>
                             <hr class="mt-2 mb-2 border-[color:var(--quinary-color)] w-full">
                         @else
-                               <div data-user-id="{{ $activity->user->id }}2" class="flex w-full justify-start items-center py-2 gap-2 hover:scale-105">
-                                <img style="rounded" width="35" height="20" src="{{ $activity->user->image ? Storage::url($activity->user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}" alt="">
-                                <a href="{{ route('user.profile', $activity->user->id) }}" class="w-full hover:underline hover:cursor-pointer underline-offset-2">
-                                    <p class="text-lg w-full font-semibold text-start text-[color:var(--quaternary-color)]">
+                            <div data-user-id="{{ $activity->user->id }}2"
+                                class="flex w-full justify-start items-center py-2 gap-2 hover:scale-105">
+                                <img style="rounded" width="35" height="20"
+                                    src="{{ $activity->user->image ? Storage::url($activity->user->image->profile_picture_path) : Storage::url('Avatars/avatar-' . $activity->user->username . '.png') }}"
+                                    alt="">
+                                <a href="{{ route('user.profile', $activity->user->id) }}"
+                                    class="w-full hover:underline hover:cursor-pointer underline-offset-2">
+                                    <p
+                                        class="text-lg w-full font-semibold text-start text-[color:var(--quaternary-color)]">
                                         {{ $activity->user->username }}</p>
                                 </a>
-                               </div>
-                            @endif
+                            </div>
+                        @endif
                         @endforeach
-                     @endif
+                        @endif
                     </div>
                 </div>
             </div>
@@ -63,71 +70,75 @@
 
             @foreach ($users as $user)
                 @if ($user->is_staff && $user->is_online == 1)
-                        <div data-user-id="{{ $user->id }}" class="flex justify-center items-center gap-2 relative">
-                            @if ($user->image)
-                                <x-badge style="border:none;">
-                                    <img class="rounded" width="50" height="50"
-                                        src="{{ Storage::url($user->image->profile_picture_path) }}"
-                                        style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px"
-                                        alt="">
-                                    <x-slot name="append" class="relative flex items-center w-3 h-3">
-                                        <span
-                                            class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-                                        <span
-                                            class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                                    </x-slot>
-                                </x-badge>
-                            @else
-                                <x-badge style="border:none; padding-right: 0px; gap:0px">
-                                    <img class="rounded" width="50" height="50"
-                                        src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
-                                        style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px"
-                                        alt="">
-                                    <x-slot name="append" class="relative flex items-center w-3 h-3">
-                                        <span
-                                            class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-                                        <span
-                                            class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                                    </x-slot>
-                                </x-badge>
-                            @endif
-                            <div id="popover-user-{{ $user->id }}" data-popover role="tooltip"
-                                class="absolute top-[45px] cursor-pointer z-10 invisible w-64 text-sm text-gray-500 transition-opacity duration-300 bg-[color:var(--secondary-color)] rounded-lg shadow-sm opacity-0 color:var(--quaternary-color)"
-                                style="border: 2px solid #45056d">
-                                <div class="p-3">
-                                    <div class="flex items-center justify-between mb-2">
-                                        @if ($user->image)
-                                            <img class="w-10 h-10 rounded-full"
-                                                src="{{ Storage::url($user->image->profile_picture_path) }}"
-                                                alt="{{ $user->name }}">
-                                        @else
-                                            <img class="w-10 h-10 rounded-full"
-                                                src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
-                                                alt="{{ $user->name }}">
-                                        @endif
-                                        <div class="w-2/4 rounded bg-[#3f065f] cursor-pointer">
-                                            @livewire('follow-button', ['user' => $user])
-                                        </div>
-                                    </div>
-                                    <p
-                                        class="text-left font-semibold leading-none text-[color:var(--quaternary-color)]">
-                                        {{ $user->name }}
-                                    </p>
-                                    <p class="mb-3 text-left font-normal">
-                                        <a class="hover:underline decoration-purple-500 hover:underline-offset-2 hover:scale-105" href="{{ route('user.profile', $user->id) }}">
-                                            {{ '@' . $user->username }}
-                                        </a>
-                                    </p>
-                                    <div class="flex w-full justify-center items-center">
-                                     <div class="flex justify-between w-3/4">
-                                        <p class="text-md text-gray-400"><span class="text-lg text-white">{{$user->followers->count()}}</span> Followers</p>
-                                        <p class="text-md text-gray-400"><span class="text-lg text-white">{{$user->followers->count()}}</span> Following</p>
-                                    </div>
+                    <div data-user-id="{{ $user->id }}" class="flex justify-center items-center gap-2 relative">
+                        @if ($user->image)
+                            <x-badge style="border:none;">
+                                <img class="rounded" width="50" height="50"
+                                    src="{{ Storage::url($user->image->profile_picture_path) }}"
+                                    style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px"
+                                    alt="">
+                                <x-slot name="append" class="relative flex items-center w-3 h-3">
+                                    <span
+                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
+                                    <span
+                                        class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                </x-slot>
+                            </x-badge>
+                        @else
+                            <x-badge style="border:none; padding-right: 0px; gap:0px">
+                                <img class="rounded" width="50" height="50"
+                                    src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
+                                    style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px"
+                                    alt="">
+                                <x-slot name="append" class="relative flex items-center w-3 h-3">
+                                    <span
+                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
+                                    <span
+                                        class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
+                                </x-slot>
+                            </x-badge>
+                        @endif
+                        <div id="popover-user-{{ $user->id }}" data-popover role="tooltip"
+                            class="absolute top-[45px] cursor-pointer z-10 invisible w-64 text-sm text-gray-500 transition-opacity duration-300 bg-[color:var(--secondary-color)] rounded-lg shadow-sm opacity-0 color:var(--quaternary-color)"
+                            style="border: 2px solid #45056d">
+                            <div class="p-3">
+                                <div class="flex items-center justify-between mb-2">
+                                    @if ($user->image)
+                                        <img class="w-10 h-10 rounded-full"
+                                            src="{{ Storage::url($user->image->profile_picture_path) }}"
+                                            alt="{{ $user->name }}">
+                                    @else
+                                        <img class="w-10 h-10 rounded-full"
+                                            src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
+                                            alt="{{ $user->name }}">
+                                    @endif
+                                    <div class="w-2/4 p-0 m-0 rounded bg-[#3f065f] cursor-pointer">
+                                        @livewire('follow-button', ['user' => $user])
                                     </div>
                                 </div>
-                                <div data-popper-arrow></div>
+                                <p class="text-left font-semibold leading-none text-[color:var(--quaternary-color)]">
+                                    {{ $user->name }}
+                                </p>
+                                <p class="mb-3 text-left font-normal">
+                                    <a class="hover:underline decoration-purple-500 hover:underline-offset-2 hover:scale-105"
+                                        href="{{ route('user.profile', $user->id) }}">
+                                        {{ '@' . $user->username }}
+                                    </a>
+                                </p>
+                                <div class="flex w-full justify-center items-center">
+                                    <div class="flex justify-between w-3/4">
+                                        <p class="text-md text-gray-400"><span
+                                                class="text-lg text-white">{{ $user->followers->count() }}</span>
+                                            Followers</p>
+                                        <p class="text-md text-gray-400"><span
+                                                class="text-lg text-white">{{ $user->followers->count() }}</span>
+                                            Following</p>
+                                    </div>
+                                </div>
                             </div>
+                            <div data-popper-arrow></div>
                         </div>
+                    </div>
                 @endif
             @endforeach
 
@@ -174,23 +185,23 @@
         });
 
 
-   /*      checkBoxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
+        /*      checkBoxes.forEach(checkbox => {
+                 checkbox.addEventListener('change', function() {
 
-                if (this.checked) {
-                    topUserDiv.style.display = 'none';
-                } else {
-                    topUserDiv.style.display = 'block';
-                }
-            });
-        });
+                     if (this.checked) {
+                         topUserDiv.style.display = 'none';
+                     } else {
+                         topUserDiv.style.display = 'block';
+                     }
+                 });
+             });
 
-        searchInput.addEventListener('input', function() {
-            if (this.value.trim() !== '') {
-                topUserDiv.style.display = 'none';
-            } else {
-                topUserDiv.style.display = 'block';
-            }
-        }); */
+             searchInput.addEventListener('input', function() {
+                 if (this.value.trim() !== '') {
+                     topUserDiv.style.display = 'none';
+                 } else {
+                     topUserDiv.style.display = 'block';
+                 }
+             }); */
     });
 </script>

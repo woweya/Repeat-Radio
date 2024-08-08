@@ -78,7 +78,14 @@ class FrontController extends Controller
     {
         $users = User::where('is_online', true)->get();
         $defaultPath = Storage::url('Avatars');
-        return view('about', compact('users', 'defaultPath'));
+
+
+        $topListener = UserActivity::where('hours_online', '>', 0)
+            ->orderBy('hours_online', 'desc')
+            ->first();
+
+
+        return view('about', compact('users', 'defaultPath', 'topListener'));
     }
 
 

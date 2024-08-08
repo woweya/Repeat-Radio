@@ -1,4 +1,4 @@
-<div>
+<div class="z-10">
     <div class="flex items-center justify-center p-12">
         <div class="mx-auto w-full max-w-[550px] bg-[#1d232a]">
             <div class="py-6 px-9">

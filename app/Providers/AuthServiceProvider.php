@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::findByUsernameOrEmail($request->input('username'));
-            if($user && Hash::check($request->input('password'), $user->password)) {
+            if ($user && Hash::check($request->input('password'), $user->password)) {
                 return $user;
             }
         });

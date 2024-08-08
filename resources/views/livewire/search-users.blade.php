@@ -56,7 +56,7 @@
                     </li>
                 </ul>
             </div>
-            <input wire:model.live.debounce.500ms="searchTerm" type="text" id="search"
+            <input wire:model.live.debounce.500ms="search" type="text" id="search"
                 class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-white capitalize"
                 style="cursor: pointer!important" placeholder="Search..." />
         </div>
@@ -81,7 +81,7 @@
                 </a>
             @endforeach
         </ul>
-        @if ($searchTerm && count($users) == 0)
+        @if ($search && count($users) == 0)
             <p class="text-[color:var(--quaternary-color)] text-3xl font-bold">No results found</p>
         @endif
     </div>
@@ -91,28 +91,3 @@
         </div>
     @endif
 </div>
-
-@script
-    <script data-navigate-once>
-        console.log('Memebers!');
-
-
-
-        const userContainer = document.getElementById('userContainer');
-        console.log('userContainer', userContainer);
-        if (userContainer && userContainer.style.display === 'none') {
-            userContainer.style.display = 'flex';
-        }
-
-        const paginator = document.getElementsByClassName('relative z-0');
-        console.log('paginator', paginator);
-        Array.from(paginator).forEach((element) => {
-            element.addEventListener('click', (event) => {
-
-                localStorage.setItem('scrollPosition', window.scrollY);
-                console.log(localStorage.getItem('scrollPosition'));
-                window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition'), 10));
-            });
-        });
-    </script>
-@endscript

@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
 
 html {
     scroll-behavior: smooth;
@@ -404,6 +406,7 @@ header {
 }
 .card-recently-played > .card {
     border-radius: 20px !important;
+    flex-direction: row !important;
 }
 .card-recently-played > .card::before {
     content: "";

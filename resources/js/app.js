@@ -1,5 +1,7 @@
 
 import 'flowbite';
+import 'flowbite/dist/flowbite.min.css';
+
 
 
 
@@ -16,6 +18,9 @@ document.addEventListener('livewire:navigate', (event) => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+
+
 
     initFlowbite();
 

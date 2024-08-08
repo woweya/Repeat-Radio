@@ -118,6 +118,15 @@
     height: 40px !important;
     width: 40px !important;
 }
+
+#aboutmetext {
+    max-width: 100%; /* Adatta il p alla larghezza del contenitore */
+    overflow-wrap: break-word; /* Forza il testo a capo */
+    word-break: break-word; /* Gestisce parole molto lunghe */
+    white-space: normal; /* Permette al testo di andare a capo */
+    text-overflow: ellipsis; /* Se white-space: nowrap è attivo, aggiunge "..." al testo che esce */
+}
+
 /*! Media Queries */
 
 @media screen and (max-width: 375px) {

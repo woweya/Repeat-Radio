@@ -72,31 +72,25 @@
                 @if ($user->is_staff && $user->is_online == 1)
                     <div data-user-id="{{ $user->id }}" class="flex justify-center items-center gap-2 relative">
                         @if ($user->image)
-                            <x-badge style="border:none;">
+                            <div class="avatar online">
+
                                 <img class="rounded" width="50" height="50"
                                     src="{{ Storage::url($user->image->profile_picture_path) }}"
                                     style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px"
                                     alt="">
-                                <x-slot name="append" class="relative flex items-center w-3 h-3">
-                                    <span
-                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-                                    <span
-                                        class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                                </x-slot>
-                            </x-badge>
+
+                            </div>
                         @else
-                            <x-badge style="border:none; padding-right: 0px; gap:0px">
-                                <img class="rounded" width="50" height="50"
-                                    src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
-                                    style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px"
-                                    alt="">
-                                <x-slot name="append" class="relative flex items-center w-3 h-3">
-                                    <span
-                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-                                    <span
-                                        class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                                </x-slot>
-                            </x-badge>
+                            <div class="avatar online ">
+                                <div class="avatar online">
+
+                                    <img class="rounded" width="50" height="50"
+                                        src="{{ Storage::url('Avatars/avatar-' . $user->username . '.png') }}"
+                                        style="border:2px solid rgb(247, 0, 255); border-radius: 50%; max-width: 50px; max-height: 50px"
+                                        alt="">
+
+                                </div>
+                            </div>
                         @endif
                         <div id="popover-user-{{ $user->id }}" data-popover role="tooltip"
                             class="absolute top-[45px] cursor-pointer z-10 invisible w-64 text-sm text-gray-500 transition-opacity duration-300 bg-[color:var(--secondary-color)] rounded-lg shadow-sm opacity-0 color:var(--quaternary-color)"
@@ -113,7 +107,9 @@
                                             alt="{{ $user->name }}">
                                     @endif
                                     <div class="w-2/4 p-0 m-0 rounded bg-[#3f065f] cursor-pointer">
-                                        @livewire('follow-button', ['user' => $user])
+                                        @if ($user->id == !Auth::user()->id)
+                                            @livewire('follow-button', ['user' => $user])
+                                        @endif
                                     </div>
                                 </div>
                                 <p class="text-left font-semibold leading-none text-[color:var(--quaternary-color)]">
@@ -185,23 +181,6 @@
         });
 
 
-        /*      checkBoxes.forEach(checkbox => {
-                 checkbox.addEventListener('change', function() {
 
-                     if (this.checked) {
-                         topUserDiv.style.display = 'none';
-                     } else {
-                         topUserDiv.style.display = 'block';
-                     }
-                 });
-             });
-
-             searchInput.addEventListener('input', function() {
-                 if (this.value.trim() !== '') {
-                     topUserDiv.style.display = 'none';
-                 } else {
-                     topUserDiv.style.display = 'block';
-                 }
-             }); */
     });
 </script>

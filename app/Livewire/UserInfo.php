@@ -29,6 +29,8 @@ class UserInfo extends Component
 
     public $isEditingQuote = false;
 
+    public $isEditingAboutMe = false;
+
     //Texts
     #[Validate]
     public $WebsiteURL = '';
@@ -129,6 +131,11 @@ class UserInfo extends Component
         $this->updatedQuote();
     }
 
+    public function enableEditingAboutMe()
+    {
+        $this->isEditingAboutMe = true;
+        $this->updatedAboutMeText();
+    }
     #[Computed]
     public function getUpdatedQuote()
     {
@@ -235,25 +242,22 @@ class UserInfo extends Component
 
     public function updatedAboutMeText()
     {
-        if ($this->user) {
+        if ($this->user && $this->AboutMeText && Auth::check() && $this->AboutMeText != $this->user->about_me_text) {
             $this->user->about_me_text = $this->AboutMeText;
+            $this->user->save();
+            $this->dispatch('aboutMeTextChanged');
+            $this->isEditingAboutMe = false;
         }
     }
 
-    public function saveAboutMe()
+    /*    public function saveAboutMe()
     {
         if ($this->user && $this->AboutMeText) {
+            $this->isEditingAboutMe = false;
             $this->user->save();
         }
-    }
+    } */
 
-    public function updatedAboutMe()
-    {
-        if ($this->user) {
-            $this->user->about_me = $this->AboutMe;
-            $this->user->save();
-        }
-    }
 
     public function updatedSocialsInfos()
     {

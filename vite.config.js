@@ -8,7 +8,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    optimizeDeps: {
-        include: ['moment', 'moment-timezone'],
-    },
+    resolve: {
+        alias: {
+            'cropperjs': 'cropperjs/dist/cropper.js'
+        }
+    }
 });

@@ -172,24 +172,27 @@
 
                         <div class="card px-3 py-2 flex justify-start items-center w-full"
                             style="max-height: 70px; min-height: 70px;">
-                            <img src="{{ Storage::url('immagini/Ariana_Grande.png') }}" class="rounded"
-                                width="50" height="100" style="z-index: 1" alt="">
+                            @if ($topListener->user->image->profile_picture_path == null)
+                                <img src="{{ Storage::url('Avatars/avatar-' . $topListener->user->username . '.png') }}"
+                                    class="rounded-full" width="50" height="100" style="z-index: 1"
+                                    alt="">
+                            @else
+                                <img src="{{ Storage::url($topListener->user->image->profile_picture_path) }}"
+                                    class="rounded-full" width="50" height="100" style="z-index: 1"
+                                    alt="">
+                            @endif
                             <div class="card-body ml-3 w-full" style="z-index: 1">
                                 <div class="flex">
                                     <div class="left-side-card-body" style="width: 85%;">
-                                        <h5 class="text-[color:var(--quaternary-color)] font-bold w-full">Yes, and?
+                                        <h5 class="text-[color:var(--quaternary-color)] font-bold w-full capitalize">
+                                            {{ $topListener->user->username }}
                                         </h5>
-                                        <p class="text-[color:var(--quinary-color)] w-full">Ariana Grande</p>
+                                        <p class="text-[color:var(--quinary-color)] w-full">
+                                            {{ $topListener->user->name }}</p>
                                     </div>
                                     <div class="right-side-card-body flex flex-col items-end justify-center gap-2"
                                         style="width: 15%">
-                                        <svg xmlns="http://www.w3.org/2000/svg" id="love" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--quaternary-color)"
-                                            class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                        </svg>
-                                        <p class="text-[color:var(--quinary-color)]">27 likes</p>
+
                                     </div>
                                 </div>
                             </div>
@@ -198,51 +201,10 @@
                 </div>
             </div>
             <div class="currently-active">
-                <h1 class="text-lg text-[color:var(--quaternary-color)] font-extrabold mt-5">Currently Active</h1>
-                <div class="layer-bg p-2 mt-2 flex flex-wrap gap-5">
-                    @php
-                    //! Filter the users that are online.
-                        $onlineUsers = $users->filter(function ($user) {
-                            return $user->is_online == 1;
-                        });
-                    @endphp
-
-                    @if ($onlineUsers->isEmpty())
-                        <h1>There's no user online!</h1>
-                    @else
-                        @foreach ($onlineUsers as $user)
-                            @if ($user->image)
-                                <!-- Se l'utente è online e ha un'immagine, mostra l'immagine -->
-                                <x-badge style="border:none;">
-                                    <img class="rounded" width="50" height="50"
-                                        src="{{ Storage::url($user->image->path) }}"
-                                        style="border: 2px solid rgb(113, 0, 165);border-radius: 50%" alt="">
-                                    <x-slot name="append" class="relative flex items-center w-3 h-3">
-                                        <span
-                                            class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-                                        <span
-                                            class="relative inline-flex w-2 h-2 rounded-full bg-cyan-500 top-4 right-4"></span>
-                                    </x-slot>
-                                </x-badge>
-                            @else
-                                <!-- Se l'utente è online ma non ha un'immagine, mostra un'immagine predefinita -->
-                                <x-badge style="border:none;">
-                                    <img class="rounded" width="50" height="50"
-                                        src="{{ $defaultPath . '/avatar-' . $user->username . '.png' }}"
-                                        style="border:2px solid rgb(247, 0, 255); border-radius: 50%" alt="">
-                                    <x-slot name="append" class="relative flex items-center w-3 h-3">
-                                        <span
-                                            class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-cyan-500 animate-ping top-4 right-4"></span>
-                                        <span
-                                            class="relative inline-flex w-3 h-3 rounded-full bg-cyan-500 top-4 right-4"></span>
-                                    </x-slot>
-                                </x-badge>
-                            @endif
-                        @endforeach
-                    @endif
-                </div>
 
             </div>
+
         </div>
+    </div>
     </div>
 </x-layout>

@@ -104,7 +104,7 @@
 
                     <div class="profile-plus relative">
                         <button onclick="showModal('my_modal_4')"
-                            class="flex flex-col justify-center items-center absolute bottom-4 right-[5px]"
+                            class="flex flex-col justify-center items-center absolute bottom-4 right-[5px] z-10"
                             id="modal-user">
                             <svg id="photoUpload" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8139DD"
                                 class="size-14 hover:cursor-pointer hover:scale-110 transition-all">
@@ -125,21 +125,11 @@
                         <!-- IMAGE PHP -->
 
                         @if (Auth::user()->is_online == 1)
-                            <x-badge style="border:none; padding-right: 0px; gap:0px">
+                            <div class="avatar online z-[0]">
                                 <img class="border-[10px]"
                                     style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
                                     src="{{ $imageUrl }}" alt="" />
-                                <x-slot name="append" class="relative flex items-center w-8 h-8">
-                                    <span
-                                        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-green-500 animate-ping top-[-50px] left-[-250px]"></span>
-                                    <span
-                                        class="relative inline-flex w-8 h-8 rounded-full bg-green-500 top-[-50px] left-[-250px]"></span>
-                                </x-slot>
-                            </x-badge>
-                        @else
-                            <img class="border-[10px]"
-                                style="border-radius: 50%; max-width: 250px; width: 250px; max-height: 250px; height: 250px; border-color: #1A1A1A;"
-                                src="{{ $imageUrl }}" alt="" />
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -687,24 +677,29 @@
                         class="expandable-content relative text-gray-400 text-sm py-4 mx-auto w-[85%] text-start border-0 focus:ring-0 focus:outline-none bg-[#141414]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="white"
-                            class="size-6 cursor-pointer hover:scale-110 absolute right-3 top-3" id="changeaboutme">
+                            class="size-6 cursor-pointer hover:scale-110 absolute right-3 top-3"
+                            wire:click="enableEditingAboutMe">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                         </svg>
-                        <div class="hidden" id="saveOrCancel">
-                            <textarea id="changedaboutme" name="body" rows="7" wire:model="AboutMeText"
-                                class="hidden px-4 py-4 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-[#141414]">{{ Auth::user()->about_me_text }}</textarea>
-                            <div class="flex justify-center items-center py-2 gap-3">
-                                <button type="submit" id="ButtonSave"
-                                    class="w-[20%] block py-2 px-4 bg-violet-950 hover:bg-violet-900 hover:text-white rounded"
-                                    wire:click="saveAboutMe">Save</button>
-                                <button type="button" id="ButtonCancel"
-                                    class="w-[20%] block bg-red-900 py-2 px-4 hover:bg-red-800 hover:text-white rounded">Cancel</button>
+                        @if ($isEditingAboutMe == true)
+                            <div class="w-full">
+                                <textarea id="ChangedAboutMe" name="body" wire:model.blur="AboutMeText"
+                                    class="px-4 py-4 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-[#141414]">{{ Auth::user()->about_me_text }}</textarea>
                             </div>
-                        </div>
-                        <p class="px-4 py-4" id="aboutmetext">
-                            {{ Auth::user()->about_me_text }}
-                        </p>
+
+                            <div class="flex justify-center items-center py-2 gap-3">
+                                {{--  <button type="submit" id="ButtonSave"
+                                        class="w-[20%] block py-2 px-4 bg-violet-950 hover:bg-violet-900 hover:text-white rounded"
+                                        wire:click="saveAboutMe">Save</button>
+                                    <button type="button" id="ButtonCancel"
+                                        class="w-[20%] block bg-red-900 py-2 px-4 hover:bg-red-800 hover:text-white rounded">Cancel</button> --}}
+                            </div>
+                        @elseif (Auth::user()->about_me_text == $AboutMeText)
+                            <p class="text-center text-gray-400 italic">{{ Auth::user()->about_me_text }}</p>
+                        @else
+                            <p class="text-center text-gray-400 italic">{{ $AboutMeText }}</p>
+                        @endif
                     </div>
                 </section>
                 <section class="section-comments-profile w-full">
@@ -954,26 +949,27 @@
 
 
 
-                const ChangeAboutMe = document.getElementById('changeaboutme');
-                const ChangedAboutMe = document.getElementById('changedaboutme');
-                const AboutMeText = document.getElementById('aboutmetext');
-                const ButtonSave = document.getElementById('ButtonSave');
-                const ButtonCancel = document.getElementById('ButtonCancel');
-                const SaveOrCancel = document.getElementById('saveOrCancel');
 
-                ButtonCancel.addEventListener('click', () => {
-                    ChangedAboutMe.classList.add('hidden');
-                    ChangeAboutMe.classList.remove('hidden');
-                    AboutMeText.classList.remove('hidden');
-                    SaveOrCancel.classList.add('hidden');
-                })
+                /*    const ChangeAboutMe = document.getElementById('changeaboutme');
+                   const ChangedAboutMe = document.getElementById('changedaboutme');
+                   const AboutMeText = document.getElementById('aboutmetext');
+                   const ButtonSave = document.getElementById('ButtonSave');
+                   const ButtonCancel = document.getElementById('ButtonCancel');
+                   const SaveOrCancel = document.getElementById('saveOrCancel');
 
-                ChangeAboutMe.addEventListener('click', () => {
-                    ChangedAboutMe.classList.remove('hidden');
-                    ChangeAboutMe.classList.add('hidden');
-                    AboutMeText.classList.add('hidden');
-                    SaveOrCancel.classList.remove('hidden');
-                })
+                   ButtonCancel.addEventListener('click', () => {
+                       ChangedAboutMe.classList.add('hidden');
+                       ChangeAboutMe.classList.remove('hidden');
+                       AboutMeText.classList.remove('hidden');
+                       SaveOrCancel.classList.add('hidden');
+                   })
+
+                   ChangeAboutMe.addEventListener('click', () => {
+                       ChangedAboutMe.classList.remove('hidden');
+                       ChangeAboutMe.classList.add('hidden');
+                       AboutMeText.classList.add('hidden');
+                       SaveOrCancel.classList.remove('hidden');
+                   }) */
 
 
                 const successAlert = document.getElementById('alert-success');
@@ -1038,6 +1034,7 @@
 
                 window.showModal = showModal;
                 window.closeModal = closeModal;
+
             })
         </script>
     @endscript

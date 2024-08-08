@@ -109,7 +109,7 @@
                 <h1 class="text-3xl text-[color:var(--quaternary-color)] font-extrabold">Your Feed</h1>
                 <div class="feed-card mt-5 flex w-full">
                     <div class="flex flex-col" style="max-width: 100%; width: 100%;">
-                        <div class="time-location flex items-center justify-center relative">
+                        <div class="time-location flex items-center justify-center relative" wire:ignore>
                             <div style="width:50%; position: absolute; left: 15px; bottom: 10px">
                                 <p style="left:10px; bottom:15px; color:var(--quaternary-color)">Time</p>
                             </div>
@@ -156,39 +156,34 @@
     </main>
 
 
+    <script>
+        // Funzione per aggiornare il contenuto dell'elemento
+        function updateFormattedTime() {
+            let timeElement = document.getElementById('time-listener');
+            if (timeElement) {
+                let seconds = parseInt(timeElement.innerText, 10); // Converti il valore di innerText in un numero intero
+                timeElement.innerText = formatTime(seconds);
+            }
+        }
 
-</x-layout>
+        function formatTime(totalSeconds) {
+            let hours = Math.floor(totalSeconds / 3600);
+            let minutes = Math.floor((totalSeconds % 3600) / 60);
+            let seconds = totalSeconds % 60;
 
+            // Aggiungi zeri iniziali se necessario
+            hours = String(hours).padStart(2, '0');
+            minutes = String(minutes).padStart(2, '0');
+            seconds = String(seconds).padStart(2, '0');
 
+            return `${hours}:${minutes}:${seconds}`;
+        }
 
-
-<script>
-    function formatTime() {
-        // Prendi il contenuto dell'elemento con id 'time-listener'
-        let timeListened = document.getElementById('time-listener').innerText;
-        let seconds = parseInt(timeListened, 10); // Converte la stringa in un intero
-        let hours = Math.floor(seconds / 3600);
-        let minutes = Math.floor((seconds % 3600) / 60);
-        let remainingSeconds = seconds % 60;
-
-        // Ritorna il tempo formattato come 'HH:MM:SS'
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-    }
-
-    // Funzione per aggiornare il contenuto dell'elemento
-    function updateFormattedTime() {
-        let timeElement = document.getElementById('time-listener');
-        timeElement.innerText = formatTime();
-    }
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-        updateFormattedTime();
-        initFlowbite();
 
         function updateTime() {
             let localTime = new Date().toLocaleTimeString();
             let currentTime = document.getElementById('current-time');
+            console.log(currentTime);
 
 
             if (currentTime) {
@@ -196,17 +191,21 @@
             }
         }
 
+        document.addEventListener('DOMContentLoaded', () => {
+            updateFormattedTime();
+            initFlowbite();
+            updateTime();
+            setInterval(updateTime, 1000);
 
-        updateTime();
-        setInterval(updateTime, 1000);
-
-        const rightSide = document.getElementById('right-side');
-        if (window.innerWidth < 720) {
-            rightSide.removeAttribute('data-aos');
-            rightSide.removeAttribute('data-aos-duration');
-        }
+            const rightSide = document.getElementById('right-side');
+            if (window.innerWidth < 720) {
+                rightSide.removeAttribute('data-aos');
+                rightSide.removeAttribute('data-aos-duration');
+            }
 
 
 
-    })
-</script>
+        })
+    </script>
+
+</x-layout>
